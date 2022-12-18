@@ -13,17 +13,13 @@ npx hardhat run scripts/deploy.js
 ```
 
 
-# Things you need to download since all the dependencies are not uploaded from .gitignore
-
-
-
 # Process need to follow to run the web page
 - npx hardhat node
 - npx hardhat run scripts/deploy.js --network localhost
 - npm run dev
 
 # For testing can run this which will run the test folder, u can see the output from the cmd
-npx hardhat help
+npx hardhat test
 
 
 
