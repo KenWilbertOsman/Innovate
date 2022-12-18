@@ -1,3 +1,7 @@
+//creator-dashboard.js => where you can see your nfts and the one u sold
+//"Creator Dashboard" Page
+
+
 import {ethers} from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -10,15 +14,19 @@ import {
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json'
 
+
+
 export default function CreatorDashboard() {
     const [nfts, setNfts] = useState([])
     const [sold, setSold] = useState([])
     const [loadingState, setLoadingState] = useState('not-loaded')
     
+    //this is to call the loadnft once when the page is loaded
     useEffect (() => {
         loadNFTs()
     }, [])
 
+    //this is to load the nft into the screen
     async function loadNFTs() {
         const web3Modal = new Web3Modal()
         const connection = await web3Modal.connect()
@@ -28,6 +36,7 @@ export default function CreatorDashboard() {
 
         const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
         const tokenContract = new ethers.Contract(nftaddress, NFT.abi, signer)
+        //@see go to NFTMarket.sol
         const data = await marketContract.fetchItemsCreated()
 
         const items = await Promise.all(data.map(async i => {
@@ -46,11 +55,15 @@ export default function CreatorDashboard() {
 
         const soldItems = items.filter(i => i.sold)
 
+        //this is to set the variable "sold" with soldItems 
         setSold(soldItems)
+
+        //this is to set the variable "nfts" with items
         setNfts(items)
         setLoadingState('loaded')
 
     }
+
 
     return (
         <div>
@@ -63,7 +76,7 @@ export default function CreatorDashboard() {
                             <div key = {i} className = "border shadow rounded-xl overflow-hidden">
                                 <img src = {nft.image} className = "rounded" />
                                 <div className = "p-4 bg-black">
-                                    <p className = "text-2xl font-bold text-white">Price -{nft.price} Eth</p>
+                                    <p className = "text-2xl font-bold text-white">Price -{nft.price} MATIC</p>
                                 </div>
                             </div>
                         ))

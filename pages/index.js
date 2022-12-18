@@ -1,3 +1,8 @@
+//- index.js => the "marketplace"
+//Home Page
+
+
+
 //import styles from '../styles/Home.module.css'
 import {ethers} from 'ethers'
 import {useEffect, useState} from 'react' //to keep with local state
@@ -14,14 +19,17 @@ import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json'
 
 
+//default function for this file
 export default function Home() {
   const [nfts, setNfts] = useState([]) //empty array of nfts and setNfts to reset the nft array
   const [loadingState, setLoadingState] = useState('not-loaded') 
   
+  //call the function once when the page is loaded
   useEffect(()=> {
    loadNFTs() 
   }, [])
 
+  //load the nft into page 
   async function loadNFTs() {
     const provider = new ethers.providers.JsonRpcProvider()
     const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
@@ -54,6 +62,7 @@ export default function Home() {
     
   }
 
+  //logic of buying the nft
   async function buyNft(nft) {
     const web3modal = new Web3Modal()
     const connection = await web3modal.connect()
@@ -68,7 +77,7 @@ export default function Home() {
       value: price
     })
     
-    console.log("amyesdaf")
+
     await transaction.wait()
     loadNFTs()
   }

@@ -1,3 +1,8 @@
+//- my-assets.js => your own assets if its not put on sale
+//"My Digital Assets" Page
+
+
+
 import {ethers} from 'ethers'
 // for useState and useEffect, see this https://medium.com/recraftrelic/usestate-and-useeffect-explained-cdb5dc252baf
 import { useEffect, useState } from 'react'
@@ -16,7 +21,7 @@ export default function MyAssets() {
     const [loadingState, setLoadingState] = useState('not-loaded')
     useEffect (() => {
         loadNFTs()
-    })
+    }, [])
 
     async function loadNFTs() {
         const web3Modal = new Web3Modal()
@@ -42,11 +47,29 @@ export default function MyAssets() {
             }
             return item
         }))
+        console.log(items)
         setNfts(items)
         setLoadingState('loaded')
 
 
     }
+
+    //this is new, but there are errors from the web page
+    async function burnNft(tokenId) {
+        const web3modal = new Web3Modal();
+        const connection = await web3modal.connect()
+        const provider = new ethers.providers.Web3Provider(connection)
+        const signer = provider.getSigner()
+        
+        //interact with nft contract
+        let contract = new ethers.Contract(nftaddress, NFT.abi, signer)
+        await contract.burnToken(tokenId)
+
+        
+        loadNFTs()        
+        
+    }
+
 
     if (loadingState === 'loaded' && !nfts.length) return (
         <h1 className="py-10 px-20 text-3xl">No assets owned</h1>
@@ -60,12 +83,18 @@ export default function MyAssets() {
                             <div key = {i} className = "border shadow rounded-xl overflow-hidden">
                                 <img src = {nft.image} className = "rounded"/>
                                 <div className = "p-4 bg-black">
-                                    <p className = "text-2xl font-bold text-white">Price - {nft.price} Eth</p>
+                                    <p className = "text-2xl font-bold text-white">Price - {nft.price} MATIC</p>
+                                </div>
+
+                                <div className = "p-4 pg-black">    
+                                <button className= "w-full bg-pink-500 text-white font-bold py-2 px-12 rounded" onClick={() => burnNft(nft.tokenId)}>Burn</button>
                                 </div>
                              </div>
+                            
                         )
                         )
                     }
+
                 </div>
             </div>
         </div>

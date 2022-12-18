@@ -13,16 +13,17 @@ npx hardhat run scripts/deploy.js
 ```
 
 
-# Pages folder
-- _app.js => the dashboard where you can pick either create nft, check ur own collection, etc
-- create-item.js => the logic behind minting an nft
-- creator-dashboard.js => where you can see your nfts and the one u sold
-- index.js => the "marketplace"
-- my-assets.js => your own assets if its not put on sale
+# Things you need to download since all the dependencies are not uploaded from .gitignore
 
 
-# Process need to follow
+
+# Process need to follow to run the web page
 - npx hardhat node
 - npx hardhat run scripts/deploy.js --network localhost
 - npm run dev
+
+# For testing can run this which will run the test folder, u can see the output from the cmd
+npx hardhat help
+
+
 

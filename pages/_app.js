@@ -1,3 +1,4 @@
+//- _app.js => the dashboard where you can pick either create nft, check ur own collection, etc
 import '../styles/globals.css'
 
 // The import link is to be able to link to other page

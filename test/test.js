@@ -37,6 +37,8 @@ describe("NFTMarket", function(){
 
       //buy the "1" nft, which won't appear in the market anymore
       await market.connect(buyerAddress).createMarketSale(nftContractAddress, 1, {value: auctionPrice})
+      
+      await market.connect(buyerAddress).createMarketSale(nftContractAddress, 2, {value: auctionPrice})
 
       let items = await market.fetchMarketItems()
 
@@ -52,6 +54,9 @@ describe("NFTMarket", function(){
         return item
       }))
       console.log('items: ', items)
+
+      await nft.burnToken(2)
+
 
   });
 });

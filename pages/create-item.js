@@ -1,3 +1,6 @@
+//- create-item.js => the logic behind minting an nft
+//"Sell Digital Assets" Page
+
 import {useState} from 'react'
 import {ethers} from 'ethers'
 
@@ -8,6 +11,10 @@ import {create as ipfsHttpClient} from 'ipfs-http-client'
 import {useRouter} from 'next/router'
 import Web3Modal from 'web3modal'
 
+
+//These keys are from https://www.youtube.com/watch?v=QyYEEXNq7r0
+//There are no free version for ipfs infura already, its youtuber didnt hide the keys lol
+//but idk if there are any security concern, so far i check they can see the files that we upload to ipfs
 const projectId = '2DE7of6yoq13YKes8LJX0QK4W9p'
 const projectSecret = 'e5f7ff545c3f92a1f711fb3e3154dd1f'
 
@@ -34,11 +41,14 @@ import {
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json'
 
+//default function of this file
 export default function CreateItem() {
+    
     const [fileUrl, setFileUrl] = useState(null)
     const [formInput, updateFormInput] = useState({price: '', name: '', description: ''})
     const router = useRouter()
 
+    //this asynchronous function is to upload the image into the url
     async function onChange(e) {
         const file = e.target.files[0]
         try {
@@ -80,7 +90,7 @@ export default function CreateItem() {
         }
     }
 
-
+    //put the nft into sale or market
     async function createSale(url) {
         const web3modal = new Web3Modal();
         const connection = await web3modal.connect()
@@ -90,6 +100,7 @@ export default function CreateItem() {
         //interact with nft contract
         let contract = new ethers.Contract(nftaddress, NFT.abi, signer)
         //create the token
+        //@see NFT.sol
         let transaction = await contract.createToken(url)
         //wait for transaction to succeed
         let tx = await transaction.wait()
@@ -107,6 +118,7 @@ export default function CreateItem() {
         let listingPrice = await contract.getListingPrice()
         listingPrice = listingPrice.toString()
         
+        //@see NFTMarket.sol
         transaction = await contract.createMarketItem(
             nftaddress, tokenId, price, {value: listingPrice}
         )
@@ -115,6 +127,9 @@ export default function CreateItem() {
         router.push('/')
     }
 
+
+    //Here will have to update the formInput into recipent address, fragile status. 
+    //I suppose price is not needed, but it is used in many files currently
     return (
         <div className = "flex justify-center">
             <div className = "w-1/2 flex flex-col pb-12">

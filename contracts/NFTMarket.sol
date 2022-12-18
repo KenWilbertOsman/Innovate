@@ -11,12 +11,13 @@ contract NFTMarket is ReentrancyGuard {
     Counters.Counter private _itemsSold;
 
     address payable owner; //determine the owner of the contract
-    uint256 listingPrice = 0.025 ether; //can be considered as MATIC
+    uint256 listingPrice = 0.00000001 ether; //can be considered as MATIC
 
     constructor() {
         owner = payable(msg.sender);
     }
 
+    //struct files to store the information needed
     struct MarketItem {
         uint itemId;
         address nftContract;
@@ -46,6 +47,7 @@ contract NFTMarket is ReentrancyGuard {
     function getListingPrice() public view returns (uint256) {
         return listingPrice;
     }
+
 
     //to put the item for sale
     function createMarketItem(
