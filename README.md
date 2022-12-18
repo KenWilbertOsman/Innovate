@@ -13,8 +13,16 @@ npx hardhat run scripts/deploy.js
 ```
 
 
+# Pages folder
+- _app.js => the dashboard where you can pick either create nft, check ur own collection, etc
+- create-item.js => the logic behind minting an nft
+- creator-dashboard.js => where you can see your nfts and the one u sold
+- index.js => the "marketplace"
+- my-assets.js => your own assets if its not put on sale
 
 
-# To have more links of a new page, edit _app.js
-
+# Process need to follow
+- npx hardhat node
+- npx hardhat run scripts/deploy.js --network localhost
+- npm run dev
 

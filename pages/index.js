@@ -67,7 +67,8 @@ export default function Home() {
     const transaction = await contract.createMarketSale(nftaddress, nft.tokenId, {
       value: price
     })
-
+    
+    console.log("amyesdaf")
     await transaction.wait()
     loadNFTs()
   }
@@ -88,8 +89,8 @@ export default function Home() {
                     </div>
                 </div>
                 <div className = "p-4 pg-black">
-                  <p lassName = "text-2xl mb-4 font-bold text-white">{nft.price} ETH</p>
-                  <button className= "w-full bg-pink-500 text-white font-bold py-2 px-12 rounded" onclick={() =>  buyNft(nft)}>Buy</button>
+                  <p lassName = "text-2xl mb-4 font-bold text-white">{nft.price} MATIC</p>
+                  <button className= "w-full bg-pink-500 text-white font-bold py-2 px-12 rounded" onClick={() => buyNft(nft)}>Buy</button>
                 </div>
                 </div>
               ))
