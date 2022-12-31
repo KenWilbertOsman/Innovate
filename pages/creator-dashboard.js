@@ -49,6 +49,9 @@ export default function CreatorDashboard() {
                 seller: i.seller,
                 owner: i.owner,
                 image: meta.data.image,
+                name: meta.data.username,
+                address: meta.data.useraddress,
+                fragile: meta.data.fragile
             }
             return item
         }))
@@ -76,7 +79,7 @@ export default function CreatorDashboard() {
                             <div key = {i} className = "border shadow rounded-xl overflow-hidden">
                                 <img src = {nft.image} className = "rounded" />
                                 <div className = "p-4 bg-black">
-                                    <p className = "text-2xl font-bold text-white">Price -{nft.price} MATIC</p>
+                                    <p className = "text-2xl font-bold text-white">{nft.username}</p>
                                 </div>
                             </div>
                         ))

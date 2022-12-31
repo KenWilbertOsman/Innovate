@@ -29,7 +29,7 @@ contract NFTMarket is ReentrancyGuard {
         address payable owner;
         uint256 price;
         bool sold;
-
+        address[] warehouses;
     }
 
     //to keep up with all the items created
@@ -43,7 +43,8 @@ contract NFTMarket is ReentrancyGuard {
         address seller,
         address owner,
         uint256 price,
-        bool sold
+        bool sold,
+        address[] warehouses
     );
 
 
@@ -96,6 +97,9 @@ contract NFTMarket is ReentrancyGuard {
 
         uint256 itemId = _itemIds.current();
 
+        address[] memory owners = new address[](1);
+        owners[0] = payable(msg.sender);
+
         idToMarketItem[itemId] = MarketItem(
             itemId, 
             nftContract,
@@ -103,7 +107,8 @@ contract NFTMarket is ReentrancyGuard {
             payable(msg.sender), //person that is selling it
             payable(address(0)), //owner is set to empty address as it is currently being put on sale which means no owner currently
             price,
-            false
+            false,
+            owners
         );
 
         //Transfer ownership of the nft to the contract which the contract take the ownership and can be transferred to the buyer
@@ -119,7 +124,8 @@ contract NFTMarket is ReentrancyGuard {
             msg.sender, //person that is selling it
             address(0), //owner is set to empty address as it is currently being put on sale which means no owner currently
             price,
-            false 
+            false,
+            owners
         );
     }
 
@@ -143,10 +149,13 @@ contract NFTMarket is ReentrancyGuard {
 
             idToMarketItem[itemId].owner = payable(msg.sender);
             idToMarketItem[itemId].sold = true;
+            idToMarketItem[itemId].warehouses.push(payable(msg.sender));
             _itemsSold.increment();
 
             //transfer the money to the contract owner
             payable(owner).transfer(listingPrice);
+
+            //append the owner name list into the array
         }
 
 

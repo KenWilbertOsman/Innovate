@@ -23,7 +23,7 @@ import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json'
 export default function Home() {
   const [nfts, setNfts] = useState([]) //empty array of nfts and setNfts to reset the nft array
   const [loadingState, setLoadingState] = useState('not-loaded') 
-  
+  const [price, setPrice] = useState('0.0000001')
   //call the function once when the page is loaded
   useEffect(()=> {
    loadNFTs() 
@@ -49,8 +49,9 @@ export default function Home() {
         seller: i.seller,
         owner: i.owner,
         image: meta.data.image,
-        name: meta.data.name,
-        description: meta.data.description,
+        name: meta.data.username,
+        address: meta.data.useraddress,
+        fragile: meta.data.fragile
       }
       return item
     }))
@@ -71,8 +72,9 @@ export default function Home() {
     const signer = provider.getSigner()
     const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
     
-    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
-
+    //const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
+    setPrice(ethers.utils.parseUnits(price.toString(), 'ether'))
+    
     const transaction = await contract.createMarketSale(nftaddress, nft.tokenId, {
       value: price
     })
@@ -91,14 +93,13 @@ export default function Home() {
               nfts.map((nft, i) => (
                 <div key = {i} className = "border shadow rounded-xl overflow-hidden">
                     <img src = {nft.image} />
-                    <div className = "p-4">
-                      <p style = {{height : '64px'}} className = "text-2xl font-semibold">{nft.name}</p>
-                      <div style = {{height: '70px', overflow: 'hidden'}}>
-                        <p className = "text-gray-600">{nft.description}</p>
-                    </div>
+                    <div className = "p-1">
+                      <p style = {{height : '32px'}} className = "text-2xl font-semibold">{nft.name}</p>
+                      <p style = {{height : '32px'}} className = "text-xl font-semibold">{nft.address}</p>
+                      <p style = {{height : '32px'}} className = "text-xl font-semibold">{nft.fragile}</p>
+                      
                 </div>
                 <div className = "p-4 pg-black">
-                  <p className = "text-2xl mb-4 font-bold text-black">{nft.price} MATIC</p>
                   <button className= "w-full bg-pink-500 text-white font-bold py-2 px-12 rounded" onClick={() => buyNft(nft)}>Buy</button>
                 </div>
                 </div>

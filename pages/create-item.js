@@ -45,8 +45,9 @@ import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json'
 export default function CreateItem() {
     
     const [fileUrl, setFileUrl] = useState(null)
-    const [formInput, updateFormInput] = useState({price: '', name: '', description: ''})
+    const [formInput, updateFormInput] = useState({username: '', useraddress: '', userphone: '', recname: '', recphone: '', recaddress: '', fragile: ''})
     const router = useRouter()
+    const [price, setPrice] = useState("0.0000001")
 
     //this asynchronous function is to upload the image into the url
     async function onChange(e) {
@@ -74,10 +75,10 @@ export default function CreateItem() {
 
 
     async function createItem() {
-        const {name, description, price} = formInput
-        if (!name || !description || !price || !fileUrl) return  
+        const {username, useraddress, userphone, recname, recaddress, recphone, fragile} = formInput
+        if (!username || !useraddress || !userphone || !recname || !recaddress || !recphone || !fragile || !fileUrl) return  
         const data = JSON.stringify({
-            name, description, image: fileUrl
+            username, useraddress, userphone, recname, recaddress, recphone, fragile, image: fileUrl
         })
 
         try{
@@ -112,15 +113,15 @@ export default function CreateItem() {
         let value = event.args[2]
         let tokenId = value.toNumber()
 
-        const price = ethers.utils.parseUnits(formInput.price, 'ether')
-
         contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
         let listingPrice = await contract.getListingPrice()
         listingPrice = listingPrice.toString()
-        
+
+        let prices = ethers.utils.parseUnits(price, 'ether')
+////////////////////////////////////////////////////EDIT FROM HERE
         //@see NFTMarket.sol
         transaction = await contract.createMarketItem(
-            nftaddress, tokenId, price, {value: listingPrice}
+            nftaddress, tokenId, prices, {value: listingPrice}
         )
 
         await transaction.wait()
@@ -134,20 +135,47 @@ export default function CreateItem() {
         <div className = "flex justify-center">
             <div className = "w-1/2 flex flex-col pb-12">
                 <input 
-                    placeholder = "Asset Name"
+                    placeholder = "Name"
                     className = "mt-8 border rounded p-4"
-                    onChange={e => updateFormInput({ ...formInput, name: e.target.value})}
+                    onChange={e => updateFormInput({ ...formInput, username: e.target.value})}
                 />
                 <textarea
-                    placeholder = "Asset Description"
+                    placeholder = "Full Address"
                     className = "mt-2 border rounded p-4"
-                    onChange = {e => updateFormInput({ ...formInput, description: e.target.value})}
+                    onChange = {e => updateFormInput({ ...formInput, useraddress: e.target.value})}
                 />
                 <input 
-                    placeholder = "Asset Price in MATIC"
+                    type = "tel" 
+                    placeholder = "Mobile Number"
                     className = "mt-2 border rounded p-4"
-                    onChange={e => updateFormInput({ ...formInput, price: e.target.value})}
+                    pattern="[0-9].{9,}" required
+                    onChange = {e => updateFormInput({ ...formInput, userphone: e.target.value})} /*10 or more number required*/
                 />
+                <input 
+                    placeholder = "Recipient Name"
+                    className = "mt-8 border rounded p-4"
+                    onChange={e => updateFormInput({ ...formInput, recname: e.target.value})}
+                />
+                <textarea
+                    placeholder = "Recipient Full Address"
+                    className = "mt-2 border rounded p-4"
+                    onChange = {e => updateFormInput({ ...formInput, recaddress: e.target.value})}
+                />
+                <input 
+                    type = "tel" 
+                    placeholder = "Recipient Mobile Number"
+                    className = "mt-2 border rounded p-4"
+                    pattern="[0-9].{9,}" required
+                    onChange = {e => updateFormInput({ ...formInput, recphone: e.target.value})} /*10 or more number required*/
+                />
+                <br></br><select 
+                    id="large" 
+                    onChange={e => updateFormInput({ ...formInput, fragile: e.target.value})}
+                    className="block w-full px-4 py-3 text-base text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">                       
+                        <option selected>Fragile Status</option>
+                        <option value="Fragile">Fragile</option>
+                        <option value="Non-Fragile">Non-Fragile</option>
+                </select>
                 <input
                     type = "file"
                     name = "Asset"
