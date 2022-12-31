@@ -49,7 +49,8 @@ export default function MyAssets() {
                 image: meta.data.image,
                 name: meta.data.username,
                 address: meta.data.useraddress,
-                fragile: meta.data.fragile
+                fragile: meta.data.fragile,
+                owners: i.warehouses
             }
             return item
         }))
@@ -98,7 +99,14 @@ export default function MyAssets() {
                             <div key = {i} className = "border shadow rounded-xl overflow-hidden">
                                 <img src = {nft.image} className = "rounded"/>
                                 <div className = "p-4 bg-black">
-                                    <p className = "text-2xl font-bold text-white">{nft.username}</p>
+                                    <p className = "text-xs font-bold text-white">{nft.name}</p>
+                                    {
+                                        nft.owners.map((owner, j) => (
+                                                (<p className = "text-xs font-bold text-white">{owner}</p>)
+                                        )
+                                        )
+                                    }
+                                    
                                 </div>
 
                                 <div className = "p-4 pg-black">    

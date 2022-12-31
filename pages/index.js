@@ -24,6 +24,7 @@ export default function Home() {
   const [nfts, setNfts] = useState([]) //empty array of nfts and setNfts to reset the nft array
   const [loadingState, setLoadingState] = useState('not-loaded') 
   const [price, setPrice] = useState('0.0000001')
+
   //call the function once when the page is loaded
   useEffect(()=> {
    loadNFTs() 
@@ -72,11 +73,9 @@ export default function Home() {
     const signer = provider.getSigner()
     const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
     
-    //const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
-    setPrice(ethers.utils.parseUnits(price.toString(), 'ether'))
-    
+    const prices = ethers.utils.parseUnits(nft.price.toString(), 'ether')
     const transaction = await contract.createMarketSale(nftaddress, nft.tokenId, {
-      value: price
+      value: prices
     })
     
 
