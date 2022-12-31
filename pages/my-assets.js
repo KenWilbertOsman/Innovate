@@ -8,6 +8,8 @@ import {ethers} from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
+import {useRouter} from 'next/router'
+
 
 import {
     nftmarketaddress, nftaddress
@@ -19,6 +21,7 @@ import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json'
 export default function MyAssets() {
     const [nfts, setNfts] = useState([])
     const [loadingState, setLoadingState] = useState('not-loaded')
+    const router = useRouter()
     useEffect (() => {
         loadNFTs()
     }, [])
@@ -60,14 +63,23 @@ export default function MyAssets() {
         const connection = await web3modal.connect()
         const provider = new ethers.providers.Web3Provider(connection)
         const signer = provider.getSigner()
-        
-        //interact with nft contract
-        let contract = new ethers.Contract(nftaddress, NFT.abi, signer)
-        await contract.burnToken(tokenId)
 
+        //interact with nft contract
+        const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
+        const tokenContract = new ethers.Contract(nftaddress, NFT.abi, signer)
+
+        await marketContract.burnNFT(tokenId)
+        await tokenContract.burnToken(tokenId)
         
-        loadNFTs()        
-        
+        loadNFTs()
+        //router.push('/')
+        //this works but need to wait for the transaction to be confirmed
+        //console.log(transaction.toNumber())
+
+
+
+
+        //Currently the problem is that the tokenIds is the one that is created, it should separate between the owned NFT and minted
     }
 
 

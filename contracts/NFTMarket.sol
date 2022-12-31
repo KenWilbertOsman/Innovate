@@ -7,11 +7,14 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol"; //security mechan
 
 contract NFTMarket is ReentrancyGuard {
     using Counters for Counters.Counter;    
-    Counters.Counter private _itemIds;
+    Counters.Counter private _itemIds; //remaining items
     Counters.Counter private _itemsSold;
+
+    Counters.Counter private _totalIds; //total items created(inc, deleted one, but its in 0 address)
 
     address payable owner; //determine the owner of the contract
     uint256 listingPrice = 0.00000001 ether; //can be considered as MATIC
+
 
     constructor() {
         owner = payable(msg.sender);
@@ -43,11 +46,37 @@ contract NFTMarket is ReentrancyGuard {
         bool sold
     );
 
+
     //to list the price of the items
     function getListingPrice() public view returns (uint256) {
         return listingPrice;
     }
 
+    function getItemId() public view returns(uint256) {
+        uint256 a = _itemIds.current();
+        return a;
+    }
+    
+    function getItemSold() public view returns(uint256) {
+        uint256 a = _itemsSold.current();
+        return a;
+    }
+    
+    function getIdToMarketItem() public view returns(MarketItem[] memory){
+        uint256 itemCount = _totalIds.current();
+        uint256 currentIndex = 0;
+        MarketItem[] memory items = new MarketItem[](itemCount);
+
+        for (uint i = 0; i < itemCount; i++){
+            //check if the item is unsold by checking if the owner is empty address
+            uint currentId = idToMarketItem[i+1].itemId;
+            MarketItem storage currentItem = idToMarketItem[currentId];
+            items[currentIndex] = currentItem;
+            currentIndex += 1;
+            
+        }
+        return items;
+    }
 
     //to put the item for sale
     function createMarketItem(
@@ -62,6 +91,9 @@ contract NFTMarket is ReentrancyGuard {
         require(msg.value == listingPrice, "Price must be equal to listing price");
 
         _itemIds.increment();
+
+        _totalIds.increment();
+
         uint256 itemId = _itemIds.current();
 
         idToMarketItem[itemId] = MarketItem(
@@ -120,7 +152,7 @@ contract NFTMarket is ReentrancyGuard {
 
     //to fetch the unsold items in the market, or currently on sale
     function fetchMarketItems() public view returns (MarketItem[] memory){
-        uint itemCount = _itemIds.current();
+        uint itemCount = _totalIds.current();
         uint unsoldItemCount = _itemIds.current() - _itemsSold.current();
         uint currentIndex = 0;
 
@@ -130,7 +162,7 @@ contract NFTMarket is ReentrancyGuard {
         //loop over number of items that have been created
         for (uint i = 0; i < itemCount; i++){
             //check if the item is unsold by checking if the owner is empty address
-            if (idToMarketItem[i+1].owner == address(0)){
+            if (idToMarketItem[i+1].itemId != 0 && idToMarketItem[i+1].sold == false){
                 uint currentId = idToMarketItem[i+1].itemId;
                 MarketItem storage currentItem = idToMarketItem[currentId];
                 items[currentIndex] = currentItem;
@@ -143,7 +175,7 @@ contract NFTMarket is ReentrancyGuard {
 
     //to return the NFTs that the user purchased
     function fetchMyNFTs() public view returns (MarketItem[] memory){
-        uint totalItemCount = _itemIds.current();
+        uint totalItemCount = _totalIds.current();
         uint itemCount = 0;
         uint currentIndex = 0;
 
@@ -166,10 +198,31 @@ contract NFTMarket is ReentrancyGuard {
         return items;
 
     }
-    
+
+    function burnNFT(uint256 tokenId) public{
+
+
+        //in built function from ERC721 to burn the token, can be seen in down below
+        //https://docs.openzeppelin.com/contracts/2.x/api/token/erc721#ERC721
+        uint totalItemCount = _itemIds.current();
+        //uint itemCount = 0;
+        uint currentIndex = 0;
+
+        for (uint i = 0; i< totalItemCount; i++){
+            if (idToMarketItem[i+1].tokenId == tokenId && idToMarketItem[i+1].sold == true) {
+                currentIndex = i+1;
+            }
+        }
+
+        delete idToMarketItem[currentIndex];
+        _itemIds.decrement();
+        _itemsSold.decrement();
+    }
+
+
     //to fetch the NFTs that the user has created themselves
     function fetchItemsCreated() public view returns (MarketItem[] memory) {
-        uint totalItemCount = _itemIds.current();
+        uint totalItemCount = _totalIds.current();
         uint itemCount = 0;
         uint currentIndex = 0;
 

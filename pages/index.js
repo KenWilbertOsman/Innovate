@@ -94,11 +94,11 @@ export default function Home() {
                     <div className = "p-4">
                       <p style = {{height : '64px'}} className = "text-2xl font-semibold">{nft.name}</p>
                       <div style = {{height: '70px', overflow: 'hidden'}}>
-                        <p className = "text-gray-400">{nft.description}</p>
+                        <p className = "text-gray-600">{nft.description}</p>
                     </div>
                 </div>
                 <div className = "p-4 pg-black">
-                  <p lassName = "text-2xl mb-4 font-bold text-white">{nft.price} MATIC</p>
+                  <p className = "text-2xl mb-4 font-bold text-black">{nft.price} MATIC</p>
                   <button className= "w-full bg-pink-500 text-white font-bold py-2 px-12 rounded" onClick={() => buyNft(nft)}>Buy</button>
                 </div>
                 </div>

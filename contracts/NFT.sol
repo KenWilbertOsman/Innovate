@@ -17,10 +17,13 @@ contract NFT is ERC721URIStorage {
     address contractAddress; //address of the marketplace for the NFT to interact
 
 
+
     //constructor
     constructor(address marketplaceAddress) ERC721("Metaverse Tokens", "METT") {
         contractAddress = marketplaceAddress;
+        //I think can test on diffrent address, to make sure that on the different address, the token Id counter is different
     }
+
 
     //for minting tokens
     function createToken(string memory tokenURI) public returns (uint){
@@ -39,13 +42,20 @@ contract NFT is ERC721URIStorage {
 
         //in built function from ERC721 to burn the token, can be seen in down below
         //https://docs.openzeppelin.com/contracts/2.x/api/token/erc721#ERC721
+        //This one have to look more as to put the nft to be owned by the owner
         _burn(tokenId);
+        
+        
         //just decrement the counter for the NFT counts
         _tokenIds.decrement();
         
     }
 
-
+    //This works but just need to fix the transaction.wait() as we need to wait the transaction to be confirmed to take the valiue
+    function getToken() public view returns (uint){
+        uint256 curToken = _tokenIds.current();
+        return curToken;
+    }
 }
 
 

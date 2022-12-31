@@ -99,6 +99,7 @@ export default function CreateItem() {
         
         //interact with nft contract
         let contract = new ethers.Contract(nftaddress, NFT.abi, signer)
+        
         //create the token
         //@see NFT.sol
         let transaction = await contract.createToken(url)
@@ -107,7 +108,6 @@ export default function CreateItem() {
 
         //we wanna get the tokenid returned from the transaction
         // thus, dp modification based on the return value
-
         let event = tx.events[0]
         let value = event.args[2]
         let tokenId = value.toNumber()

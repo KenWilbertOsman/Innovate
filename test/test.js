@@ -27,18 +27,26 @@ describe("NFTMarket", function(){
       //Create two nfts
       await nft.createToken("http") // number 1
       await nft.createToken("http") // number 2
+      await nft.createToken("http") // number 3
+      //await nft.createToken("http") // number 4
 
       //Place the nft to sale
       await market.createMarketItem(nftContractAddress, 1, auctionPrice, {value: listingPrice})
       await market.createMarketItem(nftContractAddress, 2, auctionPrice, {value: listingPrice})
+      await market.createMarketItem(nftContractAddress, 3, auctionPrice, {value: listingPrice})
+      //await market.createMarketItem(nftContractAddress, 4, auctionPrice, {value: listingPrice})
 
       //ethers library to get multiple test accounts
       const [_, buyerAddress] = await ethers.getSigners()
 
-      //buy the "1" nft, which won't appear in the market anymore
-      await market.connect(buyerAddress).createMarketSale(nftContractAddress, 1, {value: auctionPrice})
       
+      let d = await market.connect(buyerAddress).fetchMarketItems()
+      console.log("Market items ", d)
+
+      //buy the "1" nft, which won't appear in the market anymore
       await market.connect(buyerAddress).createMarketSale(nftContractAddress, 2, {value: auctionPrice})
+      
+      await market.connect(buyerAddress).createMarketSale(nftContractAddress, 3, {value: auctionPrice})
 
       let items = await market.fetchMarketItems()
 
@@ -53,9 +61,39 @@ describe("NFTMarket", function(){
         }
         return item
       }))
-      console.log('items: ', items)
+      //console.log('items: ', items)
 
-      await nft.burnToken(2)
+      
+      // let number = await market.getItemSold()
+      // console.log("Item sold is ", number)
+      // let number2 = await market.getItemId()
+      // console.log("Item id is ", number2)
+      
+
+      // let e = await market.connect(buyerAddress).fetchMarketItems()
+      // console.log("Market items second ", e)
+
+      // let a = await market.connect(buyerAddress).fetchMyNFTs()
+      // console.log("My NFT ", a)
+
+
+      await market.burnNFT(2);
+      await nft.burnToken(2);
+
+      // number = await market.getItemSold()
+      // console.log("Item sold is ", number)
+      // number2 = await market.getItemId()
+      // console.log("Item id is ", number2)
+
+      let a = await market.connect(buyerAddress).getIdToMarketItem()
+      console.log("all items ", a)
+
+      let b = await market.connect(buyerAddress).fetchMyNFTs()
+      console.log("My NFT now ", b)
+
+      let c = await market.connect(buyerAddress).fetchMarketItems()
+      console.log("Market items now ", c)
+
 
 
   });
