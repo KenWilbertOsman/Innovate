@@ -38,8 +38,8 @@ import {
     nftaddress, nftmarketaddress
 } from '../config.js'
 
-import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
-import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json'
+//import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
+import Market from '../artifacts/contracts/NFT.sol/NFT.json'
 
 //default function of this file
 export default function CreateItem() {
@@ -99,34 +99,43 @@ export default function CreateItem() {
         const signer = provider.getSigner()
         
         //interact with nft contract
-        let contract = new ethers.Contract(nftaddress, NFT.abi, signer)
-        
-        //create the token
-        //@see NFT.sol
-        let transaction = await contract.createToken(url)
-        //wait for transaction to succeed
-        let tx = await transaction.wait()
-
-        //we wanna get the tokenid returned from the transaction
-        // thus, dp modification based on the return value
-        let event = tx.events[0]
-        let value = event.args[2]
-        let tokenId = value.toNumber()
-
-        contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
-        let listingPrice = await contract.getListingPrice()
-        listingPrice = listingPrice.toString()
 
         let prices = ethers.utils.parseUnits(price, 'ether')
-        //@see NFTMarket.sol
+        
         let account4Address = '0x70997970C51812dc3A010C7d01b50e0d17dc79C8'
-        transaction = await contract.createMarketItem(
-
-            nftaddress, tokenId, prices, account4Address ,{value: listingPrice}
-        )
-
+        let contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
+        let listingPrice = await contract.getListingPrice()
+        listingPrice = listingPrice.toString()
+        let transaction = await contract.createToken(url, prices, account4Address, { value: listingPrice })
         await transaction.wait()
+    
         router.push('/')
+        // //create the token
+        // //@see NFT.sol
+        // let transaction = await contract.createToken(url)
+        // //wait for transaction to succeed
+        // let tx = await transaction.wait()
+
+        // //we wanna get the tokenid returned from the transaction
+        // // thus, dp modification based on the return value
+        // let event = tx.events[0]
+        // let value = event.args[2]
+        // let tokenId = value.toNumber()
+
+        // contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
+        // let listingPrice = await contract.getListingPrice()
+        // listingPrice = listingPrice.toString()
+
+        // let prices = ethers.utils.parseUnits(price, 'ether')
+        // //@see NFTMarket.sol
+        // let account4Address = '0x70997970C51812dc3A010C7d01b50e0d17dc79C8'
+        // transaction = await contract.createMarketItem(
+
+        //     nftaddress, tokenId, prices, account4Address ,{value: listingPrice}
+        // )
+
+        // await transaction.wait()
+        // router.push('/')
     }
 
 

@@ -15,8 +15,8 @@ import {
     nftmarketaddress, nftaddress
 } from '../config'
 
-import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
-import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json'
+// import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
+import Market from '../artifacts/contracts/NFT.sol/NFT.json'
 
 export default function MyAssets() {
     const [nfts, setNfts] = useState([])
@@ -36,11 +36,10 @@ export default function MyAssets() {
         
 
         const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
-        const tokenContract = new ethers.Contract(nftaddress, NFT.abi, signer)
         const data = await marketContract.fetchMyNFTs()
 
         const items = await Promise.all(data.map(async i => {
-            const tokenUri = await tokenContract.tokenURI(i.tokenId)
+            const tokenUri = await marketContract.tokenURI(i.tokenId)
             const meta = await axios.get(tokenUri)
             let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
             let item = {
@@ -71,10 +70,9 @@ export default function MyAssets() {
 
         //interact with nft contract
         const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
-        const tokenContract = new ethers.Contract(nftaddress, NFT.abi, signer)
+        // const tokenContract = new ethers.Contract(nftaddress, NFT.abi, signer)
 
-        await marketContract.burnNFT(tokenId)
-        await tokenContract.burnToken(tokenId)
+        await marketContract.burnToken(tokenId)
         
         router.push('/my-assets')
         loadNFTs()
@@ -90,8 +88,8 @@ export default function MyAssets() {
         const signer = provider.getSigner()
         const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
         const prices = ethers.utils.parseUnits(nft.price.toString(), 'ether')
-
-        const transaction = await contract.createRequest(nftaddress, nft.tokenId, {
+        
+        const transaction = await contract.createRequest(nft.tokenId, address, {
           value: prices
         })
         

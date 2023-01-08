@@ -26,9 +26,9 @@ function MyApp({ Component, pageProps }) {
               My Digital Assets
           </Link>
 
-          <Link href = "/creator-dashboard" className = "mr-6 text-pink-500">
+          {/* <Link href = "/creator-dashboard" className = "mr-6 text-pink-500">
               Creator Dashboard
-          </Link>
+          </Link> */}
 
           <Link href = "/request-list" className = "mr-6 text-pink-500">
               NFT Request List

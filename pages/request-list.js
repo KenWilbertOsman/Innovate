@@ -11,8 +11,8 @@ import {
     nftmarketaddress, nftaddress
 } from '../config'
 
-import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
-import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json'
+//import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
+import Market from '../artifacts/contracts/NFT.sol/NFT.json'
 
 export default function RequestList() {
     const [nfts, setNfts] = useState([])
@@ -31,13 +31,13 @@ export default function RequestList() {
         
 
         const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
-        const tokenContract = new ethers.Contract(nftaddress, NFT.abi, signer)
+        // const tokenContract = new ethers.Contract(nftaddress, NFT.abi, signer)
         
         const data = await marketContract.fetchRequested()
         // const data = await marketContract.fetchRequested()
 
         const items = await Promise.all(data.map(async i => {
-            const tokenUri = await tokenContract.tokenURI(i.tokenId)
+            const tokenUri = await marketContract.tokenURI(i.tokenId)
             const meta = await axios.get(tokenUri)
             let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
             let item = {
@@ -69,7 +69,7 @@ export default function RequestList() {
         const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
         
         const prices = ethers.utils.parseUnits(nft.price.toString(), 'ether')
-        const transaction = await contract.createMarketSale(nftaddress, nft.tokenId, {
+        const transaction = await contract.createMarketSale(nft.tokenId, {
           value: prices
         })
     
@@ -77,6 +77,11 @@ export default function RequestList() {
         loadNFTs()
     }
 
+
+    //SOON
+    async function declineRequestedNft(nft){
+        return
+    }
 
     if (loadingState === 'loaded' && !nfts.length) return (
         <h1 className="py-10 px-20 text-3xl">No NFT requested to you</h1>
@@ -103,7 +108,7 @@ export default function RequestList() {
 
                                 <div className = "p-4 pg-black flex justify-center space-x-7">    
                                 <button className= "w-half bg-green-500 text-white font-bold py-2 px-12 rounded" onClick={() => acceptRequestedNft(nft)}>Accept</button>
-                                <button className= "w-half bg-red-500 text-white font-bold py-2 px-12 rounded" onClick={() => {return}}>Delete</button>
+                                <button className= "w-half bg-red-500 text-white font-bold py-2 px-12 rounded" onClick={() => {declineRequestedNft(nft)}}>Delete</button>
                                 </div>
                              </div>
                             

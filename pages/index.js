@@ -15,8 +15,8 @@ import {
 
 
 //import the artifacts from hardhat after it is compiled from 'npx hardhat ...'
-import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
-import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json'
+//import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
+import Market from '../artifacts/contracts/NFT.sol/NFT.json'
 
 
 //default function for this file
@@ -32,14 +32,13 @@ export default function Home() {
   //load the nft into page 
   async function loadNFTs() {
     const provider = new ethers.providers.JsonRpcProvider()
-    const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
     const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
     
     const data = await marketContract.fetchMarketItems()
 
     // to map all the items
     const items = await Promise.all(data.map(async i => {
-      const tokenUri = await tokenContract.tokenURI(i.tokenId)  
+      const tokenUri = await marketContract.tokenURI(i.tokenId)  
       //the metadata of the token where information are stored, cacn be used to IPFS
       const meta = await axios.get(tokenUri)
       let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
@@ -97,9 +96,9 @@ export default function Home() {
                       <p style = {{height : '32px'}} className = "text-xl font-semibold">{nft.fragile}</p>
                       
                 </div>
-                <div className = "p-4 pg-black">
+                {/* <div className = "p-4 pg-black">
                   <button className= "w-full bg-pink-500 text-white font-bold py-2 px-12 rounded" onClick={() => buyNft(nft)}>Buy</button>
-                </div>
+                </div> */}
                 </div>
               ))
             }
