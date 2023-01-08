@@ -23,7 +23,6 @@ import Market from '../artifacts/contracts/NFTMarket.sol/NFTMarket.json'
 export default function Home() {
   const [nfts, setNfts] = useState([]) //empty array of nfts and setNfts to reset the nft array
   const [loadingState, setLoadingState] = useState('not-loaded') 
-  const [price, setPrice] = useState('0.0000001')
 
   //call the function once when the page is loaded
   useEffect(()=> {

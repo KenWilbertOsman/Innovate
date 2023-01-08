@@ -25,83 +25,59 @@ describe("NFTMarket", function(){
       const auctionPrice = ethers.utils.parseUnits('100', 'ether')
       
       //Create two nfts
+      //approve marketaddress already
       await nft.createToken("http") // number 1
       await nft.createToken("http") // number 2
       await nft.createToken("http") // number 3
-      //await nft.createToken("http") // number 4
 
-      //Place the nft to sale
-      await market.createMarketItem(nftContractAddress, 1, auctionPrice, {value: listingPrice})
-      await market.createMarketItem(nftContractAddress, 2, auctionPrice, {value: listingPrice})
-      await market.createMarketItem(nftContractAddress, 3, auctionPrice, {value: listingPrice})
-      //await market.createMarketItem(nftContractAddress, 4, auctionPrice, {value: listingPrice})
 
       //ethers library to get multiple test accounts
-      const [_, buyerAddress] = await ethers.getSigners()
+      const [firstAddress, buyerAddress] = await ethers.getSigners()
+      //console.log("first ", firstAddress.getAddress()); //0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+      //console.log("buyer ", buyerAddress.getAddress()); //0x70997970C51812dc3A010C7d01b50e0d17dc79C8
+
+ 
+      //Place the nft to sale
+      await market.createMarketItem(nftContractAddress, 1, auctionPrice, firstAddress.getAddress(), {value: listingPrice})
+      await market.createMarketItem(nftContractAddress, 2, auctionPrice, buyerAddress.getAddress(), {value: listingPrice})
+      await market.createMarketItem(nftContractAddress, 3, auctionPrice, '0x0000000000000000000000000000000000000000', {value: listingPrice})
 
       
-      let d = await market.connect(buyerAddress).fetchMarketItems()
-      console.log("Market items ", d)
+      // let d = await market.connect(buyerAddress).fetchMarketItems()
+      // console.log("Market items ", d)
 
-      //buy the "1" nft, which won't appear in the market anymore
+      // let e = await market.connect(buyerAddress).fetchRequested()
+      // console.log("Buyer request list ", e)
+
       await market.connect(buyerAddress).createMarketSale(nftContractAddress, 2, {value: auctionPrice})
       
+      
+      let a = await market.connect(buyerAddress).fetchMyNFTs()
+      console.log("My NFT ", a)  
+      
+      e = await market.connect(buyerAddress).fetchRequested()
+      console.log("Buyer request list now ", e)
+
+      //await nft.approve(buyerAddress.getAddress(), 2);
+
+
+      await market.connect(buyerAddress).createRequest(nftContractAddress, 2, firstAddress.getAddress(), {value: auctionPrice})
+      
+      e = await market.connect(firstAddress).fetchRequested()
+      console.log("first request list now ", e)
+
+      
       await market.connect(buyerAddress).createMarketSale(nftContractAddress, 3, {value: auctionPrice})
-
-      let items = await market.fetchMarketItems()
-
-      items = await Promise.all(items.map(async i =>{
-        const tokenUri = await nft.tokenURI(i.tokenId)
-        let item = {
-          price : i.price.toString(),
-          tokenId : i.tokenId.toString(),
-          seller: i.seller,
-          owner: i.owner,
-          tokenUri
-        }
-        return item
-      }))
-      //console.log('items: ', items)
-
-      
-      // let number = await market.getItemSold()
-      // console.log("Item sold is ", number)
-      // let number2 = await market.getItemId()
-      // console.log("Item id is ", number2)
-      
-
-      // let e = await market.connect(buyerAddress).fetchMarketItems()
-      // console.log("Market items second ", e)
-
-      // let a = await market.connect(buyerAddress).fetchMyNFTs()
-      // console.log("My NFT ", a)
-
-
-      await market.burnNFT(2);
-      await nft.burnToken(2);
-
-      // number = await market.getItemSold()
-      // console.log("Item sold is ", number)
-      // number2 = await market.getItemId()
-      // console.log("Item id is ", number2)
-
-      let a = await market.connect(buyerAddress).getIdToMarketItem()
-      console.log("all items ", a)
-
-      let b = await market.connect(buyerAddress).fetchMyNFTs()
-      console.log("My NFT now ", b)
-
-      let c = await market.connect(buyerAddress).fetchMarketItems()
-      console.log("Market items now ", c)
-
-
 
   });
 });
 
 
+describe("NFTToken", function(){
+  it("Should create NFT token", async function(){
 
-
+  });
+});
 
 
 

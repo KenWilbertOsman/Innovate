@@ -29,6 +29,10 @@ function MyApp({ Component, pageProps }) {
           <Link href = "/creator-dashboard" className = "mr-6 text-pink-500">
               Creator Dashboard
           </Link>
+
+          <Link href = "/request-list" className = "mr-6 text-pink-500">
+              NFT Request List
+          </Link>
     </div>
 
     </nav>

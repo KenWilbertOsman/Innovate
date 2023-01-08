@@ -47,7 +47,7 @@ export default function CreateItem() {
     const [fileUrl, setFileUrl] = useState(null)
     const [formInput, updateFormInput] = useState({username: '', useraddress: '', userphone: '', recname: '', recphone: '', recaddress: '', fragile: ''})
     const router = useRouter()
-    const [price, setPrice] = useState("0.0000001")
+    const [price, setPrice] = useState("0")
 
     //this asynchronous function is to upload the image into the url
     async function onChange(e) {
@@ -118,10 +118,11 @@ export default function CreateItem() {
         listingPrice = listingPrice.toString()
 
         let prices = ethers.utils.parseUnits(price, 'ether')
-////////////////////////////////////////////////////EDIT FROM HERE
         //@see NFTMarket.sol
+        let account4Address = '0x70997970C51812dc3A010C7d01b50e0d17dc79C8'
         transaction = await contract.createMarketItem(
-            nftaddress, tokenId, prices, {value: listingPrice}
+
+            nftaddress, tokenId, prices, account4Address ,{value: listingPrice}
         )
 
         await transaction.wait()
