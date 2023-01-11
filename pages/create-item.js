@@ -76,9 +76,10 @@ export default function CreateItem() {
 
     async function createItem() {
         const {username, useraddress, userphone, recname, recaddress, recphone, fragile} = formInput
+        const date = new Date()
         if (!username || !useraddress || !userphone || !recname || !recaddress || !recphone || !fragile || !fileUrl) return  
         const data = JSON.stringify({
-            username, useraddress, userphone, recname, recaddress, recphone, fragile, image: fileUrl
+            username, useraddress, userphone, recname, recaddress, recphone, fragile, image: fileUrl, date
         })
 
         try{

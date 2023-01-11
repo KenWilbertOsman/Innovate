@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
 import {useRouter} from 'next/router'
+import {BrowserRouter, Routes, Route, Navigate, Link} from 'next/router'
+import Detail from "./detail-page"
 
 
 import {
@@ -51,7 +53,9 @@ export default function MyAssets() {
                 name: meta.data.username,
                 address: meta.data.useraddress,
                 fragile: meta.data.fragile,
+                date: meta.data.date,
                 owners: i.warehouses
+                
             }
             return item
         }))
@@ -113,11 +117,12 @@ export default function MyAssets() {
                                 <div className = "p-4 pg-black flex justify-end">    
                                     <button position = "absolute" className= "w-full bg-pink-500 text-white font-bold py-1 px-7 rounded" onClick={() => burnNft(nft.tokenId)}>Burn</button>
                                 </div>
-                                
+
                                 <img src = {nft.image} className = "rounded" />
                                 
                                 <div className = "p-4 bg-black">
                                     <p className = "text-xs font-bold text-white">Username: {nft.name}</p>
+                                    <p className = "text-xs font-bold text-white">Created on {nft.date}</p>
                                     <p className = "text-xs font-bold text-white">Owners: </p>
                                     {
                                         nft.owners.map((owner, j) => (

@@ -2,6 +2,8 @@
 //Home Page
 
 
+//CAN ADD IN THE DETAIL SUCH AS "BEING REQUESTED TO ..... WAREHOUSE OR OWNER"
+
 
 //import styles from '../styles/Home.module.css'
 import {ethers} from 'ethers'
@@ -50,7 +52,8 @@ export default function Home() {
         image: meta.data.image,
         name: meta.data.username,
         address: meta.data.useraddress,
-        fragile: meta.data.fragile
+        fragile: meta.data.fragile,
+        date: meta.data.date
       }
       return item
     }))
