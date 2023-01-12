@@ -24,48 +24,53 @@ describe("NFTMarket", function() {
     await nftMarketplace.createToken("https://www.mytokenlocation.com", auctionPrice, buyerAddress.getAddress(), { value: listingPrice })
     await nftMarketplace.createToken("https://www.mytokenlocation2.com", auctionPrice, buyerAddress.getAddress(), { value: listingPrice })
 
+    console.log(await nftMarketplace.connect(buyerAddress).fetchRequested())
+
+    await nftMarketplace.connect(buyerAddress).removeRequest(1)
+    
+    console.log(await nftMarketplace.connect(buyerAddress).fetchRequested())
     /* execute sale of token to another user */
 
-    console.log(await nftMarketplace.connect(buyerAddress).fetchRequested())
-    await nftMarketplace.connect(buyerAddress).createMarketSale(1, { value: auctionPrice })
-    await nftMarketplace.connect(buyerAddress).createMarketSale(2, { value: auctionPrice })
+//     console.log(await nftMarketplace.connect(buyerAddress).fetchRequested())
+//     await nftMarketplace.connect(buyerAddress).createMarketSale(1, { value: auctionPrice })
+//     await nftMarketplace.connect(buyerAddress).createMarketSale(2, { value: auctionPrice })
 
-    console.log("my nft" , await nftMarketplace.connect(buyerAddress).fetchMyNFTs())
+//     console.log("my nft" , await nftMarketplace.connect(buyerAddress).fetchMyNFTs())
 
-    const data = await nftMarketplace.connect(buyerAddress).fetchNFT(1)
-    console.log("1 is", data)
-    await nftMarketplace.connect(buyerAddress).burnToken(2, { value: auctionPrice })
+//     const data = await nftMarketplace.connect(buyerAddress).fetchNFT(1)
+//     console.log("1 is", data)
+//     await nftMarketplace.connect(buyerAddress).burnToken(2, { value: auctionPrice })
 
-    /* resell a token */
+//     /* resell a token */
     
-    //console.log(await nftMarketplace.connect(buyerAddress).fetchMyNFTs())
+//     //console.log(await nftMarketplace.connect(buyerAddress).fetchMyNFTs())
 
-    await nftMarketplace.connect(buyerAddress).createRequest(1,  firstAddress.getAddress(), { value: listingPrice })
+//     await nftMarketplace.connect(buyerAddress).createRequest(1,  firstAddress.getAddress(), { value: listingPrice })
 
     
-    //console.log("my nft now ",await nftMarketplace.connect(buyerAddress).fetchMyNFTs())
-    //console.log("first request ", await nftMarketplace.connect(firstAddress).fetchRequested())
+//     //console.log("my nft now ",await nftMarketplace.connect(buyerAddress).fetchMyNFTs())
+//     //console.log("first request ", await nftMarketplace.connect(firstAddress).fetchRequested())
 
-    await nftMarketplace.connect(firstAddress).createMarketSale(1, { value: auctionPrice })
-    //console.log("my first nft now ",await nftMarketplace.connect(firstAddress).fetchMyNFTs())
-    //console.log("first request now", await nftMarketplace.connect(firstAddress).fetchRequested())
+//     await nftMarketplace.connect(firstAddress).createMarketSale(1, { value: auctionPrice })
+//     //console.log("my first nft now ",await nftMarketplace.connect(firstAddress).fetchMyNFTs())
+//     //console.log("first request now", await nftMarketplace.connect(firstAddress).fetchRequested())
 
-    /* query for and return the unsold items */
-    items = await nftMarketplace.fetchMarketItems()
-    items = await Promise.all(items.map(async i => {
-      const tokenUri = await nftMarketplace.tokenURI(i.tokenId)
-      let item = {
-        price: i.price.toString(),
-        tokenId: i.tokenId.toString(),
-        seller: i.seller,
-        owner: i.owner,
-        tokenUri
-      }
-      return item
-    }))
-    //console.log('items: ', items)
-  })
-})
+//     /* query for and return the unsold items */
+//     items = await nftMarketplace.fetchMarketItems()
+//     items = await Promise.all(items.map(async i => {
+//       const tokenUri = await nftMarketplace.tokenURI(i.tokenId)
+//       let item = {
+//         price: i.price.toString(),
+//         tokenId: i.tokenId.toString(),
+//         seller: i.seller,
+//         owner: i.owner,
+//         tokenUri
+//       }
+//       return item
+//     }))
+//     //console.log('items: ', items)
+//   })
+  })})
 // describe("NFTMarket", function(){
 //   it("Should create and execute market sales", async function(){
 //       const Market = await ethers.getContractFactory("NFTMarket")

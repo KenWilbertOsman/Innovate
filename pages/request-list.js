@@ -80,7 +80,19 @@ export default function RequestList() {
 
     //SOON
     async function declineRequestedNft(nft){
-        return
+        const web3modal = new Web3Modal()
+        const connection = await web3modal.connect()
+        const provider = new ethers.providers.Web3Provider(connection)
+    
+        const signer = provider.getSigner()
+        const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
+        
+        const prices = ethers.utils.parseUnits(nft.price.toString(), 'ether')
+        await contract.removeRequest(nft.tokenId, {
+          value: prices
+        })
+
+        loadNFTs()
     }
 
     if (loadingState === 'loaded' && !nfts.length) return (
