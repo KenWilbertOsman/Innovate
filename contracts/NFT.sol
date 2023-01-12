@@ -213,6 +213,30 @@ contract NFT is ERC721URIStorage {
       return items;
     }
 
+
+    function fetchNFT(uint256 index) public view returns (MarketItem[] memory) {
+      uint totalItemCount = _totalIds.current();
+      uint itemCount = 0;
+      uint currentIndex = 0;
+
+      for (uint i = 0; i < totalItemCount; i++) {
+        if (idToMarketItem[i + 1].owner == msg.sender) {
+          itemCount += 1;
+        }
+      }
+
+      
+      MarketItem[] memory items = new MarketItem[](1);
+      for (uint i = 0; i < totalItemCount; i++) {
+        if (idToMarketItem[i + 1].owner == msg.sender && (i+1) == index) {
+          uint currentId = i + 1;
+          MarketItem memory currentItem = idToMarketItem[currentId];
+          items[currentIndex] = currentItem;
+        }
+      }
+      return items;
+    }
+
     /* Returns only items a user has listed */
     function fetchItemsListed() public view returns (MarketItem[] memory) {
       uint totalItemCount = _totalIds.current();

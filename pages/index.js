@@ -65,24 +65,25 @@ export default function Home() {
     
   }
 
-  //logic of buying the nft
-  async function buyNft(nft) {
-    const web3modal = new Web3Modal()
-    const connection = await web3modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)
+  // //logic of buying the nft
+  // async function buyNft(nft) {
+  //   const web3modal = new Web3Modal()
+  //   const connection = await web3modal.connect()
+  //   const provider = new ethers.providers.Web3Provider(connection)
 
-    const signer = provider.getSigner()
-    const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
+  //   const signer = provider.getSigner()
+  //   const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
     
-    const prices = ethers.utils.parseUnits(nft.price.toString(), 'ether')
-    const transaction = await contract.createMarketSale(nftaddress, nft.tokenId, {
-      value: prices
-    })
+  //   const prices = ethers.utils.parseUnits(nft.price.toString(), 'ether')
+  //   const transaction = await contract.createMarketSale(nftaddress, nft.tokenId, {
+  //     value: prices
+  //   })
     
 
-    await transaction.wait()
-    loadNFTs()
-  }
+  //   await transaction.wait()
+  //   loadNFTs()
+  // }
+
   if (loadingState === 'loaded' && !nfts.length) return (
     <h1 className = " px-20 py-10 text-4xl"> No items in Marketplace</h1>)
   return (

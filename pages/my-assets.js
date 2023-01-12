@@ -9,8 +9,8 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
 import {useRouter} from 'next/router'
-import {BrowserRouter, Routes, Route, Navigate, Link} from 'next/router'
-import Detail from "./detail-page"
+//import {BrowserRouter, Routes, Route, Navigate, Link} from 'next/router'
+import Link from 'next/link'
 
 
 import {
@@ -143,6 +143,10 @@ export default function MyAssets() {
                                 </select>
                                     <div className = "p-4 pg-black flex justify-end">    
                                         <button className= "w-quarter bg-pink-500 text-white font-bold py-1 px-4 rounded" onClick={() => requestNFT(nft)}>Request</button>
+                                        <Link
+                                        href={`/detail-page?index=${i+1}`} // the data
+                                        >Details
+                                        </Link>
                                     </div>
                                 </div>
                                 
