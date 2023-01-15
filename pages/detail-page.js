@@ -67,7 +67,7 @@ export default function Detail () {
         <div className = "p-4">
         {
             nfts.map((nft,i) => (
-                <div className = "border shadow rounded-xl overflow-hidden">
+                <div key = {i} className = "border shadow rounded-xl overflow-hidden">
                     <img src = {nft.image} className = "rounded" />
                     
                     <h1 className="flex justify-center">Token Id: {nft.tokenId}</h1>

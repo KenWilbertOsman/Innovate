@@ -36,6 +36,7 @@ contract NFT is ERC721URIStorage {
       bool sold;
       address[] warehouses;
       address payable nextWarehouse;
+      bool completed; //to filter if the parcel has reached the recipient address
     }
 
 
@@ -48,7 +49,8 @@ contract NFT is ERC721URIStorage {
       uint256 price,
       bool sold,
       address[] warehouses,
-      address nextWarehouse
+      address nextWarehouse,
+      bool completed
     );
 
 
@@ -93,7 +95,8 @@ contract NFT is ERC721URIStorage {
         price,
         false,
         owners,
-        payable(nextWarehouse)
+        payable(nextWarehouse),
+        false
       );
 
       _transfer(msg.sender, address(this), tokenId);
@@ -104,7 +107,8 @@ contract NFT is ERC721URIStorage {
         price,
         false,
         owners,
-        nextWarehouse
+        nextWarehouse,
+        false
       );
     }
 
@@ -164,7 +168,7 @@ contract NFT is ERC721URIStorage {
 
     }
 
-    
+    //To fetch the item requested to the caller
     function fetchRequested() public view returns (MarketItem[] memory){
         uint totalItemCount = _totalIds.current();
         uint itemCount = 0;
@@ -213,7 +217,7 @@ contract NFT is ERC721URIStorage {
       return items;
     }
 
-
+    //to fetch a specific index (for the detail page)
     function fetchNFT(uint256 index) public view returns (MarketItem[] memory) {
       uint totalItemCount = _totalIds.current();
       uint itemCount = 0;
@@ -237,30 +241,25 @@ contract NFT is ERC721URIStorage {
       return items;
     }
 
-    /* Returns only items a user has listed */
-    function fetchItemsListed() public view returns (MarketItem[] memory) {
+    //to fetch all nft created (burnt is not included as it is gone already)
+    //Used in database.js
+    function fetchAllNFT() public view returns (MarketItem[] memory) {
       uint totalItemCount = _totalIds.current();
-      uint itemCount = 0;
+      uint remItemCount = _tokenIds.current();
       uint currentIndex = 0;
-
-      for (uint i = 0; i < totalItemCount; i++) {
-        if (idToMarketItem[i + 1].seller == msg.sender) {
-          itemCount += 1;
-        }
-      }
-
-      MarketItem[] memory items = new MarketItem[](itemCount);
-      for (uint i = 0; i < totalItemCount; i++) {
-        if (idToMarketItem[i + 1].seller == msg.sender) {
-          uint currentId = i + 1;
-          MarketItem storage currentItem = idToMarketItem[currentId];
-          items[currentIndex] = currentItem;
-          currentIndex += 1;
+      
+      MarketItem[] memory items = new MarketItem[](remItemCount);
+      for (uint i = 0; i< totalItemCount; i++) {
+          if (idToMarketItem[i + 1].tokenId != 0) {
+            uint currentId = i + 1;
+            MarketItem storage currentItem = idToMarketItem[currentId];
+            items[currentIndex] = currentItem;
+            currentIndex += 1;
         }
       }
       return items;
     }
-  
+
     function removeRequest(uint256 index) public payable{
         uint totalItemCount = _totalIds.current();
 
@@ -273,25 +272,6 @@ contract NFT is ERC721URIStorage {
         }
     }
 
-
-    // //constructor
-    // constructor(address marketplaceAddress) ERC721("Metaverse Tokens", "METT") {
-    //     contractAddress = marketplaceAddress;
-    //     //I think can test on diffrent address, to make sure that on the different address, the token Id counter is different
-    // }
-
-
-    //for minting tokens
-    // function createToken(string memory tokenURI) public returns (uint){
-    //     _tokenIds.increment();
-    //     //get the current value of the token ids
-    //     uint256 newItemId = _tokenIds.current();
-    //     _mint(msg.sender, newItemId);
-    //     _setTokenURI(newItemId, tokenURI);
-    //     setApprovalForAll(contractAddress, true);
-    //     approve(contractAddress, newItemId); //give the token approval to transact in the marketplace
-    //     return newItemId;
-    // }   
 
     //when deployed using the test network, it works. but not sure what the error is yet when deploy to the website
     //this is to burn the token
@@ -312,18 +292,10 @@ contract NFT is ERC721URIStorage {
         delete idToMarketItem[currentIndex];
         _tokenIds.decrement();
         _itemsSold.decrement();
-        //in built function from ERC721 to burn the token, can be seen in down below
-        //https://docs.openzeppelin.com/contracts/2.x/api/token/erc721#ERC721
-        //This one have to look more as to put the nft to be owned by the owner
 
         
     }
 
-    //This works but just need to fix the transaction.wait() as we need to wait the transaction to be confirmed to take the valiue
-    // function getToken() public view returns (uint){
-    //     uint256 curToken = _tokenIds.current();
-    //     return curToken;
-    // }
 }
 
 

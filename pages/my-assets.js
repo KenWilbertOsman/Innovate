@@ -76,8 +76,9 @@ export default function MyAssets() {
         const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
         // const tokenContract = new ethers.Contract(nftaddress, NFT.abi, signer)
 
-        await marketContract.burnToken(tokenId)
+        const transaction = await marketContract.burnToken(tokenId)
         
+        await transaction.wait()
         router.push('/my-assets')
         loadNFTs()
     }
@@ -144,7 +145,7 @@ export default function MyAssets() {
                                     <div className = "p-4 pg-black flex justify-end">    
                                         <button className= "w-quarter bg-pink-500 text-white font-bold py-1 px-4 rounded" onClick={() => requestNFT(nft)}>Request</button>
                                         <Link
-                                        href={`/detail-page?index=${i+1}`} // the data
+                                        href={`/detail-page?index=${nft.tokenId}`} // the data
                                         >Details
                                         </Link>
                                     </div>

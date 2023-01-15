@@ -17,7 +17,6 @@ import Market from '../artifacts/contracts/NFT.sol/NFT.json'
 export default function RequestList() {
     const [nfts, setNfts] = useState([])
     const [loadingState, setLoadingState] = useState('not-loaded')
-    const router = useRouter()
     useEffect (() => {
         loadNFTs()
     }, [])
@@ -88,10 +87,11 @@ export default function RequestList() {
         const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
         
         const prices = ethers.utils.parseUnits(nft.price.toString(), 'ether')
-        await contract.removeRequest(nft.tokenId, {
+        const transaction = await contract.removeRequest(nft.tokenId, {
           value: prices
         })
 
+        await transaction.wait()
         loadNFTs()
     }
 
