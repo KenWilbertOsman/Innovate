@@ -52,7 +52,6 @@ export default function RequestList() {
             }
             return item
         }))
-        console.log(items)
         setNfts(items)
         setLoadingState('loaded')
 

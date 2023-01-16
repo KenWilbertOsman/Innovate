@@ -24,46 +24,43 @@ import Market from '../artifacts/contracts/NFT.sol/NFT.json'
 //default function for this file
 export default function Home() {
   const [nfts, setNfts] = useState([]) //empty array of nfts and setNfts to reset the nft array
-  const [loadingState, setLoadingState] = useState('not-loaded') 
+  const [loadingState, setLoadingState] = useState('loaded') 
 
-  //call the function once when the page is loaded
-  useEffect(()=> {
-   loadNFTs() 
-  }, [])
+  // //call the function once when the page is loaded
+  // useEffect(()=> {
+  //  loadNFTs() 
+  // }, [])
 
-  //load the nft into page 
-  async function loadNFTs() {
-    const provider = new ethers.providers.JsonRpcProvider()
-    const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
+  // //load the nft into page 
+  // async function loadNFTs() {
+  //   const provider = new ethers.providers.JsonRpcProvider()
+  //   const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
     
-    const data = await marketContract.fetchMarketItems()
+  //   const data = await marketContract.fetchMarketItems()
 
-    // to map all the items
-    const items = await Promise.all(data.map(async i => {
-      const tokenUri = await marketContract.tokenURI(i.tokenId)  
-      //the metadata of the token where information are stored, cacn be used to IPFS
-      const meta = await axios.get(tokenUri)
-      let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
-      let item = {
-        price, 
-        tokenId: i.tokenId.toNumber(),
-        seller: i.seller,
-        owner: i.owner,
-        image: meta.data.image,
-        name: meta.data.username,
-        address: meta.data.useraddress,
-        fragile: meta.data.fragile,
-        date: meta.data.date
-      }
-      return item
-    }))
+  //   // to map all the items
+  //   const items = await Promise.all(data.map(async i => {
+  //     const tokenUri = await marketContract.tokenURI(i.tokenId)  
+  //     //the metadata of the token where information are stored, cacn be used to IPFS
+  //     const meta = await axios.get(tokenUri)
+  //     let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
+  //     let item = {
+  //       price, 
+  //       tokenId: i.tokenId.toNumber(),
+  //       seller: i.seller,
+  //       owner: i.owner,
+  //       image: meta.data.image,
+  //       name: meta.data.username,
+  //       address: meta.data.useraddress,
+  //       fragile: meta.data.fragile,
+  //       date: meta.data.date
+  //     }
+  //     return item
+  //   }))
 
-    setNfts(items)
-    setLoadingState('loaded')
-
-
-    
-  }
+  //   setNfts(items)
+  //   setLoadingState('loaded')    
+  // }
 
   // //logic of buying the nft
   // async function buyNft(nft) {
@@ -85,7 +82,7 @@ export default function Home() {
   // }
 
   if (loadingState === 'loaded' && !nfts.length) return (
-    <h1 className = " px-20 py-10 text-4xl"> No items in Marketplace</h1>)
+    <h1 className = " px-20 py-10 text-4xl"> Home Page Design goes here</h1>)
   return (
     <div className= "flex justify-center">
        <div className = "px-4" style= {{ maxWidth: '1600px'}}>

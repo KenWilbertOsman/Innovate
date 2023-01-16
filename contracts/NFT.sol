@@ -15,7 +15,6 @@ contract NFT is ERC721URIStorage {
     using Counters for Counters.Counter; //use to declare variable tokenIds
     Counters.Counter private _tokenIds; //allow us to keep up wiht incrementing value for a unique ientifier for each toke
     address contractAddress; //address of the marketplace for the NFT to interact
-    Counters.Counter private _itemsSold;
     Counters.Counter private _totalIds; //total items created(inc, deleted one, but its in 0 address)
 
 
@@ -33,7 +32,6 @@ contract NFT is ERC721URIStorage {
       address payable seller;
       address payable owner;
       uint256 price;
-      bool sold;
       address[] warehouses;
       address payable nextWarehouse;
       bool completed; //to filter if the parcel has reached the recipient address
@@ -47,7 +45,6 @@ contract NFT is ERC721URIStorage {
       address seller,
       address owner,
       uint256 price,
-      bool sold,
       address[] warehouses,
       address nextWarehouse,
       bool completed
@@ -82,7 +79,6 @@ contract NFT is ERC721URIStorage {
       address nextWarehouse
     ) private {
     
-      //require(price > 0, "Price must be at least 1 wei");
       require(msg.value == listingPrice, "Price must be equal to listing price");
       _totalIds.increment();
 
@@ -93,7 +89,7 @@ contract NFT is ERC721URIStorage {
         payable(msg.sender),
         payable(address(this)),
         price,
-        false,
+        // false,
         owners,
         payable(nextWarehouse),
         false
@@ -105,7 +101,7 @@ contract NFT is ERC721URIStorage {
         msg.sender,
         address(this),
         price,
-        false,
+        // false,
         owners,
         nextWarehouse,
         false
@@ -115,11 +111,11 @@ contract NFT is ERC721URIStorage {
     /* allows someone to resell a token they have purchased */
     function createRequest(uint256 tokenId, address nextWarehouse) public payable {
       require(idToMarketItem[tokenId].owner == msg.sender, "Only item owner can perform this operation");
-      idToMarketItem[tokenId].sold = false;
+      
       idToMarketItem[tokenId].seller = payable(msg.sender);
       idToMarketItem[tokenId].owner = payable(address(this));
       idToMarketItem[tokenId].nextWarehouse = payable(nextWarehouse);
-      _itemsSold.decrement();
+      
 
       _transfer(msg.sender, address(this), tokenId);
 
@@ -134,39 +130,16 @@ contract NFT is ERC721URIStorage {
       address seller = idToMarketItem[tokenId].seller;
       require(msg.value == price, "Please submit the asking price in order to complete the purchase");
       idToMarketItem[tokenId].owner = payable(msg.sender);
-      idToMarketItem[tokenId].sold = true;
+      // idToMarketItem[tokenId].sold = true;
       idToMarketItem[tokenId].seller = payable(address(0));
       idToMarketItem[tokenId].warehouses.push(payable(msg.sender));
       idToMarketItem[tokenId].nextWarehouse = payable(address(0));
       
-      _itemsSold.increment();
       _transfer(address(this), msg.sender, tokenId);
       payable(owner).transfer(listingPrice);
       payable(seller).transfer(msg.value);
     }
 
-    /* Returns all unsold market items */
-    function fetchMarketItems() public view returns (MarketItem[] memory){
-        uint itemCount = _totalIds.current();
-        uint unsoldItemCount = _tokenIds.current() - _itemsSold.current();
-        uint currentIndex = 0;
-
-        //link of unsold item count
-        MarketItem[] memory items = new MarketItem[](unsoldItemCount);
-        
-        //loop over number of items that have been created
-        for (uint i = 0; i < itemCount; i++){
-            //check if the item is unsold by checking if the owner is empty address
-            if (idToMarketItem[i+1].tokenId != 0 && idToMarketItem[i+1].sold == false){
-                uint currentId = i + 1;
-                MarketItem storage currentItem = idToMarketItem[currentId];
-                items[currentIndex] = currentItem;
-                currentIndex += 1;
-            }
-        }
-        return items;
-
-    }
 
     //To fetch the item requested to the caller
     function fetchRequested() public view returns (MarketItem[] memory){
@@ -220,19 +193,12 @@ contract NFT is ERC721URIStorage {
     //to fetch a specific index (for the detail page)
     function fetchNFT(uint256 index) public view returns (MarketItem[] memory) {
       uint totalItemCount = _totalIds.current();
-      uint itemCount = 0;
       uint currentIndex = 0;
-
-      for (uint i = 0; i < totalItemCount; i++) {
-        if (idToMarketItem[i + 1].owner == msg.sender) {
-          itemCount += 1;
-        }
-      }
 
       
       MarketItem[] memory items = new MarketItem[](1);
       for (uint i = 0; i < totalItemCount; i++) {
-        if (idToMarketItem[i + 1].owner == msg.sender && (i+1) == index) {
+        if (idToMarketItem[i+1].tokenId == index) {
           uint currentId = i + 1;
           MarketItem memory currentItem = idToMarketItem[currentId];
           items[currentIndex] = currentItem;
@@ -280,18 +246,16 @@ contract NFT is ERC721URIStorage {
         //in built function from ERC721 to burn the token, can be seen in down below
         //https://docs.openzeppelin.com/contracts/2.x/api/token/erc721#ERC721
         uint totalItemCount = _tokenIds.current();
-        //uint itemCount = 0;
         uint currentIndex = 0;
 
         for (uint i = 0; i< totalItemCount; i++){
-            if (idToMarketItem[i+1].tokenId == tokenId && idToMarketItem[i+1].sold == true) {
+            if (idToMarketItem[i+1].tokenId == tokenId && idToMarketItem[i+1].owner != address(0)) {
                 currentIndex = i+1;
             }
         }
         _burn(tokenId);
         delete idToMarketItem[currentIndex];
         _tokenIds.decrement();
-        _itemsSold.decrement();
 
         
     }
