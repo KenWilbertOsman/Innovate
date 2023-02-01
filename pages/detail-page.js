@@ -51,7 +51,8 @@ export default function Detail () {
                 address: meta.data.useraddress,
                 fragile: meta.data.fragile,
                 date: meta.data.date,
-                owners: i.warehouses
+                owners: i.warehouses,
+                mass: meta.data.mass
                 
             }
             return item

@@ -55,7 +55,8 @@ export default function Database() {
                 fragile: meta.data.fragile,
                 date: meta.data.date,
                 recAddress: meta.data.recaddress,
-                recNumber: meta.data.recphone
+                recNumber: meta.data.recphone,
+                mass: meta.data.mass
             }
             return item
         }))

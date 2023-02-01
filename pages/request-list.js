@@ -48,7 +48,8 @@ export default function RequestList() {
                 name: meta.data.username,
                 address: meta.data.useraddress,
                 fragile: meta.data.fragile,
-                owners: i.warehouses
+                owners: i.warehouses,
+                mass: meta.data.mass
             }
             return item
         }))
@@ -106,7 +107,7 @@ export default function RequestList() {
                             <div key = {i} className = "border shadow rounded-xl overflow-hidden">
                                 <img src = {nft.image} className = "rounded"/>
                                 <div className = "p-4 bg-black">
-                                    <p className = "text-xs font-bold text-white">Seller: {nft.seller}</p>
+                                    <p className = "text-xs font-bold text-white">Seller: {nft.seller} </p>
                                     <p className = "text-xs font-bold text-white">Owners:</p>
                                     {
                                         nft.owners.map((owner, j) => (

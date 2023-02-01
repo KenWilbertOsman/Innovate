@@ -45,7 +45,7 @@ import Market from '../artifacts/contracts/NFT.sol/NFT.json'
 export default function CreateItem() {
     
     const [fileUrl, setFileUrl] = useState(null)
-    const [formInput, updateFormInput] = useState({username: '', useraddress: '', userphone: '', recname: '', recphone: '', recaddress: '', fragile: ''})
+    const [formInput, updateFormInput] = useState({username: '', useraddress: '', userphone: '', recname: '', recphone: '', recaddress: '', fragile: '', mass: ''})
     const router = useRouter()
     const [price, setPrice] = useState("0")
 
@@ -75,11 +75,11 @@ export default function CreateItem() {
 
 
     async function createItem() {
-        const {username, useraddress, userphone, recname, recaddress, recphone, fragile} = formInput
+        const {username, useraddress, userphone, recname, recaddress, recphone, fragile, mass} = formInput
         const date = new Date()
-        if (!username || !useraddress || !userphone || !recname || !recaddress || !recphone || !fragile || !fileUrl) return  
+        if (!username || !useraddress || !userphone || !recname || !recaddress || !recphone || !fragile || !fileUrl || !mass) return  
         const data = JSON.stringify({
-            username, useraddress, userphone, recname, recaddress, recphone, fragile, image: fileUrl, date
+            username, useraddress, userphone, recname, recaddress, recphone, fragile, image: fileUrl, date, mass
         })
 
         try{
@@ -179,6 +179,12 @@ export default function CreateItem() {
                     pattern="[0-9].{9,}" required
                     onChange = {e => updateFormInput({ ...formInput, recphone: e.target.value})} /*10 or more number required*/
                 />
+                <br></br><input 
+                    type = "number" 
+                    placeholder = "Parcel Weight (in kg)"
+                    className = "mt-2 border rounded p-4"
+                    onChange = {e => updateFormInput({ ...formInput, mass: e.target.value})} /*10 or more number required*/
+                />
                 <br></br><select 
                     id="large" 
                     onChange={e => updateFormInput({ ...formInput, fragile: e.target.value})}
@@ -187,6 +193,7 @@ export default function CreateItem() {
                         <option value="Fragile">Fragile</option>
                         <option value="Non-Fragile">Non-Fragile</option>
                 </select>
+                
                 <input
                     type = "file"
                     name = "Asset"
