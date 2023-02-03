@@ -90,21 +90,21 @@ export default function Database() {
     else if (loadingState === 'loaded' & !filtered.length) return (
         <div>
             <div className = "flex flex-row space-x-[50px]" id="myBtnContainer">
-                <button className = "font-bold mt-4 bg-yellow-600 text-black rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("all")}> Show All</button>
-                <button className = "font-bold mt-4 bg-yellow-600 text-black rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("transit")}> In Transit</button>
-                <button className = "font-bold mt-4 bg-yellow-600 text-black rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("warehouse")}> In a Warehouse</button>
-                <button className = "font-bold mt-4 bg-yellow-600 text-black rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("completed")}> Completed</button>
+                <button className = "font-bold mt-4 bg-theme-red text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("all")}> Show All</button>
+                <button className = "font-bold mt-4 bg-theme-red text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("transit")}> In Transit</button>
+                <button className = "font-bold mt-4 bg-theme-red text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("warehouse")}> In a Warehouse</button>
+                <button className = "font-bold mt-4 bg-theme-red text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("completed")}> Completed</button>
             </div>
             <h1 className="py-10 px-20 text-3xl">Filtered Items are Empty</h1>
         </div>
     )
     return (
         <div>
-            <div className = "flex flex-row space-x-[50px]" id="myBtnContainer">
-                <button className = "font-bold mt-4 bg-yellow-600 text-black rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("all")}> Show All</button>
-                <button className = "font-bold mt-4 bg-yellow-600 text-black rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("transit")}> In Transit</button>
-                <button className = "font-bold mt-4 bg-yellow-600 text-black rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("warehouse")}> In a Warehouse</button>
-                <button className = "font-bold mt-4 bg-yellow-600 text-black rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("completed")}> Completed</button>
+            <div className = "flex flex-row space-x-[50px] " id="myBtnContainer">
+                <button className = "font-bold mt-4 bg-theme-red text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("all")}> Show All</button>
+                <button className = "font-bold mt-4 bg-theme-red text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("transit")}> In Transit</button>
+                <button className = "font-bold mt-4 bg-theme-red text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("warehouse")}> In a Warehouse</button>
+                <button className = "font-bold mt-4 bg-theme-red text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("completed")}> Completed</button>
             </div>
             <div className = "p-4">
                 <div className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
@@ -114,10 +114,10 @@ export default function Database() {
                             <div key = {i} className = "border shadow rounded-xl overflow-hidden">
                                 <img src = {nft.image} className = "rounded" />
                                 <div className = "p-4 bg-black">
-                                    <p className = "text-2xl font-bold text-white">Recipient Address: {nft.recAddress}</p>
-                                    <p className = "text-2xl font-bold text-white">Recipient Mobile: {nft.recNumber}</p>
+                                    <p className = "text-xl font-bold text-white">Recipient Address: {nft.recAddress}</p>
+                                    <p className = "text-xl font-bold text-white">Recipient Mobile: {nft.recNumber}</p>
                                     <Link
-                                        className="mr-6 text-pink-500"
+                                        className="mr-6 text-theme-red"
                                         href={`/detail-page?index=${nft.tokenId}`} // the data
                                         >Details
                                     </Link>

@@ -10,28 +10,28 @@ import Link from 'next/link'
 function MyApp({ Component, pageProps }) {
   return (
     
-    <div> 
+    <div className='font-serif'> 
     <nav className="border-b p-6">   {/*USING TAILWIND:  Border bottom and padding 6*/}
       <p className="text-4xl font-bold">Dreamcatchers Metaverse Market</p>
       <div className="flex mt-4">     {/**This div to hold link, mt-4 = Margin top 4 */}
-          <Link href="/" className="mr-4 text-theme-blue">
+          <Link href="/" className="mr-4 text-theme-red">
               Home
           </Link>
 
-          <Link href = "/create-item" className="mr-6 text-theme-blue">
+          <Link href = "/create-item" className="mr-6 text-theme-red">
               Sell Digital Asset
           </Link>
 
-          <Link href = "/my-assets" className = "mr-6 text-theme-blue">
+          <Link href = "/my-assets" className = "mr-6 text-theme-red">
               My Digital Assets
           </Link>
 
 
-          <Link href = "/request-list" className = "mr-6 text-theme-blue">
+          <Link href = "/request-list" className = "mr-6 text-theme-red">
               NFT Request List
           </Link>
 
-          <Link href = "/database" className = "mr-6 text-theme-blue">
+          <Link href = "/database" className = "mr-6 text-theme-red">
               Database
           </Link>
     </div>
