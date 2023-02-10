@@ -109,39 +109,45 @@ export default function MyAssets() {
     )
     return (
         <div className="flex justify-center">
-            <div className="p-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+            <div className="mx-10 my-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
                     {
                         nfts.map((nft, i) => (
-                            <div key={i} className="border shadow rounded-xl overflow-hidden">
-                                <div className="p-4 pg-black flex justify-end">
-                                    <button position="absolute" className="w-full bg-pink-500 text-white font-bold py-1 px-7 rounded" onClick={() => burnNft(nft.tokenId)}>Burn</button>
+                            <div key={i} className="grid grid-rows-1 border shadow rounded-xl overflow-hidden">
+                                <div className='row-start-1 relative'>
+                                    <a href={`/detail-page?index=${nft.tokenId}`}>
+                                        <div className='flex justify-end' >
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 absolute m-4 cursor-pointer">
+                                                <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd"
+                                                    href={`/detail-page?index=${nft.tokenId}`} />
+                                            </svg>
+                                        </div>
+                                    </a>
+                                    <img src={nft.image} className="rounded" />
+                                    <div className="bg-black absolute inset-x-0 bottom-0 ">
+                                        <p className="text-xs font-bold text-white m-2">Username: {nft.name}</p>
+                                        <p className="text-xs font-bold text-white m-2">Created on {nft.date}</p>
+                                        <p className="text-xs font-bold text-white m-2">Owners: </p>
+                                        {
+                                            nft.owners.map((owner, j) => (
+                                                (<p key={j} className="text-xs font-bold text-white m-2">- {owner}</p>)
+                                            ))
+                                        }
+                                    </div>
                                 </div>
-                                <img src={nft.image} className="rounded" />
-                                <div className="p-4 bg-black">
-                                    <p className="text-xs font-bold text-white">Username: {nft.name}</p>
-                                    <p className="text-xs font-bold text-white">Created on {nft.date}</p>
-                                    <p className="text-xs font-bold text-white">Owners: </p>
-                                    {
-                                        nft.owners.map((owner, j) => (
-                                            (<p key={j} className="text-xs font-bold text-white">- {owner}</p>)
-                                        ))
-                                    }
-                                </div>
-                                <div className="flex justify-center">
-                                    <br></br><select
+                                <div className="flex justify-center mx-4 my-5">
+                                    <select
                                         id="large"
                                         onChange={e => updateFormInput(e.target.value)}
-                                        className="block w-full px-4 py-3 text-base text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        className="block w-full text-base mx-3
+                                        text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500
+                                         focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+                                          dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <option value='' selected>Warehouse to be Sent</option>
                                         <option value='0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'>Account 3</option>
                                     </select>
-                                    <div className="p-4 pg-black flex justify-end">
-                                        <button className="w-quarter bg-pink-500 text-white font-bold py-1 px-4 rounded" onClick={() => requestNFT(nft)}>Request</button>
-                                        <Link
-                                            href={`/detail-page?index=${nft.tokenId}`} // the data
-                                        >Details
-                                        </Link>
+                                    <div className="pg-black flex justify-end">
+                                        <button className="w-quarter bg-theme-blue text-white font-bold py-1 px-4 rounded" onClick={() => requestNFT(nft)}>Request</button>
                                     </div>
                                 </div>
                             </div>

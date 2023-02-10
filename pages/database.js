@@ -89,24 +89,26 @@ export default function Database() {
     )
     else if (loadingState === 'loaded' & !filtered.length) return (
         <div>
-            <div className="flex flex-row space-x-[50px]" id="myBtnContainer">
-                <button className="font-bold mt-4 bg-theme-red text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("all")}> Show All</button>
-                <button className="font-bold mt-4 bg-theme-red text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("transit")}> In Transit</button>
-                <button className="font-bold mt-4 bg-theme-red text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("warehouse")}> In a Warehouse</button>
-                <button className="font-bold mt-4 bg-theme-red text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("completed")}> Completed</button>
+            <div className="flex flex-row space-x-[50px] mx-10" id="myBtnContainer">
+                <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("all")}> Show All</button>
+                <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("transit")}> In Transit</button>
+                <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("warehouse")}> In a Warehouse</button>
+                <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("completed")}> Completed</button>
             </div>
-            <h1 className="py-10 px-20 text-3xl">Filtered Items are Empty</h1>
+            <div className='mx-10 my-5'>
+                <h1 className="py-10 px-20 text-3xl">Filtered Items are Empty</h1>
+            </div>
         </div>
     )
     return (
         <div>
-            <div className="flex flex-row space-x-[50px] " id="myBtnContainer">
-                <button className="font-bold mt-4 bg-theme-red text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("all")}> Show All</button>
-                <button className="font-bold mt-4 bg-theme-red text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("transit")}> In Transit</button>
-                <button className="font-bold mt-4 bg-theme-red text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("warehouse")}> In a Warehouse</button>
-                <button className="font-bold mt-4 bg-theme-red text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("completed")}> Completed</button>
+            <div className="flex flex-row space-x-[50px] mx-10" id="myBtnContainer">
+                <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("all")}> Show All</button>
+                <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("transit")}> In Transit</button>
+                <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("warehouse")}> In a Warehouse</button>
+                <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("completed")}> Completed</button>
             </div>
-            <div className="p-4">
+            <div className="mx-10 my-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-4">
                     {
                         filtered.map((nft, i) => (
