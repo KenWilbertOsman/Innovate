@@ -107,11 +107,10 @@ export default function Database() {
                 <button className="font-bold mt-4 bg-theme-red text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("completed")}> Completed</button>
             </div>
             <div className="p-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-4">
                     {
-
                         filtered.map((nft, i) => (
-                            <div key={i} className="border shadow rounded-xl overflow-hidden">
+                            <div key={i} className="border shadow rounded-xl overflow-hidden relative">
                                 <a href={`/detail-page?index=${nft.tokenId}`}>
                                     <div className='flex justify-end' >
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 absolute m-4 cursor-pointer">
@@ -121,7 +120,7 @@ export default function Database() {
                                     </div>
                                 </a>
                                 <img src={nft.image} className="rounded" />
-                                <div className="p-4 bg-black">
+                                <div className="p-4 bg-black absolute inset-x-0 bottom-0" >
                                     <p className="text-xl font-bold text-white">Recipient Address: {nft.recAddress}</p>
                                     <p className="text-xl font-bold text-white">Recipient Mobile: {nft.recNumber}</p>
                                 </div>
