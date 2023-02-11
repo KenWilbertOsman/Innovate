@@ -106,8 +106,8 @@ export default function RequestList() {
                         nfts.map((nft, i) => (
                             <div key={i} className="grid grid-rows-1 border shadow rounded-xl overflow-hidden ">
                                 <div className="row-start-1 relative">
-                                    <img src={nft.image} className="rounded inline-block" />
-                                    <div className="bg-black absolute inset-x-0 bottom-0 ">
+                                    <img src={nft.image} class="rounded object-fill h-96 w-full" />
+                                    <div className="bg-black inset-x-0 bottom-0 ">
                                         <p className="text-xs font-bold text-white m-2 ">Seller:  </p>
                                         <p className="text-xs font-bold text-white m-2 break-words ">{nft.seller}</p>
                                         <p className="text-xs font-bold text-white m-2">Owners:</p>

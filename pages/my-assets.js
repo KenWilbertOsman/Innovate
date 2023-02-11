@@ -123,8 +123,10 @@ export default function MyAssets() {
                                             </svg>
                                         </div>
                                     </a>
-                                    <img src={nft.image} className="rounded" />
-                                    <div className="bg-black absolute inset-x-0 bottom-0 ">
+                                
+                                    <img src={nft.image} class="rounded object-fill h-96 w-full" />
+                                    
+                                    <div className="bg-black inset-x-0 bottom-0">
                                         <p className="text-xs font-bold text-white m-2">Username: {nft.name}</p>
                                         <p className="text-xs font-bold text-white m-2">Created on {nft.date}</p>
                                         <p className="text-xs font-bold text-white m-2">Owners: </p>

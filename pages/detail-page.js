@@ -34,7 +34,7 @@ export default function Detail() {
         const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
 
         const index = parseInt(data['index'])
-        console.log(index)
+        // console.log(index)
         const nftDetail = await marketContract.fetchNFT(index)
 
         const items = await Promise.all(nftDetail.map(async i => {
@@ -58,7 +58,7 @@ export default function Detail() {
             return item
         }))
 
-        console.log(items)
+        // console.log(items)
         setNfts(items)
 
 
