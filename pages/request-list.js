@@ -113,12 +113,12 @@ export default function RequestList() {
                                         <p className="text-xs font-bold text-white m-2">Owners:</p>
                                         {
                                             nft.owners.map((owner, j) => (
-                                                (<p key={j} className="text-xs font-bold text-white m-2 break-words">{owner}</p>)
+                                                (<p key={j} className="text-xs font-bold text-white m-2 break-words"> - {owner}</p>)
                                             ))
                                         }
                                     </div>
                                 </div>
-                                <div className="flex justify-center inset-x-0 bottom-0">
+                                <div className="flex justify-center inset-x-0 bottom-0 overflow-y-auto h-20">
                                     <button className="w-half bg-green-500 text-white font-bold py-2 px-11 mx-2 my-4 rounded" onClick={() => acceptRequestedNft(nft)}>Accept</button>
                                     <button className="w-half bg-theme-red text-white font-bold py-2 px-11 mx-2 my-4 rounded" onClick={() => declineRequestedNft(nft)}>Delete</button>
                                 </div>

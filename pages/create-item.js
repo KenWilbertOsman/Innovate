@@ -10,7 +10,7 @@ import { create as ipfsHttpClient } from 'ipfs-http-client'
 //to route to different route'
 import { useRouter } from 'next/router'
 import Web3Modal from 'web3modal'
-
+import {sha1} from 'crypto-hash' 
 
 //These keys are from https://www.youtube.com/watch?v=QyYEEXNq7r0
 //There are no free version for ipfs infura already, its youtuber didnt hide the keys lol
@@ -45,7 +45,7 @@ import Market from '../artifacts/contracts/NFT.sol/NFT.json'
 export default function CreateItem() {
 
     const [fileUrl, setFileUrl] = useState(null)
-    const [formInput, updateFormInput] = useState({ username: '', useraddress: '', userphone: '', recname: '', recphone: '', recaddress: '', fragile: '', mass: '' })
+    const [formInput, updateFormInput] = useState({ username: '', useraddress: '', userphone: '', recname: '', recphone: '', recaddress: '', fragile: '', mass: '', hash:'' })
     const router = useRouter()
     const [price, setPrice] = useState("0")
 
@@ -75,18 +75,27 @@ export default function CreateItem() {
 
 
     async function createItem() {
-        const { username, useraddress, userphone, recname, recaddress, recphone, fragile, mass } = formInput
-        const date = new Date()
+        const { username, useraddress, userphone, recname, recaddress, recphone, fragile, mass} = formInput
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        const fullDate = new Date();
+        let month = months[fullDate.getMonth()];
+        let dates = fullDate.getDate();
+        let year = fullDate.getFullYear();
+        
+        let date = `${month} ${dates}, ${year}`
+        
+        
+        const hash = await sha1(username)
         if (!username || !useraddress || !userphone || !recname || !recaddress || !recphone || !fragile || !fileUrl || !mass) return
         const data = JSON.stringify({
-            username, useraddress, userphone, recname, recaddress, recphone, fragile, image: fileUrl, date, mass
+            username, useraddress, userphone, recname, recaddress, recphone, fragile, image: fileUrl, date, mass, hash
         })
-
         try {
             const added = await client.add(data)
             const url = `${dedicateEndPoint}/${added.path}`
             /*after file is uploaded to IPFS, pass the URL to save it on Polygon*/
-            createSale(url)
+           createSale(url)
         } catch (error) {
             console.log('Error uploading file: ', error)
         }

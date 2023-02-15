@@ -1,5 +1,4 @@
-import {useEffect, useState} from 'react' //to keep with local state
-import Link from 'next/link'
+import {useState} from 'react' //to keep with local state
 import { useRouter } from 'next/router'
 
 export default function UserTracking() {
@@ -8,7 +7,7 @@ export default function UserTracking() {
 
     async function userTrack() {
         const {hash} = formInput
-        router.push(`/user-detail?index=${hash}`)
+        router.push(`/user-detail?h=${hash}`)
     }
   
     return ( 

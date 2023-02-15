@@ -24,8 +24,8 @@ export default function Database() {
     //this is to call the loadnft once when the page is loaded
     useEffect(() => {
         loadNFTs();
-        filterNFT("all");
     }, [])
+
 
     //this is to load the nft into the screen
     async function loadNFTs() {
@@ -63,6 +63,7 @@ export default function Database() {
 
         //this is to set the variable "nfts" with items
         setNfts(items)
+        setFiltered(items)
         setLoadingState('loaded')
 
     }
@@ -81,7 +82,7 @@ export default function Database() {
         else if (c == "completed") {
             setFiltered(nfts.filter(i => i.completed))
         }
-
+        
     }
 
     if (loadingState === 'loaded' && !nfts.length) return (
@@ -122,9 +123,10 @@ export default function Database() {
                                     </div>
                                 </a>
                                 <img src={nft.image} class="rounded object-fill h-96 w-screen"/>
-                                <div className="p-4 bg-black inset-x-0 bottom-0" >
+                                <div className="p-4 bg-black inset-x-0 bottom-0 overflow-y-auto h-24" >
                                     <p className="text-xl font-bold text-white">Recipient Address: {nft.recAddress}</p>
                                     <p className="text-xl font-bold text-white">Recipient Mobile: {nft.recNumber}</p>
+                                         
                                 </div>
                             </div>
                         ))

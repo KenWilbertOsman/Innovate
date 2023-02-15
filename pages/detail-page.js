@@ -48,11 +48,14 @@ export default function Detail() {
                 owner: i.owner,
                 image: meta.data.image,
                 name: meta.data.username,
-                address: meta.data.useraddress,
+                address: meta.data.recaddress,
                 fragile: meta.data.fragile,
                 date: meta.data.date,
                 owners: i.warehouses,
-                mass: meta.data.mass
+                mass: meta.data.mass,
+                userphone: meta.data.userphone,
+                recname:meta.data.recname,
+                recphone: meta.data.recphone  
 
             }
             return item
@@ -69,20 +72,27 @@ export default function Detail() {
                 <div className="grid grid-cols-2 gap-4 p-4">
                     {
                         nfts.map((nft, i) => (
-                            <div key={i} >
-                                {<div className="text-3xl">Token ID: {nft.tokenId}</div>}
+                            <div key={i}>
+                                <div className="text-2xl">Token ID: {nft.tokenId}</div>
+                                
                             </div>
                         ))
                     }
-                    <div className='text-xl flex flex-row text-end justify-center'>
+
+                    {
+                        nfts.map((nft, i) => (
+                        <div key = {i} className='text-xl flex flex-row text-end justify-center'>
                         <div className='justify-items-end basis-1/2'>Mass:
-                            <span className='mx-4' id="mass">X</span>kg
+                            <span className='mx-4' id="mass">{nft.mass}</span>kg
                         </div>
                         <div className='basis-1/2'> Fragile
                             <input type="checkbox" disabled="disabled" checked="checked"
                                 className='h-5 w-5 mx-4 justify-center' id="isFragile"></input>
                         </div>
-                    </div>
+                        </div>  
+                        ))
+                    }
+
                     {
                         nfts.map((nft, i) => (
                             <div key={i} className="col-span-1 border shadow rounded-xl overflow-hidden">
@@ -90,27 +100,30 @@ export default function Detail() {
                             </div>
                         ))
                     }
+                    
+                    {
+                        nfts.map((nft,i) => (
                     <div className='m-4'>
                         <h1 className='text-theme-peach text-2xl font-semibold tracking-wide'>Sender Details</h1>
                         <div className='leading-loose my-2'>
                             <div className='flex flex-row'>
                                 <div className='basis-1/2'>Sender Username</div>
                                 <div className='basis-1/2 '>
-                                    <span className='float-right'>Ken Wilbert Osman
+                                    <span className='float-right'>{nft.name}
                                     </span>
                                 </div>
                             </div>
                             <div className='flex flex-row'>
                                 <div className='basis-1/2'>Sender Phone No</div>
                                 <div className='basis-1/2 '>
-                                    <span className='float-right'>012-3246910
+                                    <span className='float-right'>{nft.userphone}
                                     </span>
                                 </div>
                             </div>
                             <div className='flex flex-row'>
                                 <div className='basis-1/2'>Sent Date</div>
                                 <div className='basis-1/2 '>
-                                    <span className='float-right'>14 Nov 2022
+                                    <span className='float-right'>{nft.date}
                                     </span>
                                 </div>
                             </div>
@@ -120,26 +133,28 @@ export default function Detail() {
                             <div className='flex flex-row'>
                                 <div className='basis-1/2'>Recipient Username</div>
                                 <div className='basis-1/2 '>
-                                    <span className='float-right'>Miyazaki Nanako
+                                    <span className='float-right'>{nft.recname}
                                     </span>
                                 </div>
                             </div>
                             <div className='flex flex-row'>
                                 <div className='basis-1/2'>Recipient Address</div>
                                 <div className='basis-1/2 '>
-                                    <span className='float-right'>Tokyo, Japan
+                                    <span className='float-right'>{nft.address}
                                     </span>
                                 </div>
                             </div>
                             <div className='flex flex-row'>
                                 <div className='basis-1/2'>Recipient Phone No</div>
                                 <div className='basis-1/2 '>
-                                    <span className='float-right'>02-32469103
+                                    <span className='float-right'>{nft.recphone}
                                     </span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                        ))
+                    }
                 </div>
             </div>
             <div className='mt-10 mx-5'>
