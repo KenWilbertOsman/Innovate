@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
     
     <div className='font-serif'> 
     <nav className="border-b p-6">   {/*USING TAILWIND:  Border bottom and padding 6*/}
-      <p className="text-4xl font-bold">Dreamcatchers Metaverse Market</p>
+      <p className="text-4xl font-bold">Dreamcatchers</p>
       <div className="flex mt-4">     {/**This div to hold link, mt-4 = Margin top 4 */}
           <Link href="/" className="mr-4 text-theme-peach">
               Home
@@ -34,6 +34,11 @@ function MyApp({ Component, pageProps }) {
           <Link href = "/database" className = "mr-6 text-theme-peach">
               Database
           </Link>
+
+          <Link href = "/user-tracking" className = "mr-6 text-theme-peach">
+              User Tracking Page
+          </Link>
+
     </div>
 
     </nav>

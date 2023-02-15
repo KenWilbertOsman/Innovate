@@ -124,7 +124,7 @@ export default function MyAssets() {
                                         </div>
                                     </a>
                                 
-                                    <img src={nft.image} class="rounded object-fill h-96 w-full" />
+                                    <img src={nft.image} class="rounded object-fill h-96 w-screen" />
                                     
                                     <div className="bg-black inset-x-0 bottom-0">
                                         <p className="text-xs font-bold text-white m-2">Username: {nft.name}</p>

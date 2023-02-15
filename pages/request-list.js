@@ -106,7 +106,7 @@ export default function RequestList() {
                         nfts.map((nft, i) => (
                             <div key={i} className="grid grid-rows-1 border shadow rounded-xl overflow-hidden ">
                                 <div className="row-start-1 relative">
-                                    <img src={nft.image} class="rounded object-fill h-96 w-full" />
+                                    <img src={nft.image} class="rounded object-fill h-96 w-screen" />
                                     <div className="bg-black inset-x-0 bottom-0 ">
                                         <p className="text-xs font-bold text-white m-2 ">Seller:  </p>
                                         <p className="text-xs font-bold text-white m-2 break-words ">{nft.seller}</p>
@@ -120,7 +120,7 @@ export default function RequestList() {
                                 </div>
                                 <div className="flex justify-center inset-x-0 bottom-0">
                                     <button className="w-half bg-green-500 text-white font-bold py-2 px-11 mx-2 my-4 rounded" onClick={() => acceptRequestedNft(nft)}>Accept</button>
-                                    <button className="w-half bg-theme-red text-white font-bold py-2 px-11 mx-2 my-4 rounded" onClick={() => { declineRequestedNft(nft) }}>Delete</button>
+                                    <button className="w-half bg-theme-red text-white font-bold py-2 px-11 mx-2 my-4 rounded" onClick={() => declineRequestedNft(nft)}>Delete</button>
                                 </div>
                             </div>
                         ))

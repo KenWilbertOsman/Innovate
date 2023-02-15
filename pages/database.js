@@ -121,7 +121,7 @@ export default function Database() {
                                         </svg>
                                     </div>
                                 </a>
-                                <img src={nft.image} class="rounded object-fill h-96 w-full"/>
+                                <img src={nft.image} class="rounded object-fill h-96 w-screen"/>
                                 <div className="p-4 bg-black inset-x-0 bottom-0" >
                                     <p className="text-xl font-bold text-white">Recipient Address: {nft.recAddress}</p>
                                     <p className="text-xl font-bold text-white">Recipient Mobile: {nft.recNumber}</p>
