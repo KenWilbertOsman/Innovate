@@ -56,13 +56,15 @@ export default function Database() {
                 date: meta.data.date,
                 recAddress: meta.data.recaddress,
                 recNumber: meta.data.recphone,
-                mass: meta.data.mass
+                mass: meta.data.mass,
+                hash: meta.data.hash
             }
             return item
         }))
 
         //this is to set the variable "nfts" with items
         setNfts(items)
+        console.log(items)
         setFiltered(items)
         setLoadingState('loaded')
 

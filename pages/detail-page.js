@@ -95,8 +95,8 @@ export default function Detail() {
 
                     {
                         nfts.map((nft, i) => (
-                            <div key={i} className="col-span-1 border shadow rounded-xl overflow-hidden">
-                                <img src={nft.image} className="rounded" />
+                            <div key={i} className="col-span-1 border shadow rounded-xl overflow-hidden w-full h-96">
+                                <img src={nft.image} className="rounded w-full h-full" />
                             </div>
                         ))
                     }
