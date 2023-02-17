@@ -48,6 +48,8 @@ export default function CreateItem() {
     const [formInput, updateFormInput] = useState({ username: '', useraddress: '', userphone: '', recname: '', recphone: '', recaddress: '', fragile: '', mass: '', hash:'' })
     const router = useRouter()
     const [price, setPrice] = useState("0")
+    const [popup, setPopup] = useState(false)
+    const [hash, setHash] = useState("")
 
     //this asynchronous function is to upload the image into the url
     async function onChange(e) {
@@ -86,7 +88,7 @@ export default function CreateItem() {
         let date = `${month} ${dates}, ${year}`
         
         
-        const hash = await sha1(username)
+        setHash(await sha1(username))
         if (!username || !useraddress || !userphone || !recname || !recaddress || !recphone || !fragile || !fileUrl || !mass) return
         const data = JSON.stringify({
             username, useraddress, userphone, recname, recaddress, recphone, fragile, image: fileUrl, date, mass, hash
@@ -118,8 +120,9 @@ export default function CreateItem() {
         listingPrice = listingPrice.toString()
         let transaction = await contract.createToken(url, prices, account4Address, { value: listingPrice })
         await transaction.wait()
+        
+        setPopup(true)
 
-        router.push('/')
         // //create the token
         // //@see NFT.sol
         // let transaction = await contract.createToken(url)
@@ -148,9 +151,30 @@ export default function CreateItem() {
         // router.push('/')
     }
 
+    async function userDone(){
+        setPopup(false)
+        router.push('/create-item')
+    }
+
 
     //Here will have to update the formInput into recipent address, fragile status. 
     //I suppose price is not needed, but it is used in many files currently
+    if (popup) return (
+        <div className='mx-20 mt-20'>
+        <div className = "flex flex-col items-center rounded-lg shadow-xl h-4/6">
+            <h1 className = "text-base mt-2 mx-4 text-black font-semibold text-center text-6xl py-6">
+                Here is Your Tracking Number
+            </h1>
+            <h3 class="text-center text-theme-blue font-bold text-5xl py-20 "> {hash}</h3>
+            <button 
+            className = " my-5 w-48 mx-10 h-12 bg-theme-peach text-white rounded-md hover:shadow-lg font-sans"
+            onClick = {userDone}>
+            Done
+            </button>
+        </div>
+        </div>
+
+    )
     return (
         <div className="flex justify-center">
             <div className="w-1/2 flex flex-col pb-12">
@@ -170,6 +194,7 @@ export default function CreateItem() {
                     className="mt-2 border rounded p-4"
                     pattern="[0-9].{9,}" required
                     onChange={e => updateFormInput({ ...formInput, userphone: e.target.value })} /*10 or more number required*/
+                    
                 />
                 <input
                     placeholder="Recipient Name"
@@ -216,6 +241,8 @@ export default function CreateItem() {
                     fileUrl && (
                         <img className="rounded mt-4" width="w-full" src={fileUrl} />
                     )
+                    
+                    
                 }
                 <button
                     onClick={createItem}

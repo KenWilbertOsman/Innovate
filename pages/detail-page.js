@@ -73,7 +73,7 @@ export default function Detail() {
                     {
                         nfts.map((nft, i) => (
                             <div key={i}>
-                                <div className="text-2xl">Token ID: {nft.tokenId}</div>
+                                <div className="text-2xl">No. {nft.tokenId}</div>
                                 
                             </div>
                         ))
@@ -85,10 +85,8 @@ export default function Detail() {
                         <div className='justify-items-end basis-1/2'>Mass:
                             <span className='mx-4' id="mass">{nft.mass}</span>kg
                         </div>
-                        <div className='basis-1/2'> Fragile
-                            <input type="checkbox" disabled="disabled" checked="checked"
-                                className='h-5 w-5 mx-4 justify-center' id="isFragile"></input>
-                        </div>
+                        <div className='basis-1/2 font-bold uppercase mx-3'>{nft.fragile} <span class = "font-normal">Parcel</span>
+                </div>
                         </div>  
                         ))
                     }
