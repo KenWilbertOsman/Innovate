@@ -94,7 +94,6 @@ export default function CreateItem() {
         try {
             const added = await client.add(data)
             const url = `${dedicateEndPoint}/${added.path}`
-            console.log(data)
             /*after file is uploaded to IPFS, pass the URL to save it on Polygon*/
            createSale(url)
         } catch (error) {
