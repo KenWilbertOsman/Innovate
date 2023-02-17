@@ -59,13 +59,14 @@ export default function Detail() {
         }))
 
         setNfts(items)
-        
+
     }
     return (
         <div className='mx-20 mt-20 mb-44'>
             <div className="font-serif box-border border-4 items-center justify-center">
                 <div className="grid grid-cols-2 gap-4 p-4">
-                    <div></div>
+                    <div className="text-xl">Token Id
+                    </div>
                     {/* {
                         nfts.map((nft, i) => (
                             <div key={i} >
@@ -82,14 +83,9 @@ export default function Detail() {
                                 className='h-5 w-5 mx-4 justify-center' id="isFragile"></input>
                         </div>
                     </div>
-                    <div></div>
-                    {/* {
-                        nfts.map((nft, i) => (
-                            <div key={i} className="col-span-1 border shadow rounded-xl overflow-hidden">
-                                <img src={nft.image} className="rounded" />
-                            </div>
-                        ))
-                    } */}
+                    <div className="col-span-1 rounded-xl overflow-hidden">
+                        <img src='https://developers.google.com/static/maps/images/landing/hero_maps_static_api.png'></img>
+                    </div>
                     <div className='m-4'>
                         <h1 className='text-theme-peach text-2xl font-semibold tracking-wide'>Sender Details</h1>
                         <div className='leading-loose my-2'>
@@ -199,8 +195,8 @@ export default function Detail() {
                     </div>
                 </div>
             </div>
-            
+
         </div>
-        
+
     )
 }
