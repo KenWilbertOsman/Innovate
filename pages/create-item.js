@@ -3,6 +3,7 @@
 
 import { useState } from 'react'
 import { ethers } from 'ethers'
+import LogoNavbar from "../components/LogoNavbar";
 
 //to interact with ipfs, uploading and downloading files
 import { create as ipfsHttpClient } from 'ipfs-http-client'
@@ -49,7 +50,8 @@ export default function CreateItem() {
     const router = useRouter()
     const [price, setPrice] = useState("0")
     const [popup, setPopup] = useState(false)
-    const [hash, setHash] = useState("")
+    const [hashed, setHashed] = useState("")
+    const [loadingState, setLoadingState] = useState("not-loaded")
 
     //this asynchronous function is to upload the image into the url
     async function onChange(e) {
@@ -87,8 +89,7 @@ export default function CreateItem() {
         
         let date = `${month} ${dates}, ${year}`
         
-        
-        setHash(await sha1(username))
+        let hash = await sha1(username)
         if (!username || !useraddress || !userphone || !recname || !recaddress || !recphone || !fragile || !fileUrl || !mass) return
         const data = JSON.stringify({
             username, useraddress, userphone, recname, recaddress, recphone, fragile, image: fileUrl, date, mass, hash
@@ -101,6 +102,9 @@ export default function CreateItem() {
         } catch (error) {
             console.log('Error uploading file: ', error)
         }
+
+        setLoadingState("loaded")
+        setHashed(hash)
     }
 
     //put the nft into sale or market
@@ -122,7 +126,6 @@ export default function CreateItem() {
         await transaction.wait()
         
         setPopup(true)
-
         // //create the token
         // //@see NFT.sol
         // let transaction = await contract.createToken(url)
@@ -159,13 +162,13 @@ export default function CreateItem() {
 
     //Here will have to update the formInput into recipent address, fragile status. 
     //I suppose price is not needed, but it is used in many files currently
-    if (popup) return (
+    if (popup && loadingState == "loaded") return (
         <div className='mx-20 mt-20'>
         <div className = "flex flex-col items-center rounded-lg shadow-xl h-4/6">
             <h1 className = "text-base mt-2 mx-4 text-black font-semibold text-center text-6xl py-6">
                 Here is Your Tracking Number
             </h1>
-            <h3 class="text-center text-theme-blue font-bold text-5xl py-20 "> {hash}</h3>
+            <h3 class="text-center text-theme-blue font-bold text-5xl py-20 "> {hashed}</h3>
             <button 
             className = " my-5 w-48 mx-10 h-12 bg-theme-peach text-white rounded-md hover:shadow-lg font-sans"
             onClick = {userDone}>
@@ -176,6 +179,8 @@ export default function CreateItem() {
 
     )
     return (
+        <div className='font-serif'> 
+        <LogoNavbar/>
         <div className="flex justify-center">
             <div className="w-1/2 flex flex-col pb-12">
                 <input
@@ -251,6 +256,7 @@ export default function CreateItem() {
                     Create Digital Asset
                 </button>
             </div>
+        </div>
         </div>
     )
 

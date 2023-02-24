@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
 import { useRouter } from 'next/router'
-
+import WarehouseNavbar from "../components/WarehouseNavbar"
 
 import {
     nftmarketaddress, nftaddress
@@ -96,9 +96,14 @@ export default function RequestList() {
     }
 
     if (loadingState === 'loaded' && !nfts.length) return (
+        <div className='font-serif'> 
+        <WarehouseNavbar/>
         <h1 className="py-10 px-20 text-3xl">No NFT requested to you</h1>
+        </div>
     )
     return (
+        <div className='font-serif'> 
+        <WarehouseNavbar/>
         <div className="flex justify-center">
             <div className="mx-10 my-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
@@ -129,6 +134,7 @@ export default function RequestList() {
 
             </div>
 
+        </div>
         </div>
     )
 }

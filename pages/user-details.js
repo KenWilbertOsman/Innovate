@@ -7,6 +7,7 @@ import {
     nftmarketaddress, nftaddress
 } from '../config'
 import Market from '../artifacts/contracts/NFT.sol/NFT.json'
+import LogoNavbar from "../components/LogoNavbar"
 
 export default function Detail() {
     const router = useRouter();
@@ -60,9 +61,14 @@ export default function Detail() {
 
     }
     if (loadingState === 'loaded' && !nfts.length) return (
+        <div className='font-serif'> 
+        <LogoNavbar/>
         <h1 className="py-10 px-20 text-3xl">Tracking Number Not Found</h1>
+        </div>
     )
     return (
+    <div className='font-serif'> 
+    <LogoNavbar/>
     <div className='mx-20 mt-20'>
     <div className="font-serif box-border border-4 items-center justify-center">
         <div className="grid grid-cols-2 gap-4 p-4">
@@ -274,6 +280,7 @@ export default function Detail() {
         </div>
     </div>
 </footer>
+</div>
 </div>
 </div>
 )

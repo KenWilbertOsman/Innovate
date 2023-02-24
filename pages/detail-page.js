@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import Web3Modal from 'web3modal'
 import axios from 'axios'
 import { ethers } from 'ethers'
+import LogoNavbar from "../components/LogoNavbar"
 
 
 import {
@@ -67,6 +68,8 @@ export default function Detail() {
 
     }
     return (
+        <div className='font-serif'> 
+        <LogoNavbar/>
         <div className='mx-20 mt-20 mb-44'>
             <div className="font-serif box-border border-4 items-center justify-center">
                 <div className="grid grid-cols-2 gap-4 p-4">
@@ -212,6 +215,7 @@ export default function Detail() {
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     )
 }

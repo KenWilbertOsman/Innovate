@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from "web3modal"
 import Link from "next/link"
+import LogoNavbar from '../components/LogoNavbar'
 
 import {
     nftmarketaddress, nftaddress
@@ -104,6 +105,8 @@ export default function Database() {
         </div>
     )
     return (
+        <div className='font-serif'> 
+        <LogoNavbar/>
         <div>
             <div className="flex flex-row space-x-[50px] mx-10" id="myBtnContainer">
                 <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("all")}> Show All</button>
@@ -135,6 +138,7 @@ export default function Database() {
                     }
                 </div>
             </div>
+        </div>
         </div>
     )
 

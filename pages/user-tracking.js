@@ -1,5 +1,6 @@
 import {useState} from 'react' //to keep with local state
 import { useRouter } from 'next/router'
+import LogoNavbar from "../components/LogoNavbar"
 
 export default function UserTracking() {
     const [formInput, updateFormInput] = useState({hash: ''})
@@ -11,6 +12,9 @@ export default function UserTracking() {
     }
   
     return ( 
+        
+    <div className='font-serif'> 
+    <LogoNavbar/>
       <div>
       <div className= "flex justify-center">
         <div className="w-1/2 flex flex-col m-12">
@@ -96,6 +100,7 @@ export default function UserTracking() {
         </div>
     </div>
 </footer>
+  </div>
   </div>
   </div>
     )

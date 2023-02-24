@@ -11,6 +11,7 @@ import Web3Modal from 'web3modal'
 import { useRouter } from 'next/router'
 //import {BrowserRouter, Routes, Route, Navigate, Link} from 'next/router'
 import Link from 'next/link'
+import WarehouseNavbar from "../components/WarehouseNavbar"
 
 
 import {
@@ -105,9 +106,15 @@ export default function MyAssets() {
 
 
     if (loadingState === 'loaded' && !nfts.length) return (
+        
+        <div className='font-serif'> 
+        <WarehouseNavbar/>
         <h1 className="py-10 px-20 text-3xl">No assets owned</h1>
+        </div>
     )
     return (
+        <div className='font-serif'> 
+        <WarehouseNavbar/>
         <div className="flex justify-center">
             <div className="mx-10 my-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
@@ -157,6 +164,7 @@ export default function MyAssets() {
                     }
                 </div>
             </div>
+        </div>
         </div>
     )
 } 
