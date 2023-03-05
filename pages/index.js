@@ -10,6 +10,7 @@ import {ethers} from 'ethers'
 import {useEffect, useState} from 'react' //to keep with local state
 import axios from 'axios' //data fetching library
 import Web3Modal from "web3modal"  //to connect to someone's ethereum wallet
+import WarehouseNavbar from "../components/WarehouseNavbar"  
 
 import {
   nftaddress, nftmarketaddress
@@ -82,7 +83,11 @@ export default function Home() {
   // }
 
   if (loadingState === 'loaded' && !nfts.length) return (
-    <h1 className = " px-20 py-10 text-4xl"> Home Page Design goes here</h1>)
+    <div className='font-serif'> 
+    <WarehouseNavbar/>
+    <h1 className = " px-20 py-10 text-4xl"> Home Page Design goes here</h1>
+    </div>
+  )
   return (
     <div className= "flex justify-center">
        <div className = "px-4" style= {{ maxWidth: '1600px'}}>

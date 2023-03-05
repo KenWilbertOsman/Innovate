@@ -89,9 +89,14 @@ export default function Database() {
     }
 
     if (loadingState === 'loaded' && !nfts.length) return (
+        <div className='font-serif'> 
+        <LogoNavbar/>
         <h1 className="py-10 px-20 text-3xl">No Items Created</h1>
+        </div>
     )
     else if (loadingState === 'loaded' & !filtered.length) return (
+        <div className='font-serif'> 
+        <LogoNavbar/>
         <div>
             <div className="flex flex-row space-x-[50px] mx-10" id="myBtnContainer">
                 <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("all")}> Show All</button>
@@ -102,6 +107,7 @@ export default function Database() {
             <div className='mx-10 my-5'>
                 <h1 className="py-10 px-20 text-3xl">Filtered Items are Empty</h1>
             </div>
+        </div>
         </div>
     )
     return (
