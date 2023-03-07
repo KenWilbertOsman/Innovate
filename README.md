@@ -22,4 +22,7 @@ npx hardhat run scripts/deploy.js
 npx hardhat test
 
 
+# Packages
+yarn add ethers@5.7.2 hardhat@2.12.4 @nomiclabs/hardhat-waffle@2.0.3 ethereum-waffle@3.4.4 chai@4.3.7 @nomiclabs/hardhat-ethers@2.2.1 web3modal axios  @openzeppelin/contracts ipfs-http-client crypto-hash react-icons next-auth formik
 
+yarn add -D tailwindcss@3.2.4 postcss@8.4.20 autoprefixer@10.4.13

@@ -1,16 +1,13 @@
 //- _app.js => the dashboard where you can pick either create nft, check ur own collection, etc
 import '../styles/globals.css'
-// import Navbar from "../components/"
+import {SessionProvider} from 'next-auth/react'
 
-// The import link is to be able to link to other page
-import Link from 'next/link'
-
-
-
-
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps}) {
   return (
-    <Component {...pageProps} /> 
+    <SessionProvider session={pageProps.session}> 
+      <Component {...pageProps} /> 
+    </SessionProvider>
+    
   )
 }
 
