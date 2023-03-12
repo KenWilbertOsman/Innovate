@@ -6,9 +6,12 @@ import {useState} from 'react';
 import Link from 'next/link'
 import {useFormik} from 'formik'
 import {registerValidate} from '../lib/validate'
+import {useRouter} from 'next/router'
 
 export default function Register(){ 
+    const [dataError, setDataError] = useState(false)
     const [show, setShow] = useState({password:false, cpassword:false})
+    const router = useRouter()
     const formik = useFormik({
         initialValues:{
             username:'',
@@ -20,10 +23,29 @@ export default function Register(){
         onSubmit
     })
 
-    console.log(formik.errors)
 
     async function onSubmit(values){
-        console.log(values)
+        const option = {
+            method: "POST",
+            headers:{'Content-Type': 'application/json'},
+            body:JSON.stringify(values)
+            
+        }
+
+        await fetch('http://localhost:3000/api/auth/signup', option)
+            .then((res) => {
+                if(res.ok){
+                    router.push('http://localhost:3000/login')
+                }
+                else{
+                    setDataError(true)
+                    res.json()
+                }
+                })
+            // .then(data => console.log(data))
+            // .then(()=>{ router.push('http://localhost:3000')
+            // })
+
     }
 
 
@@ -37,7 +59,10 @@ export default function Register(){
         <section className='w-3/4 mx-auto flex flex-col gap-10'>
                 <div className = "title">
                     <h1 className = "text-gray-800 text-4xl font-bold py-4"> Register </h1>
-                    <p className= ' mx-auto-text-gray-400'> ..........</p>
+                    
+                    <p className= ' mx-auto-text-gray-400'>Please Provide All Information</p><br></br>
+                    {dataError ? <span className = "text-rose-500 text-xl flex justify-center">User Already Exists</span> : <></>}
+                
                 </div>
 
                 {/* form */}
@@ -96,7 +121,7 @@ export default function Register(){
                             <HiEye size = {25}/>
                         </span>
                     </div>
-                    {formik.errors.cpassword && formik.touched.cpassword? <span className = "text-rose-500 flex justify-start">{formik.errors.cpassword}</span> : <></>}
+                    {formik.errors.cpassword && formik.touched.cpassword ? <span className = "text-rose-500 flex justify-start">{formik.errors.cpassword}</span> : <></>}
                     
                     {/* login buttons */}
                     <div className="input-button">
@@ -104,7 +129,6 @@ export default function Register(){
                             Sign Up
                         </button>
                     </div>
-
                     </form>
                 {/* bottom */}
                 <p className='text-center text-gray-400'>

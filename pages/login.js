@@ -7,11 +7,13 @@ import {useState} from 'react';
 import { signIn, signOut} from 'next-auth/react'
 import {useFormik} from 'formik'
 import loginValidate from '../lib/validate'
+import {useRouter} from 'next/router'
 // https://react-icons.github.io/react-icons/
 
 
 export default function Login(){
     const [show, setShow] = useState(false)
+    const router = useRouter()
     //formik hoook
     const formik = useFormik({
         initialValues:{
@@ -21,16 +23,22 @@ export default function Login(){
         validate: loginValidate,
         onSubmit //if want use different function onSubmit: ....
     })
-    console.log(formik.errors)
 
     async function onSubmit(values){
-        console.log(values)
+        const status = await signIn('credentials', {
+            redirect: false,
+            email:values.email,
+            password: values.password,
+            callbackUrl: "/"
+        })
+
+        if (status.ok) router.push(status.url)
     }
 
 
     //Google Handler Function
     async function handleGoogleSignin(){
-        signIn('google', {callbackUrl: "http://localhost:3000   "})
+        signIn('google', {callbackUrl: "http://localhost:3000"})
 
     }
     

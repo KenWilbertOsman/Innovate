@@ -79,7 +79,7 @@ export async function getServerSideProps({req}){
       }
     }
   }
-
+  //authorize user return session
   return {
     props: {session}
   }

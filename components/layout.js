@@ -1,3 +1,4 @@
+//This is for the live image in the login and register page
 import styles from '../styles/Layout.module.css';
 
 export default function Layout ( {children}) {
