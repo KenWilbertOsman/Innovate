@@ -9,7 +9,7 @@ import {registerValidate} from '../lib/validate'
 import {useRouter} from 'next/router'
 
 export default function Register(){ 
-    const [dataError, setDataError] = useState(false)
+    const [dataError, setDataError] = useState('')
     const [show, setShow] = useState({password:false, cpassword:false})
     const router = useRouter()
     const formik = useFormik({
@@ -17,7 +17,9 @@ export default function Register(){
             username:'',
             email:'',
             password:'',
-            cpassword:''
+            cpassword:'',
+            role:'',
+            metamask:''
         },
         validate: registerValidate, 
         onSubmit
@@ -31,15 +33,13 @@ export default function Register(){
             body:JSON.stringify(values)
             
         }
-
         await fetch('http://localhost:3000/api/auth/signup', option)
             .then((res) => {
                 if(res.ok){
                     router.push('http://localhost:3000/login')
                 }
                 else{
-                    setDataError(true)
-                    res.json()
+                    let a = Promise.resolve(res.json().then(response => setDataError(response['message'])))
                 }
                 })
             // .then(data => console.log(data))
@@ -61,8 +61,8 @@ export default function Register(){
                     <h1 className = "text-gray-800 text-4xl font-bold py-4"> Register </h1>
                     
                     <p className= ' mx-auto-text-gray-400'>Please Provide All Information</p><br></br>
-                    {dataError ? <span className = "text-rose-500 text-xl flex justify-center">User Already Exists</span> : <></>}
-                
+                    {dataError != '' ? <span className = "text-rose-500 flex justify-center text-xl">{dataError}</span> : <></>}
+                    
                 </div>
 
                 {/* form */}
@@ -122,6 +122,34 @@ export default function Register(){
                         </span>
                     </div>
                     {formik.errors.cpassword && formik.touched.cpassword ? <span className = "text-rose-500 flex justify-start">{formik.errors.cpassword}</span> : <></>}
+                    
+                    <div className={`${styles.input_group} ${formik.errors.email && formik.touched.email ? 'border-rose-600' : ''}`}>
+                        <select
+                            id="large"
+                            name="role"
+                            className={styles.input_text}
+                            {...formik.getFieldProps('role')}>
+                            <option selected>Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="Warehouse">Warehouse</option>
+                            
+                        </select>
+                    </div>
+                    {formik.errors.email && formik.touched.email? <span className = "text-rose-500 flex justify-start">{formik.errors.email}</span> : <></>}
+                    
+                    <div className={`${styles.input_group} ${formik.errors.metamask && formik.touched.metamask ? 'border-rose-600' : ''}`}>
+                        <input 
+                        className = {styles.input_text}
+                        type = "metamask"
+                        name = "metamask"
+                        placeholder="Metamask Account Number"
+                        {...formik.getFieldProps('metamask')}
+                        />
+                        <span className = "icon flex items-center px-4 ">
+                            <HiAtSymbol size = {25}/>
+                        </span>
+                    </div>
+                    {formik.errors.metamask && formik.touched.metamask? <span className = "text-rose-500 flex justify-start">{formik.errors.metamask}</span> : <></>}
                     
                     {/* login buttons */}
                     <div className="input-button">

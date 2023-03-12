@@ -13,6 +13,8 @@ import {useRouter} from 'next/router'
 
 export default function Login(){
     const [show, setShow] = useState(false)
+    const errorLabel = {"1":"Account Doesn't Exist", "2":"Wrong Password"}
+    const [errorData, setErrorData] = useState('')
     const router = useRouter()
     //formik hoook
     const formik = useFormik({
@@ -32,7 +34,11 @@ export default function Login(){
             callbackUrl: "/"
         })
 
-        if (status.ok) router.push(status.url)
+        if (status.ok) {
+            router.push(status.url)
+        }else{
+            setErrorData(status.error)
+        }
     }
 
 
@@ -70,6 +76,7 @@ export default function Login(){
                         </span>
                     </div>
                     {formik.errors.email && formik.touched.email ? <span className = "text-rose-500 flex justify-start">{formik.errors.email}</span> : <></>}
+                    {errorData == "1" ? <span className = "text-rose-500 flex justify-start">{errorLabel[errorData]}</span> : <></>}
                     
                     <div className={`${styles.input_group} ${formik.errors.password && formik.touched.password ? 'border-rose-600' : ''}`}>
                         <input 
@@ -85,6 +92,7 @@ export default function Login(){
                     </div>
                     {/* formik.touched.error is for the error message to appear after you have clicked on the text box and move away */}
                     {formik.errors.password && formik.touched.password? <span className = "text-rose-500 flex justify-start">{formik.errors.password}</span> : <></>}
+                    {errorData == "2" ? <span className = "text-rose-500 flex justify-start">{errorLabel[errorData]}</span> : <></>}
                     
                     {/* login buttons */}
                     <div className="input-button">
