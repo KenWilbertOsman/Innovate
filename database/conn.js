@@ -1,3 +1,5 @@
+//This file is to establish the connection to mongodb
+
 import mongoose from 'mongoose';
 
 //this is to connect to mongo

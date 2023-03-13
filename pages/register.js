@@ -123,13 +123,13 @@ export default function Register(){
                     </div>
                     {formik.errors.cpassword && formik.touched.cpassword ? <span className = "text-rose-500 flex justify-start">{formik.errors.cpassword}</span> : <></>}
                     
-                    <div className={`${styles.input_group} ${formik.errors.email && formik.touched.email ? 'border-rose-600' : ''}`}>
+                    <div className={`${styles.input_group} ${formik.errors.role && formik.touched.role ? 'border-rose-600' : ''}`}>
                         <select
                             id="large"
                             name="role"
                             className={styles.input_text}
                             {...formik.getFieldProps('role')}>
-                            <option selected>Role</option>
+                            <option value="" selected>Role</option>
                             <option value="admin">Admin</option>
                             <option value="Warehouse">Warehouse</option>
                             

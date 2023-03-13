@@ -20,7 +20,7 @@ export default function Home() {
     </Head>
 
     {session? User({session, handleSignOut}) : Guest()}
-
+    
     </div>
   )
 }
@@ -49,7 +49,7 @@ function User({session, handleSignOut}){
       </h3>
 
       <div className = 'details'>
-        <h5>{session.user.name}</h5>
+        <h5>Role: {session.user._doc.role}</h5>
         <h5>{session.user.email}</h5>
       </div>
 
@@ -67,6 +67,8 @@ function User({session, handleSignOut}){
 
 //protected route
 //this function is to generate this page only when the session is in the cookie
+
+
 export async function getServerSideProps({req}){
   const session = await getSession({req})
 
