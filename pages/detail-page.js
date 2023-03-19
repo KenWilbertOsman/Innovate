@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react'
 import Web3Modal from 'web3modal'
 import axios from 'axios'
 import { ethers } from 'ethers'
-import LogoNavbar from "../components/LogoNavbar"
+import WarehouseNavbar from "../components/WarehouseNavbar"
+import AdminNavbar from "../components/AdminNavbar"
+import {getSession, useSession} from 'next-auth/react'
 
 
 import {
@@ -14,6 +16,7 @@ import Market from '../artifacts/contracts/NFT.sol/NFT.json'
 
 export default function Detail() {
 
+    const {data:session} = useSession()
     const router = useRouter();
     const [nfts, setNfts] = useState([])
     let data = {}
@@ -69,7 +72,7 @@ export default function Detail() {
     }
     return (
         <div className='font-serif'> 
-        <LogoNavbar/>
+        {NavigationBar(session)}
         <div className='mx-20 mt-20 mb-44'>
             <div className="font-serif box-border border-4 items-center justify-center">
                 <div className="grid grid-cols-2 gap-4 p-4">
@@ -88,7 +91,7 @@ export default function Detail() {
                         <div className='justify-items-end basis-1/2'>Mass:
                             <span className='mx-4' id="mass">{nft.mass}</span>kg
                         </div>
-                        <div className='basis-1/2 font-bold uppercase mx-3'>{nft.fragile} <span class = "font-normal">Parcel</span>
+                        <div className='basis-1/2 font-bold uppercase mx-3'>{nft.fragile} <span className = "font-normal">Parcel</span>
                 </div>
                         </div>  
                         ))
@@ -176,7 +179,7 @@ export default function Detail() {
                 </div>
                 <div className='flex '>
                     <div className='justify-center items-center'>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-10 h-10">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
                         </svg>
                     </div>
@@ -185,13 +188,13 @@ export default function Detail() {
                     </div>
                 </div>
                 <div className='justify-center items-center'>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10">
                         <path fill-rule="evenodd" d="M12 2.25a.75.75 0 01.75.75v16.19l2.47-2.47a.75.75 0 111.06 1.06l-3.75 3.75a.75.75 0 01-1.06 0l-3.75-3.75a.75.75 0 111.06-1.06l2.47 2.47V3a.75.75 0 01.75-.75z" clip-rule="evenodd" />
                     </svg>
                 </div>
                 <div className='flex '>
                     <div className='justify-center items-center'>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-10 h-10">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
                         </svg>
                     </div>
@@ -200,13 +203,13 @@ export default function Detail() {
                     </div>
                 </div>
                 <div className='justify-center items-center'>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10">
                         <path fill-rule="evenodd" d="M12 2.25a.75.75 0 01.75.75v16.19l2.47-2.47a.75.75 0 111.06 1.06l-3.75 3.75a.75.75 0 01-1.06 0l-3.75-3.75a.75.75 0 111.06-1.06l2.47 2.47V3a.75.75 0 01.75-.75z" clip-rule="evenodd" />
                     </svg>
                 </div>
                 <div className='flex '>
                     <div className='justify-center items-center'>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-10 h-10">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
                         </svg>
                     </div>
@@ -219,3 +222,41 @@ export default function Detail() {
         </div>
     )
 }
+function NavigationBar(session)
+{
+  if (session.user._doc.role == "warehouse"){
+    console.log("true")
+    return <WarehouseNavbar/>
+  }
+  else if (session.user._doc.role == "admin") {
+    return <AdminNavbar/>
+  }
+
+}
+
+export async function getServerSideProps({req}){
+    const session = await getSession({req})
+  
+    //if session is not authorised
+    if(!session ){
+      return{
+        redirect: {
+          destination: '/login',
+          permanent:false
+        }
+      }
+    }
+    else if ((session.user._doc.role == "admin" && !session.user.email.includes("@dreamcatcher.com"))){
+        return{
+            redirect: {
+              destination: '/',
+              permanent:false
+            }
+          }
+    }
+    //authorize user return session
+    return {
+      props: {session}
+    }
+  }
+  

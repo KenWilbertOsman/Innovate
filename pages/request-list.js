@@ -7,6 +7,8 @@ import Web3Modal from 'web3modal'
 import { useRouter } from 'next/router'
 import WarehouseNavbar from "../components/WarehouseNavbar"
 
+import {getSession} from 'next-auth/react'
+
 import {
     nftmarketaddress, nftaddress
 } from '../config'
@@ -138,3 +140,30 @@ export default function RequestList() {
         </div>
     )
 }
+
+
+export async function getServerSideProps({req}){
+    const session = await getSession({req})
+  
+    //if session is not authorised
+    if(!session){
+      return{
+        redirect: {
+          destination: '/login',
+          permanent:false
+        }
+      }
+    }
+    else if(session.user._doc.role != "warehouse" ){
+        return{
+          redirect: {
+            destination: '/',
+            permanent:false
+          }
+        }
+      }
+    //authorize user return session
+    return {
+      props: {session}
+    }
+  }

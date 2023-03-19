@@ -1,7 +1,10 @@
-import LogoNavbar from "../components/LogoNavbar"  
+
 import Head from 'next/head'
 import Link from 'next/link'
 import {getSession, useSession, signOut} from 'next-auth/react'
+import AdminNavbar from "../components/AdminNavbar"  
+import WarehouseNavbar from "../components/WarehouseNavbar"  
+import ShopNavbar from "../components/ShopNavbar"  
 
 
 //default function for this file
@@ -14,15 +17,27 @@ export default function Home() {
 
   return (
     <div > 
-    <LogoNavbar/>
-    <Head>
-      <title>Home Page</title>
-    </Head>
+      
+    {NavigationBar(session)}
 
     {session? User({session, handleSignOut}) : Guest()}
     
     </div>
   )
+}
+function NavigationBar(session)
+{
+  if (session.user._doc.role == "warehouse"){
+    return <WarehouseNavbar/>
+  }
+  else if (session.user.email.includes("@dreamcatcher.com")){
+    return <AdminNavbar/>
+  }
+  else if (session.user._doc.role == "admin") {
+    return <ShopNavbar/>
+  }
+  
+
 }
 
 //Guest
@@ -57,10 +72,10 @@ function User({session, handleSignOut}){
         <button className = "mt-5 px-10 py-1 rounded-sm bg-indigo-500 text-gray-50" onClick={handleSignOut}>Sign Out</button>
       </div>
 
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <Link className="mt-5 px-10 py-1 rounded-sm bg-indigo-500 text-gray-50" href={'/profile'}>Profile Page</Link>
 
-      </div>
+      </div> */}
     </div>
   )
 }

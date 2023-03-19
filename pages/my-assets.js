@@ -12,7 +12,8 @@ import { useRouter } from 'next/router'
 //import {BrowserRouter, Routes, Route, Navigate, Link} from 'next/router'
 import Link from 'next/link'
 import WarehouseNavbar from "../components/WarehouseNavbar"
-
+// import User from '../model/Schema'
+import {getSession} from 'next-auth/react'
 
 import {
     nftmarketaddress, nftaddress
@@ -26,10 +27,18 @@ export default function MyAssets() {
     const [loadingState, setLoadingState] = useState('not-loaded')
     const router = useRouter()
     const [formInput, updateFormInput] = useState('')
+    const [metamaskAcc, setMetamaskAcc] = useState([])
 
     useEffect(() => {
         loadNFTs()
+        // loadWarehouseAcc()
     }, [])
+
+    // async function loadWarehouseAcc() {
+    //     const accounts = await User.find({role:"warehouse"}, 'metamask').exec()
+    //     console.log(accounts)
+    // }
+
 
     async function loadNFTs() {
         const web3Modal = new Web3Modal()
@@ -168,3 +177,29 @@ export default function MyAssets() {
         </div>
     )
 } 
+
+export async function getServerSideProps({req}){
+    const session = await getSession({req})
+  
+    //if session is not authorised
+    if(!session){
+      return{
+        redirect: {
+          destination: '/login',
+          permanent:false
+        }
+      }
+    }
+    else if(session.user._doc.role != "warehouse" ){
+        return{
+          redirect: {
+            destination: '/',
+            permanent:false
+          }
+        }
+      }
+    //authorize user return session
+    return {
+      props: {session}
+    }
+  }

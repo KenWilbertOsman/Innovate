@@ -7,7 +7,9 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from "web3modal"
 import Link from "next/link"
-import LogoNavbar from '../components/LogoNavbar'
+import AdminNavbar from '../components/AdminNavbar'
+
+import {getSession} from 'next-auth/react'
 
 import {
     nftmarketaddress, nftaddress
@@ -90,13 +92,13 @@ export default function Database() {
 
     if (loadingState === 'loaded' && !nfts.length) return (
         <div className='font-serif'> 
-        <LogoNavbar/>
+        <AdminNavbar/>
         <h1 className="py-10 px-20 text-3xl">No Items Created</h1>
         </div>
     )
     else if (loadingState === 'loaded' & !filtered.length) return (
         <div className='font-serif'> 
-        <LogoNavbar/>
+        <AdminNavbar/>
         <div>
             <div className="flex flex-row space-x-[50px] mx-10" id="myBtnContainer">
                 <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("all")}> Show All</button>
@@ -112,7 +114,8 @@ export default function Database() {
     )
     return (
         <div className='font-serif'> 
-        <LogoNavbar/>
+        <AdminNavbar/>
+        
         <div>
             <div className="flex flex-row space-x-[50px] mx-10" id="myBtnContainer">
                 <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("all")}> Show All</button>
@@ -149,3 +152,28 @@ export default function Database() {
     )
 
 }
+
+export async function getServerSideProps({req}){
+    const session = await getSession({req})
+    //if session is not authorised
+    if(!session){
+      return{
+        redirect: {
+          destination: '/login',
+          permanent:false
+        }
+      }
+    }
+    else if( session.user._doc.role == "warehouse" || (session.user._doc.role == "admin" && !session.user.email.includes("@dreamcatcher.com")) ){
+        return{
+            redirect: {
+              destination: '/',
+              permanent:false
+            }
+          }
+    }
+    //authorize user return session
+    return {
+      props: {session}
+    }
+  }

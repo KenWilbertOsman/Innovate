@@ -3,7 +3,9 @@
 
 import { useState } from 'react'
 import { ethers } from 'ethers'
-import LogoNavbar from "../components/LogoNavbar";
+import ShopNavbar from "../components/ShopNavbar";
+
+import {getSession} from 'next-auth/react'
 
 //to interact with ipfs, uploading and downloading files
 import { create as ipfsHttpClient } from 'ipfs-http-client'
@@ -163,6 +165,8 @@ export default function CreateItem() {
     //Here will have to update the formInput into recipent address, fragile status. 
     //I suppose price is not needed, but it is used in many files currently
     if (popup && loadingState == "loaded") return (
+        <div>
+        <ShopNavbar/>
         <div className='mx-20 mt-20'>
         <div className = "flex flex-col items-center rounded-lg shadow-xl h-4/6">
             <h1 className = "text-base mt-2 mx-4 text-black font-semibold text-center text-6xl py-6">
@@ -176,11 +180,12 @@ export default function CreateItem() {
             </button>
         </div>
         </div>
+        </div>
 
     )
     return (
         <div className='font-serif'> 
-        <LogoNavbar/>
+        <ShopNavbar/>
         <div className="flex justify-center">
             <div className="w-1/2 flex flex-col pb-12">
                 <input
@@ -228,7 +233,7 @@ export default function CreateItem() {
                     id="large"
                     onChange={e => updateFormInput({ ...formInput, fragile: e.target.value })}
                     className="block w-full px-4 py-3 text-base text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option selected>Fragile Status</option>
+                    <option value = "" selected>Fragile Status</option>
                     <option value="Fragile">Fragile</option>
                     <option value="Non-Fragile">Non-Fragile</option>
                 </select><br></br>
@@ -261,3 +266,30 @@ export default function CreateItem() {
     )
 
 }
+
+export async function getServerSideProps({req}){
+    const session = await getSession({req})
+  
+    //if session is not authorised
+    if(!session){
+      return{
+        redirect: {
+          destination: '/login',
+          permanent:false
+        }
+      }
+    }
+    else if (session.user._doc.role == "warehouse"){
+        return{
+            redirect: {
+              destination: '/',
+              permanent:false
+            }
+          }
+    }
+    //authorize user return session
+    return {
+      props: {session}
+    }
+  }
+  

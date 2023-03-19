@@ -131,7 +131,7 @@ export default function Register(){
                             {...formik.getFieldProps('role')}>
                             <option value="" selected>Role</option>
                             <option value="admin">Admin</option>
-                            <option value="Warehouse">Warehouse</option>
+                            <option value="warehouse">Warehouse</option>
                             
                         </select>
                     </div>
