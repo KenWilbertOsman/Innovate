@@ -9,10 +9,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
 import { useRouter } from 'next/router'
-//import {BrowserRouter, Routes, Route, Navigate, Link} from 'next/router'
-import Link from 'next/link'
 import WarehouseNavbar from "../components/WarehouseNavbar"
-// import User from '../model/Schema'
 import {getSession} from 'next-auth/react'
 
 import {
@@ -31,13 +28,43 @@ export default function MyAssets() {
 
     useEffect(() => {
         loadNFTs()
-        // loadWarehouseAcc()
+        loadWarehouseAcc()
     }, [])
 
-    // async function loadWarehouseAcc() {
-    //     const accounts = await User.find({role:"warehouse"}, 'metamask').exec()
-    //     console.log(accounts)
-    // }
+    async function loadWarehouseAcc() {
+        const option = {
+            method: "GET",
+            headers:{'Content-Type': 'application/json'}
+            
+        }
+        await fetch('http://localhost:3000/api/auth/dataRetrieve', option)
+            .then((res) => {
+                if(res.ok){
+                    let a = Promise.resolve(res.json().then(response => setMetamaskAcc(response.data)))
+                }
+                else{
+                    let a = Promise.resolve(res.json().then(response => console.log(response.error)))
+                }
+                })
+        console.log(metamaskAcc)
+        // for (let i = 0; i<metamaskAcc.length; i++)
+        // {
+            // const items = metamaskAcc.map(async i => {
+            //     let item = {
+            //         username: i.username,
+            //         metamask: i.metamask
+            //     }
+                
+            //     return item
+            // })
+
+            // setMetamaskAcc(items)
+            // console.log(metamaskAcc)
+            // console.log(metamaskAcc)
+        //     console.log(metamaskAcc[i]['metamask'])
+        //     console.log(metamaskAcc[i]['username'])
+        // }
+    }
 
 
     async function loadNFTs() {
@@ -71,6 +98,7 @@ export default function MyAssets() {
             return item
         }))
         setNfts(items)
+        console.log(items)
         setLoadingState('loaded')
 
 
@@ -139,7 +167,7 @@ export default function MyAssets() {
                                             </svg>
                                         </div>
                                     </a>
-                                
+                                    
                                     <img src={nft.image} class="rounded object-fill h-96 w-screen" />
                                     
                                     <div className="bg-black inset-x-0 bottom-0 overflow-y-auto h-24">
@@ -161,8 +189,15 @@ export default function MyAssets() {
                                         text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500
                                          focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
                                           dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        {
+                                            
+                                        }
                                         <option value='' selected>Warehouse to be Sent</option>
-                                        <option value='0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'>Account 3</option>
+                                        {
+                                            metamaskAcc.map((account, i) => (
+                                                (<option key = {i} value={account.metamask}>{account.username}</option>)
+                                            ))
+                                        }
                                     </select>
                                     <div className="pg-black flex justify-end">
                                         <button className="w-quarter bg-theme-blue text-white font-bold py-1 px-4 rounded" onClick={() => requestNFT(nft)}>Request</button>
