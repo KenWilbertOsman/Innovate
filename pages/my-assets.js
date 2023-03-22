@@ -176,7 +176,7 @@ export default function MyAssets() {
                                         <p className="text-xs font-bold text-white m-2">Owners: </p>
                                         {
                                             nft.owners.map((owner, j) => (
-                                                (<p key={j} className="text-xs font-bold text-white m-2">- {owner}</p>)
+                                                (<p key={j} className="text-xs font-bold text-white m-2 break-all">- {owner}</p>)
                                             ))
                                         }
                                     </div>
