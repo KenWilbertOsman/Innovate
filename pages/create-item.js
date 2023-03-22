@@ -169,12 +169,12 @@ export default function CreateItem() {
         <ShopNavbar/>
         <div className='mx-20 mt-20'>
         <div className = "flex flex-col items-center rounded-lg shadow-xl h-4/6">
-            <h1 className = "text-base mt-2 mx-4 text-black font-semibold text-center text-6xl py-6">
+            <h1 className = "text-lg mt-2 mx-4 text-black font-semibold text-center">
                 Here is Your Tracking Number
             </h1>
-            <h3 class="text-center text-theme-blue font-bold text-5xl py-20 "> {hashed}</h3>
+            <h3 class="text-center text-theme-blue font-bold text-lg break-normal m-5 break-all"> {hashed}</h3>
             <button 
-            className = " my-5 w-48 mx-10 h-12 bg-theme-peach text-white rounded-md hover:shadow-lg font-sans"
+            className = " my-5 w-36 mx-10 h-12 bg-theme-peach text-white rounded-md hover:shadow-lg font-sans"
             onClick = {userDone}>
             Done
             </button>

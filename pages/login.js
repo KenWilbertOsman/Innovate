@@ -114,7 +114,7 @@ export default function Login(){
                     </div>
                 </form>
                 {/* bottom */}
-                <p className='text-center text-gray-400'>
+                <p className='text-center text-gray-400 mb-3'>
                     Dont have an account yet? <Link className = "text-blue-700"href={'/register'}> Sign Up </Link>
                 </p>
             </section>

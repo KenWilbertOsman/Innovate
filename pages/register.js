@@ -60,7 +60,7 @@ export default function Register(){
                 <div className = "title">
                     <h1 className = "text-gray-800 text-4xl font-bold py-4"> Register </h1>
                     
-                    <p className= ' mx-auto-text-gray-400'>Please Provide All Information</p><br></br>
+                    <p className= ' mx-auto-text-gray-400'>Please Provide All Information</p>
                     {dataError != '' ? <span className = "text-rose-500 flex justify-center text-xl">{dataError}</span> : <></>}
                     
                 </div>
@@ -135,7 +135,7 @@ export default function Register(){
                             
                         </select>
                     </div>
-                    {formik.errors.email && formik.touched.email? <span className = "text-rose-500 flex justify-start">{formik.errors.email}</span> : <></>}
+                    {/* {formik.errors.email && formik.touched.email? <span className = "text-rose-500 flex justify-start">{formik.errors.email}</span> : <></>} */}
                     
                     <div className={`${styles.input_group} ${formik.errors.metamask && formik.touched.metamask ? 'border-rose-600' : ''}`}>
                         <input 
@@ -159,7 +159,7 @@ export default function Register(){
                     </div>
                     </form>
                 {/* bottom */}
-                <p className='text-center text-gray-400'>
+                <p className='text-center text-gray-400 mb-3'>
                     Already Have an Account? <Link className = "text-blue-700"href={'/login'}> Login </Link>
                 </p>
             </section>
