@@ -38,7 +38,7 @@ const client = ipfsHttpClient(options);
 //const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 
 import {
-    nftaddress, nftmarketaddress
+    nftmarketaddress
 } from '../config.js'
 
 //import NFT from '../artifacts/contracts/NFT.sol/NFT.json'

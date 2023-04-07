@@ -9,7 +9,7 @@ import {getSession, useSession} from 'next-auth/react'
 
 
 import {
-    nftmarketaddress, nftaddress
+    nftmarketaddress
 } from '../config'
 
 import Market from '../artifacts/contracts/NFT.sol/NFT.json'

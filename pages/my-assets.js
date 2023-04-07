@@ -1,8 +1,6 @@
 //- my-assets.js => your own assets if its not put on sale
 //"My Digital Assets" Page
 
-
-
 import { ethers } from 'ethers'
 // for useState and useEffect, see this https://medium.com/recraftrelic/usestate-and-useeffect-explained-cdb5dc252baf
 import { useEffect, useState } from 'react'
@@ -13,7 +11,7 @@ import WarehouseNavbar from "../components/WarehouseNavbar"
 import {getSession} from 'next-auth/react'
 
 import {
-    nftmarketaddress, nftaddress
+    nftmarketaddress
 } from '../config'
 
 // import NFT from '../artifacts/contracts/NFT.sol/NFT.json'

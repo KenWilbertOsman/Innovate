@@ -12,7 +12,7 @@ import AdminNavbar from '../components/AdminNavbar'
 import {getSession} from 'next-auth/react'
 
 import {
-    nftmarketaddress, nftaddress
+    nftmarketaddress
 } from '../config'
 
 import Market from '../artifacts/contracts/NFT.sol/NFT.json'

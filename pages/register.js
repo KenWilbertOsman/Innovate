@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Layout from '../components/layout'
 import styles from '../styles/Form.module.css'
-import {HiEye, HiAtSymbol, HiOutlineUser} from "react-icons/hi"
+import {HiEye, HiAtSymbol, HiOutlineUser, HiLocationMarker} from "react-icons/hi"
 import {useState} from 'react';
 import Link from 'next/link'
 import {useFormik} from 'formik'
@@ -19,7 +19,9 @@ export default function Register(){
             password:'',
             cpassword:'',
             role:'',
-            metamask:''
+            metamask:'',
+            address:'',
+            state:''
         },
         validate: registerValidate, 
         onSubmit
@@ -150,6 +152,34 @@ export default function Register(){
                         </span>
                     </div>
                     {formik.errors.metamask && formik.touched.metamask? <span className = "text-rose-500 flex justify-start">{formik.errors.metamask}</span> : <></>}
+                    
+                    <div className={`${styles.input_group} ${formik.errors.address && formik.touched.address ? 'border-rose-600' : ''}`}>
+                        <input 
+                        className = {styles.input_text}
+                        type = "address"
+                        name = "address"
+                        placeholder="Address"
+                        {...formik.getFieldProps('address')}
+                        />
+                        <span className = "icon flex items-center px-4 ">
+                            <HiLocationMarker size = {25}/>
+                        </span>
+                    </div>
+                    {formik.errors.address && formik.touched.address? <span className = "text-rose-500 flex justify-start">{formik.errors.address}</span> : <></>}
+                    
+                    <div className={`${styles.input_group} ${formik.errors.state && formik.touched.state ? 'border-rose-600' : ''}`}>
+                        <input 
+                        className = {styles.input_text}
+                        type = "state"
+                        name = "state"
+                        placeholder="State"
+                        {...formik.getFieldProps('state')}
+                        />
+                        <span className = "icon flex items-center px-4 ">
+                            <HiLocationMarker size = {25}/>
+                        </span>
+                    </div>
+                    {formik.errors.state && formik.touched.state? <span className = "text-rose-500 flex justify-start">{formik.errors.state}</span> : <></>}
                     
                     {/* login buttons */}
                     <div className="input-button">

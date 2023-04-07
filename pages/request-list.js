@@ -10,7 +10,7 @@ import WarehouseNavbar from "../components/WarehouseNavbar"
 import {getSession} from 'next-auth/react'
 
 import {
-    nftmarketaddress, nftaddress
+    nftmarketaddress
 } from '../config'
 
 //import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
