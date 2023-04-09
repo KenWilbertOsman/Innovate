@@ -1,5 +1,8 @@
-//This file is to create a model to store into the mongodb
-//In this case, username, email, passwrod, role, metamask will be stored in metamask database
+
+/**
+ * This file is to create a model to store into the mongodb
+ * In this case, username, email, passwrod, role, metamask will be stored in metamask database
+*/
 
 import {Schema, model, models} from "mongoose";
 

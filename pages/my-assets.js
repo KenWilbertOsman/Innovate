@@ -23,19 +23,25 @@ export default function MyAssets() {
     const router = useRouter()
     const [formInput, updateFormInput] = useState('')
     const [metamaskAcc, setMetamaskAcc] = useState([])
+    const [accUsername, setAccUsername] = useState('')
 
     useEffect(() => {
         loadNFTs()
         loadWarehouseAcc()
+        loadUsername()
     }, [])
 
+    // useEffect(() =>{
+    //     loadUsername(nfts)
+    // }
+    // , [nfts])
     async function loadWarehouseAcc() {
         const option = {
             method: "GET",
             headers:{'Content-Type': 'application/json'}
             
         }
-        await fetch('http://localhost:3000/api/auth/dataRetrieve', option)
+        await fetch('http://localhost:3000/api/dataRetrieve', option)
             .then((res) => {
                 if(res.ok){
                     let a = Promise.resolve(res.json().then(response => setMetamaskAcc(response.data)))
@@ -44,26 +50,40 @@ export default function MyAssets() {
                     let a = Promise.resolve(res.json().then(response => console.log(response.error)))
                 }
                 })
-        console.log(metamaskAcc)
-        // for (let i = 0; i<metamaskAcc.length; i++)
-        // {
-            // const items = metamaskAcc.map(async i => {
-            //     let item = {
-            //         username: i.username,
-            //         metamask: i.metamask
-            //     }
-                
-            //     return item
-            // })
-
-            // setMetamaskAcc(items)
-            // console.log(metamaskAcc)
-            // console.log(metamaskAcc)
-        //     console.log(metamaskAcc[i]['metamask'])
-        //     console.log(metamaskAcc[i]['username'])
-        // }
+        // console.log(metamaskAcc)
     }
 
+    async function loadUsername(nft) {
+        console.log(nft)
+        // let accounts = ['0x100323a87dE1A305aD5e6D5297B803b4c4d40ace', '0xD6513D3b2d13aa2022A481E619F52Ba01C3eA565']
+        // let strings = '?'
+        // for (let i = 0; i < accounts.length; i++){
+        //     strings += `metamaskAcc=${accounts[i]}&`
+        // }
+        
+        // strings += "filter=username"
+
+
+        //     const option = {
+        //     method: "GET",
+        //     headers:{'Content-Type': 'application/json'}
+            
+        // }
+        // let page = `http://localhost:3000/api/usernameRetrieve${strings}`
+
+        // await fetch(page, option)
+        //     .then((res) => {
+        //         if(res.ok){
+        //             let a = Promise.resolve(res.json().then(response => console.log(response.data)))
+        //         }
+        //         else{
+        //             let a = Promise.resolve(res.json().then(response => console.log(response.error)))
+        //         }
+        //         })
+        
+        
+        
+    }
 
     async function loadNFTs() {
         const web3Modal = new Web3Modal()
@@ -96,7 +116,7 @@ export default function MyAssets() {
             return item
         }))
         setNfts(items)
-        console.log(items)
+        // console.log(items)
         setLoadingState('loaded')
 
 
@@ -159,19 +179,20 @@ export default function MyAssets() {
                                 <div className='row-start-1 relative'>
                                     <a href={`/detail-page?index=${nft.tokenId}`}>
                                         <div className='flex justify-end' >
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 absolute m-4 cursor-pointer">
-                                                <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd"
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 absolute m-4 cursor-pointer">
+                                                <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z" clipRule="evenodd"
                                                     href={`/detail-page?index=${nft.tokenId}`} />
                                             </svg>
                                         </div>
                                     </a>
                                     
-                                    <img src={nft.image} class="rounded object-fill h-96 w-screen" />
+                                    <img src={nft.image} className="rounded object-fill h-96 w-screen" />
                                     
                                     <div className="bg-black inset-x-0 bottom-0 overflow-y-auto h-24">
                                         <p className="text-xs font-bold text-white m-2">Username: {nft.name}</p>
                                         <p className="text-xs font-bold text-white m-2">Created on {nft.date}</p>
                                         <p className="text-xs font-bold text-white m-2">Owners: </p>
+
                                         {
                                             nft.owners.map((owner, j) => (
                                                 (<p key={j} className="text-xs font-bold text-white m-2 break-all">- {owner}</p>)
@@ -187,9 +208,7 @@ export default function MyAssets() {
                                         text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500
                                          focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
                                           dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        {
-                                            
-                                        }
+                                  
                                         <option value='' selected>Warehouse to be Sent</option>
                                         {
                                             metamaskAcc.map((account, i) => (

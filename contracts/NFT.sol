@@ -226,6 +226,7 @@ contract NFT is ERC721URIStorage {
       return items;
     }
 
+    //to let warehouse be able to decline the nft request to them
     function removeRequest(uint256 index) public payable{
         uint totalItemCount = _totalIds.current();
 
