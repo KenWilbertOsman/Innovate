@@ -4,7 +4,6 @@ import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
-import { useRouter } from 'next/router'
 import WarehouseNavbar from "../components/WarehouseNavbar"
 
 import {getSession} from 'next-auth/react'
@@ -19,10 +18,16 @@ import Market from '../artifacts/contracts/NFT.sol/NFT.json'
 export default function RequestList() {
     const [nfts, setNfts] = useState([])
     const [loadingState, setLoadingState] = useState('not-loaded')
+    const [accUsername, setAccUsername] = useState([])
+
     useEffect(() => {
         loadNFTs()
     }, [])
 
+    useEffect(() =>{
+        loadUsername(nfts)
+    }
+    , [nfts])
 
     async function loadNFTs() {
         const web3Modal = new Web3Modal()
@@ -55,10 +60,53 @@ export default function RequestList() {
             }
             return item
         }))
-        setNfts(items)
+
+        const newItem = await loadUsername(items)
+
+        setNfts(newItem)
         setLoadingState('loaded')
 
+    }
 
+    async function requestData(strings){
+ 
+        const option = {
+        method: "GET",
+        headers:{'Content-Type': 'application/json'}
+            
+        }
+        let page = `http://localhost:3000/api/usernameRetrieve${strings}`
+
+        await fetch(page, option)
+            .then((res) => {
+                if(res.ok){
+                    let a = Promise.resolve(res.json().then(response => setAccUsername(response.data)))
+                }
+                else{
+                    let a = Promise.resolve(res.json().then(response => console.log(response.error)))
+                }
+                })
+        
+        // console.log(accUsername)
+    }
+
+
+    async function loadUsername(nft) {
+        let temp_nfts = nft
+        let accounts = []
+        for (let i = 0; i<nft.length; i++){
+            accounts = nft[i]['owners']
+            let strings = '?'
+            for (let i = 0; i < accounts.length; i++){
+                strings += `metamaskAcc=${accounts[i]}&`
+            }
+            
+            strings += "filter=username"
+            await requestData(strings)
+            temp_nfts[i]['ownerName'] = accUsername
+        }  
+
+        return nft
     }
 
     async function acceptRequestedNft(nft) {
@@ -119,8 +167,8 @@ export default function RequestList() {
                                         <p className="text-xs font-bold text-white m-2 break-words ">{nft.seller}</p>
                                         <p className="text-xs font-bold text-white m-2">Owners:</p>
                                         {
-                                            nft.owners.map((owner, j) => (
-                                                (<p key={j} className="text-xs font-bold text-white m-2 break-all"> - {owner}</p>)
+                                            nft.ownerName.map((ownerName, j) => (
+                                                (<p key={j} className="text-xs font-bold text-white m-2 break-all"> - {ownerName['username']}</p>)
                                             ))
                                         }
                                     </div>

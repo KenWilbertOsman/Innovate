@@ -18,6 +18,12 @@ npx hardhat run scripts/deploy.js
 - npx hardhat run scripts/deploy.js --network localhost
 - npm run dev
 
+
+# Process need to follow to run the web page as it has been deployed to polygon mumbai testnet
+- npx hardhat run scripts/deploy.js --network mumbai
+- npm run dev
+
+
 # For testing can run this which will run the test folder, u can see the output from the cmd
 npx hardhat test
 

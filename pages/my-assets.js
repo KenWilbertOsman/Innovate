@@ -23,18 +23,18 @@ export default function MyAssets() {
     const router = useRouter()
     const [formInput, updateFormInput] = useState('')
     const [metamaskAcc, setMetamaskAcc] = useState([])
-    const [accUsername, setAccUsername] = useState('')
+    const [accUsername, setAccUsername] = useState([])
 
     useEffect(() => {
         loadNFTs()
         loadWarehouseAcc()
-        loadUsername()
     }, [])
 
-    // useEffect(() =>{
-    //     loadUsername(nfts)
-    // }
-    // , [nfts])
+    useEffect(() =>{
+        loadUsername(nfts)
+    }
+    , [nfts])
+
     async function loadWarehouseAcc() {
         const option = {
             method: "GET",
@@ -53,36 +53,47 @@ export default function MyAssets() {
         // console.log(metamaskAcc)
     }
 
-    async function loadUsername(nft) {
-        console.log(nft)
-        // let accounts = ['0x100323a87dE1A305aD5e6D5297B803b4c4d40ace', '0xD6513D3b2d13aa2022A481E619F52Ba01C3eA565']
-        // let strings = '?'
-        // for (let i = 0; i < accounts.length; i++){
-        //     strings += `metamaskAcc=${accounts[i]}&`
-        // }
-        
-        // strings += "filter=username"
 
-
-        //     const option = {
-        //     method: "GET",
-        //     headers:{'Content-Type': 'application/json'}
+    async function requestData(strings){
+ 
+        const option = {
+        method: "GET",
+        headers:{'Content-Type': 'application/json'}
             
-        // }
-        // let page = `http://localhost:3000/api/usernameRetrieve${strings}`
+        }
+        let page = `http://localhost:3000/api/usernameRetrieve${strings}`
 
-        // await fetch(page, option)
-        //     .then((res) => {
-        //         if(res.ok){
-        //             let a = Promise.resolve(res.json().then(response => console.log(response.data)))
-        //         }
-        //         else{
-        //             let a = Promise.resolve(res.json().then(response => console.log(response.error)))
-        //         }
-        //         })
+        await fetch(page, option)
+            .then((res) => {
+                if(res.ok){
+                    let a = Promise.resolve(res.json().then(response => setAccUsername(response.data)))
+                }
+                else{
+                    let a = Promise.resolve(res.json().then(response => console.log(response.error)))
+                }
+                })
         
-        
-        
+        // console.log(accUsername)
+    }
+
+
+    async function loadUsername(nft) {
+        let temp_nfts = nft
+        let accounts = []
+        for (let i = 0; i<nft.length; i++){
+            // console.log(nft[i]['owners'])
+            accounts = nft[i]['owners']
+            let strings = '?'
+            for (let i = 0; i < accounts.length; i++){
+                strings += `metamaskAcc=${accounts[i]}&`
+            }
+            
+            strings += "filter=username"
+            await requestData(strings)
+            temp_nfts[i]['ownerName'] = accUsername
+        }  
+
+        return nft
     }
 
     async function loadNFTs() {
@@ -115,8 +126,10 @@ export default function MyAssets() {
             }
             return item
         }))
-        setNfts(items)
-        // console.log(items)
+
+        const newItem = await loadUsername(items)
+
+        setNfts(newItem)
         setLoadingState('loaded')
 
 
@@ -194,8 +207,8 @@ export default function MyAssets() {
                                         <p className="text-xs font-bold text-white m-2">Owners: </p>
 
                                         {
-                                            nft.owners.map((owner, j) => (
-                                                (<p key={j} className="text-xs font-bold text-white m-2 break-all">- {owner}</p>)
+                                            nft.ownerName.map((ownerName, j) => (
+                                                (<p key={j} className="text-xs font-bold text-white m-2 break-all">- {ownerName['username']}</p>)
                                             ))
                                         }
                                     </div>
