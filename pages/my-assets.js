@@ -221,7 +221,7 @@ export default function MyAssets() {
                                         </div>
                                     </a>
                                     
-                                    <img src={nft.image} className="rounded object-fill h-96 w-screen" />
+                                    <img src={nft.image} className="rounded object-cover h-96 w-screen" />
                                     
                                     <div className="bg-black inset-x-0 bottom-0 overflow-y-auto h-24">
                                         <p className="text-xs font-bold text-white m-2">Parcel Sender Name: {nft.name}</p>
