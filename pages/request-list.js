@@ -120,25 +120,6 @@ export default function RequestList() {
         return await response.json()
     }
 
-
-    async function loadUsername(nft) {
-        let temp_nfts = nft
-        let accounts = []
-        for (let i = 0; i<nft.length; i++){
-            accounts = nft[i]['seller']
-            let strings = '?'
-            strings += `metamaskAcc=${accounts}&`
-            
-            strings += "filter=username metamask"
-            await requestData(strings)
-            temp_nfts[i]['ownerName'] = accUsername
-        }  
-        // console.log(temp_nfts)
-        
-        return temp_nfts
-    }
-
-
     async function acceptRequestedNft(nft) {
         const web3modal = new Web3Modal()
         const connection = await web3modal.connect()

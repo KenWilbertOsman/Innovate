@@ -28,6 +28,19 @@ export default function Detail() {
         }
     }, [router.isReady]);
 
+
+    async function requestData(strings){
+        const option = {
+        method: "GET",
+        headers:{'Content-Type': 'application/json'}
+            
+        }
+        let page = `http://localhost:3000/api/usernameRetrieve${strings}`
+
+        const response = await fetch(page, option)
+        return await response.json()
+    }
+
     async function loadNFTDetails() {
         const web3Modal = new Web3Modal()
         const connection = await web3Modal.connect()
@@ -64,6 +77,26 @@ export default function Detail() {
             }
             return item
         }))
+            // console.log(nft[i]['owners'])
+        let accounts = items[0]['owners']
+        let strings = '?'
+        for (let i = 0; i < accounts.length; i++){
+            strings += `metamaskAcc=${accounts[i]}&`
+        }
+        strings += "filter=username"
+        
+        
+        //to GET the data from mongodb
+        const fetchedAcc = await requestData(strings)
+
+        //to take the username from the fetched GET data
+        let accountsFetch = []
+        for (let i = 0; i<(accounts.length); i++){
+                accountsFetch[i] = fetchedAcc.data[i]['username']
+
+        }
+        items[0]['addressName'] = accountsFetch
+
         setNfts(items)
     }
     return (
@@ -145,69 +178,58 @@ export default function Detail() {
                     </div>
                 </div>
                 <div className='mt-10 mx-5 '>
-                    <div className='flex '>
+                    {
+                        nfts.map((nft,i) => (
+                        
+
+                        <div>
+
+                        {nft.addressName.map ((name, j) => (
+                            <div>
+                            <div key = {i} className='flex '>
+                            <div className='justify-center items-center'>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                                </svg>
+                            </div>
+                            <div className='mx-2 p-1.5'>
+                                <span className='align-middle'>{name}</span>
+                            </div>
+                        </div>
                         <div className='justify-center items-center'>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-                            </svg>
-                        </div>
-                        <div className='mx-2 p-1.5'>
-                            <span className='align-middle'>Starting Address</span>
-                        </div>
-                    </div>
-                    <div className='justify-center items-center'>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
                             <path fill-rule="evenodd" d="M12 2.25a.75.75 0 01.75.75v16.19l2.47-2.47a.75.75 0 111.06 1.06l-3.75 3.75a.75.75 0 01-1.06 0l-3.75-3.75a.75.75 0 111.06-1.06l2.47 2.47V3a.75.75 0 01.75-.75z" clip-rule="evenodd" />
                         </svg>
-                    </div>
-                    <div className='flex '>
-                        <div className='justify-center items-center'>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-10 h-10">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-                            </svg>
                         </div>
-                        <div className='mx-2 p-1.5'>
-                            <span className='align-middle'>Previous Warehouse</span>
                         </div>
-                    </div>
-                    <div className='justify-center items-center'>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10">
-                            <path fill-rule="evenodd" d="M12 2.25a.75.75 0 01.75.75v16.19l2.47-2.47a.75.75 0 111.06 1.06l-3.75 3.75a.75.75 0 01-1.06 0l-3.75-3.75a.75.75 0 111.06-1.06l2.47 2.47V3a.75.75 0 01.75-.75z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <div className='flex '>
-                        <div className='justify-center items-center'>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-10 h-10">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-                            </svg>
+                        ))}
+                        
                         </div>
-                        <div className='mx-2 p-1.5'>
-                            <span className='align-middle'>Current Warehouse</span>
+                        ))
+                    }            
+                    {
+                        nfts.map((nft, i) => (
+                        <div className = 'text-neutral-400'>
+                            <div className='flex '>
+                                <div className='justify-center items-center'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-10 h-10">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                                    </svg>
+                                </div>
+                                <div className='mx-2 p-1.5'>
+                                    <span className='align-middle'>Recipient Address: {nft.address}</span>
+                                </div>
+                            </div>
                         </div>
+                        ))
+                    }
                     </div>
-                    <div className='justify-center items-center'>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10">
-                            <path fill-rule="evenodd" d="M12 2.25a.75.75 0 01.75.75v16.19l2.47-2.47a.75.75 0 111.06 1.06l-3.75 3.75a.75.75 0 01-1.06 0l-3.75-3.75a.75.75 0 111.06-1.06l2.47 2.47V3a.75.75 0 01.75-.75z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <div className='flex '>
-                        <div className='justify-center items-center'>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-10 h-10">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-                            </svg>
-                        </div>
-                        <div className='mx-2 p-1.5'>
-                            <span className='align-middle'>Recipient Address</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     )
 }
 function NavigationBar(session) {
     if (session.user._doc.role == "warehouse") {
-        console.log("true")
         return <WarehouseNavbar />
     }
     else if (session.user._doc.role == "admin") {
