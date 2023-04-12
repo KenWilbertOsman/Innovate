@@ -24,10 +24,6 @@ export default function RequestList() {
         loadNFTs()
     }, [])
 
-    useEffect(() =>{
-        loadUsername(nfts)
-    }
-    , [nfts])
 
     async function loadNFTs() {
         const web3Modal = new Web3Modal()
@@ -56,20 +52,63 @@ export default function RequestList() {
                 address: meta.data.useraddress,
                 fragile: meta.data.fragile,
                 owners: i.warehouses,
-                mass: meta.data.mass
+                mass: meta.data.mass,
+                date:meta.data.date
             }
             return item
         }))
 
-        const newItem = await loadUsername(items)
+        let allMetamaskAcc = []
+        let filteredMetamaskAcc
+        let strings = '?'
 
-        setNfts(newItem)
+        //to keep all the seller metamask account hex in order
+        for (let i = 0; i<items.length; i++){
+            let accounts = items[i]['seller']
+            allMetamaskAcc[i] = accounts
+        }  
+
+        //to take the unique value of the seller metamask account
+        filteredMetamaskAcc = allMetamaskAcc.filter((value, index, self) => self.indexOf(value) === index) 
+
+        
+        //to make the query based on the unique metamask account
+        for (let i = 0; i<filteredMetamaskAcc.length; i++){
+            strings += `metamaskAcc=${allMetamaskAcc[i]}&`
+        }  
+        strings += 'filter=username'
+        
+        //to GET the data from mongodb
+        const fetchedAcc = await requestData(strings)
+
+        //to take the username from the fetched GET data
+        let accountsFetch = []
+            for (let i = 0; i<(allMetamaskAcc.length) - 1; i++){
+                accountsFetch[i] = fetchedAcc.data[i]['username']
+        }
+
+        let nameSeparated = []
+        let accSeparated = []
+
+        //since the fetching only take the unique, we have to rearrange the seller of the nft based on
+        //the metamask account, cause unique value might result in 2 accounts only, and total nft is 3 (so 3 sellers in total)
+        for (let i = 0; i < items.length; i++){
+            accSeparated[i] = allMetamaskAcc[i]
+            nameSeparated[i] = fetchedAcc.data[filteredMetamaskAcc.indexOf(accSeparated[i])]
+        }
+        
+
+        for (let i = 0; i < items.length; i++){
+            items[i]['sellerName'] = nameSeparated[i]
+     
+        }
+
+        setNfts(items)
         setLoadingState('loaded')
 
     }
 
     async function requestData(strings){
- 
         const option = {
         method: "GET",
         headers:{'Content-Type': 'application/json'}
@@ -77,17 +116,8 @@ export default function RequestList() {
         }
         let page = `http://localhost:3000/api/usernameRetrieve${strings}`
 
-        await fetch(page, option)
-            .then((res) => {
-                if(res.ok){
-                    let a = Promise.resolve(res.json().then(response => setAccUsername(response.data)))
-                }
-                else{
-                    let a = Promise.resolve(res.json().then(response => console.log(response.error)))
-                }
-                })
-        
-        // console.log(accUsername)
+        const response = await fetch(page, option)
+        return await response.json()
     }
 
 
@@ -95,19 +125,19 @@ export default function RequestList() {
         let temp_nfts = nft
         let accounts = []
         for (let i = 0; i<nft.length; i++){
-            accounts = nft[i]['owners']
+            accounts = nft[i]['seller']
             let strings = '?'
-            for (let i = 0; i < accounts.length; i++){
-                strings += `metamaskAcc=${accounts[i]}&`
-            }
+            strings += `metamaskAcc=${accounts}&`
             
-            strings += "filter=username"
+            strings += "filter=username metamask"
             await requestData(strings)
             temp_nfts[i]['ownerName'] = accUsername
         }  
-
-        return nft
+        // console.log(temp_nfts)
+        
+        return temp_nfts
     }
+
 
     async function acceptRequestedNft(nft) {
         const web3modal = new Web3Modal()
@@ -163,14 +193,8 @@ export default function RequestList() {
                                 <div className="row-start-1 relative">
                                     <img src={nft.image} class="rounded object-fill h-96 w-screen" />
                                     <div className="bg-black inset-x-0 bottom-0 ">
-                                        <p className="text-xs font-bold text-white m-2 ">Seller:  </p>
-                                        <p className="text-xs font-bold text-white m-2 break-words ">{nft.seller}</p>
-                                        <p className="text-xs font-bold text-white m-2">Owners:</p>
-                                        {
-                                            nft.ownerName.map((ownerName, j) => (
-                                                (<p key={j} className="text-xs font-bold text-white m-2 break-all"> - {ownerName['username']}</p>)
-                                            ))
-                                        }
+                                        <p className="text-xs font-bold text-white m-2 ">Created on {nft.date} </p>
+                                        <p className="text-xs font-bold text-white m-2 ">Previous Warehouse:  {nft.sellerName.username} </p>
                                     </div>
                                 </div>
                                 <div className="flex justify-center inset-x-0 bottom-0 overflow-y-auto h-20">

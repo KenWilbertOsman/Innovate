@@ -23,17 +23,13 @@ export default function MyAssets() {
     const router = useRouter()
     const [formInput, updateFormInput] = useState('')
     const [metamaskAcc, setMetamaskAcc] = useState([])
-    const [accUsername, setAccUsername] = useState([])
-
+    
     useEffect(() => {
         loadNFTs()
         loadWarehouseAcc()
     }, [])
 
-    useEffect(() =>{
-        loadUsername(nfts)
-    }
-    , [nfts])
+
 
     async function loadWarehouseAcc() {
         const option = {
@@ -41,60 +37,28 @@ export default function MyAssets() {
             headers:{'Content-Type': 'application/json'}
             
         }
+
         await fetch('http://localhost:3000/api/dataRetrieve', option)
-            .then((res) => {
-                if(res.ok){
-                    let a = Promise.resolve(res.json().then(response => setMetamaskAcc(response.data)))
-                }
-                else{
-                    let a = Promise.resolve(res.json().then(response => console.log(response.error)))
-                }
-                })
-        // console.log(metamaskAcc)
+        .then(res => res.json()).then((data) => {
+            setMetamaskAcc(data.data);
+        })
     }
 
 
     async function requestData(strings){
- 
         const option = {
         method: "GET",
         headers:{'Content-Type': 'application/json'}
             
         }
+
         let page = `http://localhost:3000/api/usernameRetrieve${strings}`
-
-        await fetch(page, option)
-            .then((res) => {
-                if(res.ok){
-                    let a = Promise.resolve(res.json().then(response => setAccUsername(response.data)))
-                }
-                else{
-                    let a = Promise.resolve(res.json().then(response => console.log(response.error)))
-                }
-                })
+        const response = await fetch(page, option)
+        return await response.json()
         
-        // console.log(accUsername)
     }
 
 
-    async function loadUsername(nft) {
-        let temp_nfts = nft
-        let accounts = []
-        for (let i = 0; i<nft.length; i++){
-            // console.log(nft[i]['owners'])
-            accounts = nft[i]['owners']
-            let strings = '?'
-            for (let i = 0; i < accounts.length; i++){
-                strings += `metamaskAcc=${accounts[i]}&`
-            }
-            
-            strings += "filter=username"
-            await requestData(strings)
-            temp_nfts[i]['ownerName'] = accUsername
-        }  
-
-        return nft
-    }
 
     async function loadNFTs() {
         const web3Modal = new Web3Modal()
@@ -127,11 +91,69 @@ export default function MyAssets() {
             return item
         }))
 
-        const newItem = await loadUsername(items)
+        //just fetch all data at once instead of usiing for loop
+        
+        let accounts = []
+        let counts = {nftCount:[], eachNftOwner:[]}
+        let nftCounting = []
+        let eachNftOwners = []
+        let allMetamaskAcc = []
+        let filteredMetamaskAcc
+        let counting = 0
+        let strings = '?'
 
-        setNfts(newItem)
+        for (let i = 0; i<items.length; i++){
+            nftCounting[i] = i
+            eachNftOwners[i] = items[i]['owners'].length
+            accounts = items[i]['owners']
+            for (let j = 0; j < accounts.length; j++){
+                
+                allMetamaskAcc[counting] = accounts[j]
+                counting += 1
+            }
+            
+        }  
+        counts['nftCount'] = nftCounting
+        counts['eachNftOwner'] = eachNftOwners    
+
+        filteredMetamaskAcc = allMetamaskAcc.filter((value, index, self) => self.indexOf(value) === index) 
+
+        for (let i = 0; i<filteredMetamaskAcc.length; i++){
+            strings += `metamaskAcc=${filteredMetamaskAcc[i]}&`
+        }  
+        strings += 'filter=username'
+        
+
+        const fetchedAcc = await requestData(strings)
+
+        let accountsFetch = []
+            for (let i = 0; i<(allMetamaskAcc.length) - 1; i++){
+                accountsFetch[i] = fetchedAcc.data[i]['username']
+        }
+
+        let nameSeparated = []
+        let accSeparated = []
+        let count = 0
+
+        for (let i = 0; i < counts.nftCount.length; i++){
+            let tempNameArray = []
+            let tempAccArray = []
+            for (let j = 0; j<counts.eachNftOwner[i]; j++){
+                tempAccArray[j] = allMetamaskAcc[count]
+                tempNameArray[j] = fetchedAcc.data[filteredMetamaskAcc.indexOf(tempAccArray[j])]
+                count += 1
+            }
+            nameSeparated[i] = tempNameArray
+            accSeparated[i] = tempAccArray
+        }
+        
+        for (let i = 0; i < items.length; i++){
+            items[i]['ownerName'] = nameSeparated[i]
+     
+        }
+
+        setNfts(items)
         setLoadingState('loaded')
-
 
     }
 
@@ -202,15 +224,16 @@ export default function MyAssets() {
                                     <img src={nft.image} className="rounded object-fill h-96 w-screen" />
                                     
                                     <div className="bg-black inset-x-0 bottom-0 overflow-y-auto h-24">
-                                        <p className="text-xs font-bold text-white m-2">Username: {nft.name}</p>
+                                        <p className="text-xs font-bold text-white m-2">Parcel Sender Name: {nft.name}</p>
                                         <p className="text-xs font-bold text-white m-2">Created on {nft.date}</p>
-                                        <p className="text-xs font-bold text-white m-2">Owners: </p>
+                                        <p className="text-xs font-bold text-white m-2">Past Parcel Warehouses: </p>
 
                                         {
                                             nft.ownerName.map((ownerName, j) => (
                                                 (<p key={j} className="text-xs font-bold text-white m-2 break-all">- {ownerName['username']}</p>)
                                             ))
                                         }
+                                        
                                     </div>
                                 </div>
                                 <div className="flex justify-center mx-4 my-5">
@@ -225,7 +248,7 @@ export default function MyAssets() {
                                         <option value='' selected>Warehouse to be Sent</option>
                                         {
                                             metamaskAcc.map((account, i) => (
-                                                (<option key = {i} value={account.metamask}>{account.username}</option>)
+                                                (<option key = {i} value={account.metamask}>{account.username}, {account.state}</option>)
                                             ))
                                         }
                                     </select>
