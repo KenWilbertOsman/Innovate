@@ -223,7 +223,7 @@ export default function MyAssets() {
                                     
                                     <img src={nft.image} className="rounded object-cover h-96 w-screen" />
                                     
-                                    <div className="bg-black inset-x-0 bottom-0 overflow-y-auto h-24">
+                                    <div className="bg-theme-blue inset-x-0 bottom-0 overflow-y-auto h-24">
                                         <p className="text-xs font-bold text-white m-2">Parcel Sender Name: {nft.name}</p>
                                         <p className="text-xs font-bold text-white m-2">Created on {nft.date}</p>
                                         <p className="text-xs font-bold text-white m-2">Past Parcel Warehouses: </p>
