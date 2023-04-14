@@ -69,7 +69,7 @@ function User({session, handleSignOut}){
       </div>
 
       <div className = 'flex justify-center'>
-        <button className = "mt-5 px-10 py-1 rounded-sm bg-indigo-500 text-gray-50" onClick={handleSignOut}>Sign Out</button>
+        <button className = "mt-5 px-10 py-1 rounded-sm bg-theme-blue text-gray-50" onClick={handleSignOut}>Sign Out</button>
       </div>
 
       {/* <div className="flex justify-center">
