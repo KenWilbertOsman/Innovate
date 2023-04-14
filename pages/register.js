@@ -36,17 +36,18 @@ export default function Register(){
                 headers:{'Content-Type': 'application/json'}
                     
             }
-            let strings = `?q=${values.city}&filter=metamask&find=city`
+            let strings = `?q=${values.city}&filter=metamask&filter=address&find=city`
             let page = `http://localhost:3000/api/usernameRetrieve${strings}`
             const response = await fetch(page, option)
             const jsonResponse = await response.json()
             if (jsonResponse.data != null){
-                values['defaultWarehouse'] = jsonResponse.data.metamask
+                let concat = `${jsonResponse.data.metamask}, ${jsonResponse.data.address}`
+                values['defaultWarehouse'] = concat
             }
             
+            
         }
-
-
+        // console.log(values.defaultWarehouse)
         const option2 = {
             method: "POST",
             headers:{'Content-Type': 'application/json'},

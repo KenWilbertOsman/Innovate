@@ -57,6 +57,18 @@ function Guest(){
 
 //Authorize User
 function User({session, handleSignOut}){
+  let defaultWarehouse = session.user._doc.defaultWarehouse
+  let address
+  let role
+  if (session.user._doc.role == 'admin'){
+    role = "Admin"
+    address = `Default Warehouse to be Delivered: ${defaultWarehouse.split(",").slice(1)}`
+  } 
+  else{
+    role= "Warehouse"
+    address = ''
+  }
+
   return(
     <div className="container mx-auto text-center py-20">
       <h3 className = "text-4xl font-bold">
@@ -64,7 +76,8 @@ function User({session, handleSignOut}){
       </h3>
 
       <div className = 'details'>
-        <h5>Role: {session.user._doc.role}</h5>
+        <h5>Role: {role} </h5>
+        <h5>{address}</h5>
         <h5>{session.user.email}</h5>
       </div>
 
