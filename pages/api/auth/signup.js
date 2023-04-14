@@ -12,7 +12,9 @@ export default async function handler(req, res){
     if(req.method == 'POST'){
 
         if(!req.body) return res.status(404).json({ message: "Don't have form data...!"});
-        const { username, email, password, role, metamask, address, state } = req.body;
+
+
+        const { username, email, password, role, metamask, address, city, defaultWarehouse} = req.body;
 
         // check duplicate users
         const checkexisting = await User.findOne({ email });
@@ -22,7 +24,8 @@ export default async function handler(req, res){
         if(checkmetamask) return res.status(422).json({ message: "Metamask Account Already Registered"});
         
         // hash password
-        const usercreate = await User.create({username, email, password : await hash(password, 12), role, metamask, address, state})
+        const usercreate = await User.create({username, email, password : await hash(password, 12), role, metamask, address, city, defaultWarehouse})
+        
         return res.status(201).json({user: usercreate})
 
     } else{

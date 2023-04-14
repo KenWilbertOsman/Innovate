@@ -31,9 +31,12 @@ const userSchema = new Schema({
         type:String,
         required:true
     },
-    state:{
+    city:{
         type:String,
         required:true
+    },
+    defaultWarehouse:{
+        type:String
     }
 })
 

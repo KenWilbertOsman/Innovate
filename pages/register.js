@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Layout from '../components/layout'
 import styles from '../styles/Form.module.css'
 import {HiEye, HiAtSymbol, HiOutlineUser, HiLocationMarker} from "react-icons/hi"
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import Link from 'next/link'
 import {useFormik} from 'formik'
 import {registerValidate} from '../lib/validate'
@@ -21,7 +21,8 @@ export default function Register(){
             role:'',
             metamask:'',
             address:'',
-            state:''
+            city:'',
+            defaultWarehouse:''
         },
         validate: registerValidate, 
         onSubmit
@@ -29,27 +30,40 @@ export default function Register(){
 
 
     async function onSubmit(values){
-        const option = {
+        if (values.role == 'admin'){
+            const option = {
+                method: "GET",
+                headers:{'Content-Type': 'application/json'}
+                    
+            }
+            let strings = `?q=${values.city}&filter=metamask&find=city`
+            let page = `http://localhost:3000/api/usernameRetrieve${strings}`
+            const response = await fetch(page, option)
+            const jsonResponse = await response.json()
+            if (jsonResponse.data != null){
+                values['defaultWarehouse'] = jsonResponse.data.metamask
+            }
+            
+        }
+
+
+        const option2 = {
             method: "POST",
             headers:{'Content-Type': 'application/json'},
             body:JSON.stringify(values)
             
         }
-        await fetch('http://localhost:3000/api/auth/signup', option)
-            .then((res) => {
-                if(res.ok){
-                    router.push('http://localhost:3000/login')
-                }
-                else{
-                    let a = Promise.resolve(res.json().then(response => setDataError(response['message'])))
-                }
-                })
-            // .then(data => console.log(data))
-            // .then(()=>{ router.push('http://localhost:3000')
-            // })
 
+        await fetch('http://localhost:3000/api/auth/signup', option2)
+        .then((res) => {
+            if(res.ok){
+                router.push('http://localhost:3000/login')
+            }
+            else{
+                let a = Promise.resolve(res.json().then(response => setDataError(response['message'])))
+            }
+            })
     }
-
 
     return (
         <Layout>
@@ -167,19 +181,19 @@ export default function Register(){
                     </div>
                     {formik.errors.address && formik.touched.address? <span className = "text-rose-500 flex justify-start">{formik.errors.address}</span> : <></>}
                     
-                    <div className={`${styles.input_group} ${formik.errors.state && formik.touched.state ? 'border-rose-600' : ''}`}>
+                    <div className={`${styles.input_group} ${formik.errors.city && formik.touched.city ? 'border-rose-600' : ''}`}>
                         <input 
                         className = {styles.input_text}
-                        type = "state"
-                        name = "state"
-                        placeholder="State"
-                        {...formik.getFieldProps('state')}
+                        type = "city"
+                        name = "city"
+                        placeholder="City"
+                        {...formik.getFieldProps('city')}
                         />
                         <span className = "icon flex items-center px-4 ">
                             <HiLocationMarker size = {25}/>
                         </span>
                     </div>
-                    {formik.errors.state && formik.touched.state? <span className = "text-rose-500 flex justify-start">{formik.errors.state}</span> : <></>}
+                    {formik.errors.city && formik.touched.city? <span className = "text-rose-500 flex justify-start">{formik.errors.city}</span> : <></>}
                     
                     {/* login buttons */}
                     <div className="input-button">

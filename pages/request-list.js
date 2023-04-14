@@ -74,16 +74,16 @@ export default function RequestList() {
         
         //to make the query based on the unique metamask account
         for (let i = 0; i<filteredMetamaskAcc.length; i++){
-            strings += `metamaskAcc=${allMetamaskAcc[i]}&`
+            strings += `q=${allMetamaskAcc[i]}&`
         }  
-        strings += 'filter=username'
+        strings += 'filter=username&find=metamask'
         
         //to GET the data from mongodb
         const fetchedAcc = await requestData(strings)
 
         //to take the username from the fetched GET data
         let accountsFetch = []
-            for (let i = 0; i<(allMetamaskAcc.length) - 1; i++){
+        for (let i = 0; i<filteredMetamaskAcc.length; i++){
                 accountsFetch[i] = fetchedAcc.data[i]['username']
         }
 

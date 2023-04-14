@@ -81,9 +81,9 @@ export default function Detail() {
         let accounts = items[0]['owners']
         let strings = '?'
         for (let i = 0; i < accounts.length; i++){
-            strings += `metamaskAcc=${accounts[i]}&`
+            strings += `q=${accounts[i]}&`
         }
-        strings += "filter=username"
+        strings += "filter=username&find=metamask"
         
         
         //to GET the data from mongodb

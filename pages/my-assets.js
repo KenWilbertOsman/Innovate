@@ -119,15 +119,15 @@ export default function MyAssets() {
         filteredMetamaskAcc = allMetamaskAcc.filter((value, index, self) => self.indexOf(value) === index) 
 
         for (let i = 0; i<filteredMetamaskAcc.length; i++){
-            strings += `metamaskAcc=${filteredMetamaskAcc[i]}&`
+            strings += `q=${filteredMetamaskAcc[i]}&`
         }  
-        strings += 'filter=username'
+        strings += 'filter=username&find=metamask'
         
 
         const fetchedAcc = await requestData(strings)
-
         let accountsFetch = []
-            for (let i = 0; i<(allMetamaskAcc.length) - 1; i++){
+        for (let i = 0; i<(filteredMetamaskAcc.length); i++){
+                
                 accountsFetch[i] = fetchedAcc.data[i]['username']
         }
 
@@ -248,7 +248,7 @@ export default function MyAssets() {
                                         <option value='' selected>Warehouse to be Sent</option>
                                         {
                                             metamaskAcc.map((account, i) => (
-                                                (<option key = {i} value={account.metamask}>{account.username}, {account.state}</option>)
+                                                (<option key = {i} value={account.metamask}>{account.username}, {account.city}</option>)
                                             ))
                                         }
                                     </select>
