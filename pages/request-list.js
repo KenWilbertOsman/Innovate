@@ -173,7 +173,7 @@ export default function RequestList() {
                             <div key={i} className="grid grid-rows-1 border shadow rounded-xl overflow-hidden ">
                                 <div className="row-start-1 relative">
                                     <img src={nft.image} class="rounded object-fill h-96 w-screen" />
-                                    <div className="bg-black inset-x-0 bottom-0 ">
+                                    <div className="bg-theme-blue inset-x-0 bottom-0 ">
                                         <p className="text-xs font-bold text-white m-2 ">Created on {nft.date} </p>
                                         <p className="text-xs font-bold text-white m-2 ">Previous Warehouse:  {nft.sellerName.username} </p>
                                     </div>
