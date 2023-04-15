@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { ethers } from 'ethers'
 import ShopNavbar from "../components/ShopNavbar";
 
-import {getSession} from 'next-auth/react'
+import {getSession, useSession} from 'next-auth/react'
 
 //to interact with ipfs, uploading and downloading files
 import { create as ipfsHttpClient } from 'ipfs-http-client'
@@ -47,6 +47,7 @@ import Market from '../artifacts/contracts/NFT.sol/NFT.json'
 //default function of this file
 export default function CreateItem() {
 
+    const {data:session} = useSession()
     const [fileUrl, setFileUrl] = useState(null)
     const [formInput, updateFormInput] = useState({ username: '', useraddress: '', userphone: '', recname: '', recphone: '', recaddress: '', fragile: '', mass: '', hash:'' })
     const router = useRouter()
@@ -120,7 +121,8 @@ export default function CreateItem() {
 
         let prices = ethers.utils.parseUnits(price, 'ether')
 
-        let account4Address = '0xD6513D3b2d13aa2022A481E619F52Ba01C3eA565'
+        let account4Address = session.user._doc.defaultWarehouse.split(",")[0]
+        
         let contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
         let listingPrice = await contract.getListingPrice()
         listingPrice = listingPrice.toString()
