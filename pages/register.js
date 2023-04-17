@@ -89,7 +89,7 @@ export default function Register(){
                         className = {styles.input_text}
                         type = "text"
                         name = "Username"
-                        placeholder="Username"
+                        placeholder="Full Name"
                         {...formik.getFieldProps('username')}
                         />
                         <span className = "icon flex items-center px-4 ">

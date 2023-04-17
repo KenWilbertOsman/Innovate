@@ -8,7 +8,7 @@ import axios from 'axios'
 import Web3Modal from 'web3modal'
 import { useRouter } from 'next/router'
 import WarehouseNavbar from "../components/WarehouseNavbar"
-import {getSession} from 'next-auth/react'
+import {getSession, useSession} from 'next-auth/react'
 
 import {
     nftmarketaddress
@@ -23,6 +23,7 @@ export default function MyAssets() {
     const router = useRouter()
     const [formInput, updateFormInput] = useState('')
     const [metamaskAcc, setMetamaskAcc] = useState([])
+    const {data:cur_session} = useSession()
     
     useEffect(() => {
         loadNFTs()
@@ -40,7 +41,13 @@ export default function MyAssets() {
 
         await fetch('http://localhost:3000/api/dataRetrieve', option)
         .then(res => res.json()).then((data) => {
-            setMetamaskAcc(data.data);
+            let data_res = data.data
+            //dont make own account appear in the dropdown list
+            data_res = data_res.filter(object => object.address != cur_session.user._doc.address)
+            //sort based on the city first a
+            data_res = data_res.sort((a, b) => (a.city.charAt(0) > b.city.charAt(0)) ? 1 : -1);
+            
+            setMetamaskAcc(data_res);
         })
     }
 
@@ -248,7 +255,7 @@ export default function MyAssets() {
                                         <option value='' selected>Warehouse to be Sent</option>
                                         {
                                             metamaskAcc.map((account, i) => (
-                                                (<option key = {i} value={account.metamask}>{account.username}, {account.city}</option>)
+                                                (<option key = {i} value={account.metamask}>{account.username}, {account.address}, {account.city}</option>)
                                             ))
                                         }
                                     </select>
