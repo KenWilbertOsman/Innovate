@@ -17,8 +17,11 @@ export default async function handler(req, res){
         const { username, email, password, role, metamask, address, city, defaultWarehouse} = req.body;
 
         // check duplicate users
+        const checkUsername = await User.findOne({ username });
+        if(checkUsername) return res.status(422).json({ message: "Username Already Exists"});
+        
         const checkexisting = await User.findOne({ email });
-        if(checkexisting) return res.status(422).json({ message: "User Already Exists"});
+        if(checkexisting) return res.status(422).json({ message: "User Email Already Exists"});
         
         const checkmetamask = await User.findOne({ metamask });
         if(checkmetamask) return res.status(422).json({ message: "Metamask Account Already Registered"});
