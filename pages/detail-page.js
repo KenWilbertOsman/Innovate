@@ -29,11 +29,11 @@ export default function Detail() {
     }, [router.isReady]);
 
 
-    async function requestData(strings){
+    async function requestData(strings) {
         const option = {
-        method: "GET",
-        headers:{'Content-Type': 'application/json'}
-            
+            method: "GET",
+            headers: { 'Content-Type': 'application/json' }
+
         }
         let page = `http://localhost:3000/api/usernameRetrieve${strings}`
 
@@ -77,22 +77,22 @@ export default function Detail() {
             }
             return item
         }))
-            // console.log(nft[i]['owners'])
+        // console.log(nft[i]['owners'])
         let accounts = items[0]['owners']
         let strings = '?'
-        for (let i = 0; i < accounts.length; i++){
+        for (let i = 0; i < accounts.length; i++) {
             strings += `q=${accounts[i]}&`
         }
         strings += "filter=username&find=metamask"
-        
-        
+
+
         //to GET the data from mongodb
         const fetchedAcc = await requestData(strings)
 
         //to take the username from the fetched GET data
         let accountsFetch = []
-        for (let i = 0; i<(accounts.length); i++){
-                accountsFetch[i] = fetchedAcc.data[i]['username']
+        for (let i = 0; i < (accounts.length); i++) {
+            accountsFetch[i] = fetchedAcc.data[i]['username']
 
         }
         items[0]['addressName'] = accountsFetch
@@ -103,17 +103,8 @@ export default function Detail() {
         <div className='font-serif'>
             {NavigationBar(session)}
             <div className='mx-auto my-10 max-w-7xl'>
-                <div className="font-serif box-border border-4 items-center justify-center">
+                <div className="font-serif box-border bg-gray-100 items-center justify-center">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4">
-                        {
-                            nfts.map((nft, i) => (
-                                <div key={i} className="grid grid-cols-3 md:col-span-2 lg:col-span-2 items-center">
-                                    <div className="col-span-2 md:col-span-1 lg:col-span-1 lg:text-xl">No.{nft.tokenId}</div>
-                                    <div className="col-span-1 md:col-span-1 lg:col-span-1 lg:text-xl">Mass:{nft.mass}kg</div>
-                                    <div className="col-span-3 md:col-span-1 lg:col-span-1 lg:text-xl font-bold uppercase">{nft.fragile}<span className="font-normal"> Parcel</span></div>
-                                </div>
-                            ))
-                        }
                         {
                             nfts.map((nft, i) => (
                                 <div key={i} className="rounded-xl overflow-hidden h-96 w-full col-span-2 lg:col-span-1">
@@ -124,6 +115,14 @@ export default function Detail() {
                         {
                             nfts.map((nft, i) => (
                                 <div className='m-2 col-span-2 lg:col-span-1 lg:m-4' >
+                                    <div key={i} className="flex flex-row text-xs lg:text-xl mt-2 mb-3">
+                                        <div className="basis-1/2">Mass:{nft.mass}kg</div>
+                                        <div className="basis-1/2 text-right">
+                                            <span className="font-bold uppercase">
+                                                {nft.fragile}
+                                            </span> Parcel
+                                        </div>
+                                    </div>
                                     <h1 className='text-theme-peach text-xl font-semibold tracking-wide lg:text-2xl'>Sender Details</h1>
                                     <div className='leading-loose my-2 text-xs lg:text-base'>
                                         <div className='flex flex-row'>
@@ -177,53 +176,50 @@ export default function Detail() {
                         }
                     </div>
                 </div>
-                <div className='mt-10 mx-5 '>
-                    {
-                        nfts.map((nft,i) => (
-                        
-
-                        <div>
-
-                        {nft.addressName.map ((name, j) => (
-                            <div>
-                            <div key = {i} className='flex '>
-                            <div className='justify-center items-center'>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-                                </svg>
-                            </div>
-                            <div className='mx-2 p-1.5'>
-                                <span className='align-middle'>{name}</span>
-                            </div>
-                        </div>
-                        <div className='justify-center items-center'>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
-                            <path fill-rule="evenodd" d="M12 2.25a.75.75 0 01.75.75v16.19l2.47-2.47a.75.75 0 111.06 1.06l-3.75 3.75a.75.75 0 01-1.06 0l-3.75-3.75a.75.75 0 111.06-1.06l2.47 2.47V3a.75.75 0 01.75-.75z" clip-rule="evenodd" />
-                        </svg>
-                        </div>
-                        </div>
-                        ))}
-                        
-                        </div>
-                        ))
-                    }            
+                <div className='mt-10 mx-5'>
                     {
                         nfts.map((nft, i) => (
-                        <div className = 'text-neutral-400'>
-                            <div className='flex '>
-                                <div className='justify-center items-center'>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-10 h-10">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-                                    </svg>
-                                </div>
-                                <div className='mx-2 p-1.5'>
-                                    <span className='align-middle'>Recipient Address: {nft.address}</span>
-                                </div>
+                            <div>
+                                {nft.addressName.map((name, j) => (
+                                    <div>
+                                        <div key={i} className='flex '>
+                                            <div className='justify-center items-center'>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                                                </svg>
+                                            </div>
+                                            <div className='mx-2 p-1.5'>
+                                                <span className='align-middle'>{name}</span>
+                                            </div>
+                                        </div>
+                                        <div className='justify-center items-center'>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
+                                                <path fill-rule="evenodd" d="M12 2.25a.75.75 0 01.75.75v16.19l2.47-2.47a.75.75 0 111.06 1.06l-3.75 3.75a.75.75 0 01-1.06 0l-3.75-3.75a.75.75 0 111.06-1.06l2.47 2.47V3a.75.75 0 01.75-.75z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                ))}
+
                             </div>
-                        </div>
                         ))
                     }
-                    </div>
+                    {
+                        nfts.map((nft, i) => (
+                            <div className='text-neutral-400'>
+                                <div className='flex '>
+                                    <div className='justify-center items-center'>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-10 h-10">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                                        </svg>
+                                    </div>
+                                    <div className='mx-2 p-1.5'>
+                                        <span className='align-middle'>Recipient Address: {nft.address}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
             </div>
         </div>
     )
