@@ -4,7 +4,6 @@
 
 import React from 'react';
 import Link from 'next/link'
-import { HiUser } from "react-icons/hi"
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react'
 import {useSession} from 'next-auth/react'
@@ -50,15 +49,15 @@ function ShopNavbar() {
             body:JSON.stringify(formInput)
         }
 
-        // await fetch('http://localhost:3000/api/replace', option)
-        // .then((res) => {
-        //     if(res.ok){
-        //         router.push('http://localhost:3000/login')
-        //     }
-        //     else{
-        //         let a = Promise.resolve(res.json().then(response => setDataError(response['message'])))
-        //     }
-        //     })
+        await fetch('http://localhost:3000/api/replace', option)
+        .then((res) => {
+            if(res.ok){
+                router.reload('/')
+            }
+            else{
+                let a = Promise.resolve(res.json().then(response => setDataError(response['message'])))
+            }
+            })
         }
     }
     return (
@@ -81,9 +80,10 @@ function ShopNavbar() {
                             ))
                         }
                     </select>
-                    <button className=" flex items-center px-4 py-1 text-white bg-theme-peach" type="submit" onClick = {replaceDefaultWarehouse()}>
+                    <button className=" flex items-center px-4 py-1 text-white bg-theme-peach" type="submit" onClick = {() => replaceDefaultWarehouse()}>
                         <i className="fas fa-check mr-1"></i>
                     </button>
+                    
                 </div>
             </div>
         </nav>

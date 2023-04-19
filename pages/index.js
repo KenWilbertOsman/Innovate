@@ -63,10 +63,10 @@ function User({session, handleSignOut}){
   if (session.user._doc.role == 'admin'){
     role = "Admin"
     if (defaultWarehouse != ''){
-      address = `Default Warehouse to be Delivered: ${defaultWarehouse.split(",").slice(1)}`
+      address = `${defaultWarehouse.split(",").slice(1)}`
     }
     else{
-      address = `Default Warehouse to be Delivered: None`
+      address = "None"
     }
   } 
   else{
@@ -81,11 +81,14 @@ function User({session, handleSignOut}){
       </h3>
 
       <div className = 'details'>
-        <h5>Role: {role} </h5>
-        <h5>{address}</h5>
-        <h5>{session.user.email}</h5>
+        <h5><span className="font-bold">Role: </span> {role} </h5>
+        <h5><span className="font-bold">Default Warehouse to be Delivered: </span>{address}</h5>
+        <h5><span className="font-bold">Email Account: </span>{session.user.email}</h5>
       </div>
-
+    <br></br>
+      <div>
+        <h5 className="text-theme-red">Relog in to see changes made for default warehouse</h5>
+      </div>
       <div className = 'flex justify-center'>
         <button className = "mt-5 px-10 py-1 rounded-sm bg-theme-blue text-gray-50" onClick={handleSignOut}>Sign Out</button>
       </div>
