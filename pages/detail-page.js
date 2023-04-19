@@ -102,9 +102,9 @@ export default function Detail() {
     return (
         <div className='font-serif'>
             {NavigationBar(session)}
-            <div className='mx-auto my-10 max-w-7xl'>
-                <div className="font-serif box-border bg-gray-100 items-center justify-center">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4">
+            <div className='min-h-screen flex flex-col'>
+                <div className="font-serif box-border bg-gray-100 items-center justify-center mt-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-1 lg:p-7 md:p-6">
                         {
                             nfts.map((nft, i) => (
                                 <div key={i} className="rounded-xl overflow-hidden h-96 w-full col-span-2 lg:col-span-1">
@@ -176,44 +176,72 @@ export default function Detail() {
                         }
                     </div>
                 </div>
-                <div className='mt-10 mx-5'>
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 m-10'>
+                    {/* the format that should look like */}
+                    <div class="timeline-container">
+                        <div class="timeline-item flex mb-2">
+                            <div class="flex">
+                                <div class="timeline-item-line h-full w-2 bg-gray-500"></div>
+                                <div class="timeline-item-content w-full ml-4">
+                                    <h3 class="timeline-item-title font-bold">#1 Location</h3>
+                                    <p class="timeline-item-description">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin aliquam vestibulum augue nec bibendum. Sed
+                                        vitae bibendum arcu.
+                                    </p>
+                                    <p class="timeline-item-date italic">Feb 2023</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-container">
+                        <div class="timeline-item flex mb-2">
+                            <div class="flex">
+                                <div class="timeline-item-line h-full w-2 bg-gray-500"></div>
+                                <div class="timeline-item-content w-full ml-4">
+                                    <h3 class="timeline-item-title font-bold">#2 Location</h3>
+                                    <p class="timeline-item-description">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin aliquam vestibulum augue nec bibendum. Sed
+                                        vitae bibendum arcu.
+                                    </p>
+                                    <p class="timeline-item-date italic">Feb 2023</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     {
                         nfts.map((nft, i) => (
-                            <div>
+                            <div class="timeline-container">
                                 {nft.addressName.map((name, j) => (
-                                    <div>
-                                        <div key={i} className='flex '>
-                                            <div className='justify-center items-center'>
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-                                                </svg>
+                                    <div class="timeline-item flex mb-2">
+                                        <div class="flex">
+                                            <div class="timeline-item-line h-full w-2 bg-gray-500"></div>
+                                            <div class="timeline-item-content w-full ml-4">
+                                                <h3 class="timeline-item-title font-bold">#{j + 1} Location </h3>
+                                                <p class="timeline-item-description">
+                                                    {name}
+                                                </p>
+                                                <p class="timeline-item-date italic">Jan 2023</p>
                                             </div>
-                                            <div className='mx-2 p-1.5'>
-                                                <span className='align-middle'>{name}</span>
-                                            </div>
-                                        </div>
-                                        <div className='justify-center items-center'>
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10">
-                                                <path fill-rule="evenodd" d="M12 2.25a.75.75 0 01.75.75v16.19l2.47-2.47a.75.75 0 111.06 1.06l-3.75 3.75a.75.75 0 01-1.06 0l-3.75-3.75a.75.75 0 111.06-1.06l2.47 2.47V3a.75.75 0 01.75-.75z" clip-rule="evenodd" />
-                                            </svg>
                                         </div>
                                     </div>
                                 ))}
-
                             </div>
                         ))
                     }
                     {
                         nfts.map((nft, i) => (
-                            <div className='text-neutral-400'>
-                                <div className='flex '>
-                                    <div className='justify-center items-center'>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-10 h-10">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-                                        </svg>
-                                    </div>
-                                    <div className='mx-2 p-1.5'>
-                                        <span className='align-middle'>Recipient Address: {nft.address}</span>
+                            <div class="timeline-container">
+                                <div class="timeline-item flex mb-2">
+                                    <div class="flex">
+                                        <div class="timeline-item-line h-full w-2 bg-gray-500"></div>
+                                        <div class="timeline-item-content w-full ml-4">
+                                            <h3 class="timeline-item-title font-bold">In-transit</h3>
+                                            <p class="timeline-item-description">
+                                                Recipient Address: {nft.address}
+                                            </p>
+                                            <p class="timeline-item-date italic">Feb 2023</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
