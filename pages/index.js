@@ -62,7 +62,12 @@ function User({session, handleSignOut}){
   let role
   if (session.user._doc.role == 'admin'){
     role = "Admin"
-    address = `Default Warehouse to be Delivered: ${defaultWarehouse.split(",").slice(1)}`
+    if (defaultWarehouse != ''){
+      address = `Default Warehouse to be Delivered: ${defaultWarehouse.split(",").slice(1)}`
+    }
+    else{
+      address = `Default Warehouse to be Delivered: None`
+    }
   } 
   else{
     role= "Warehouse"
