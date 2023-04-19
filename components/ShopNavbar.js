@@ -32,9 +32,6 @@ function ShopNavbar() {
                     </button>
                 </div>
             </div>
-            <span className="top-0 right-0 absolute pr-6 pt-10" onClick={() => router.push('/profile')}>
-                <HiUser size={45} color="808080" />
-            </span>
         </nav>
     )
 }
