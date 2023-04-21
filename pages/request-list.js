@@ -131,22 +131,7 @@ export default function RequestList() {
         loadNFTs()
     }
 
-    async function burnNft(tokenId) {
-        const web3modal = new Web3Modal();
-        const connection = await web3modal.connect()
-        const provider = new ethers.providers.Web3Provider(connection)
-        const signer = provider.getSigner()
 
-        //interact with nft contract
-        const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
-        // const tokenContract = new ethers.Contract(nftaddress, NFT.abi, signer)
-
-        const transaction = await marketContract.burnToken(tokenId)
-
-        await transaction.wait()
-        router.push('/my-assets')
-        loadNFTs()
-    }
 
     async function declineRequestedNft(nft) {
         const web3modal = new Web3Modal()
@@ -165,7 +150,8 @@ export default function RequestList() {
             })
         }
         else if (nft.sellerName.role == 'admin'){
-            burnNft(nft.tokenId)
+            transaction = await contract.burnToken(nft.tokenId)
+
         }
 
         //if the previous owner is admin, then u burn it

@@ -42,7 +42,7 @@ describe("NFTMarket", function() {
 
     await nftMarketplace.connect(buyerAddress).burnToken(1)
     
-    console.log('fourth', await nftMarketplace.connect(buyerAddress).fetchMyNFTs())
+    console.log('fourth', await nftMarketplace.connect(firstAddress).fetchAllNFT())
         
     
   })})

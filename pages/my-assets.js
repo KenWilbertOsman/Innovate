@@ -151,7 +151,6 @@ export default function MyAssets() {
             nameSeparated[i] = tempNameArray.reverse()
             accSeparated[i] = tempAccArray.reverse()
         }
-        console.log(nameSeparated)
         for (let i = 0; i < items.length; i++){
             items[i]['ownerName'] = nameSeparated[i]
      
