@@ -69,25 +69,17 @@ export default function RequestList() {
 
         //to take the unique value of the seller metamask account
         filteredMetamaskAcc = allMetamaskAcc.filter((value, index, self) => self.indexOf(value) === index) 
-        console.log('filtered', filteredMetamaskAcc)
         //to make the query based on the unique metamask account
         for (let i = 0; i<filteredMetamaskAcc.length; i++){
             strings += `q=${filteredMetamaskAcc[i]}&`
         }  
 
-        strings += 'filter=username&find=metamask'
+        strings += 'filter=username&filter=role&find=metamask'
         //to GET the data from mongodb
         const fetchedAcc = await requestData(strings)
-        console.log('nft all', items)
-        console.log('fetched acc', fetchedAcc)
 
 
         //to take the username from the fetched GET data
-        let accountsFetch = []
-        
-        for (let i = 0; i<filteredMetamaskAcc.length; i++){
-                accountsFetch[i] = fetchedAcc.data[i]['username']
-        }
 
         let nameSeparated = []
         let accSeparated = []
@@ -98,13 +90,13 @@ export default function RequestList() {
             accSeparated[i] = allMetamaskAcc[i]
             nameSeparated[i] = fetchedAcc.data[filteredMetamaskAcc.indexOf(accSeparated[i])]
         }
-        
 
         for (let i = 0; i < items.length; i++){
             items[i]['sellerName'] = nameSeparated[i]
      
         }
 
+        console.log(items)
         setNfts(items)
         setLoadingState('loaded')
 
@@ -166,9 +158,15 @@ export default function RequestList() {
 
         const prices = ethers.utils.parseUnits(nft.price.toString(), 'ether')
         
-        const transaction = await contract.removeRequest(nft.tokenId, {
-            value: prices
-        })
+        let transaction
+        if (nft.sellerName.role == 'warehouse'){
+            transaction = await contract.removeRequest(nft.tokenId, {
+                value: prices
+            })
+        }
+        else if (nft.sellerName.role == 'admin'){
+            burnNft(nft.tokenId)
+        }
 
         //if the previous owner is admin, then u burn it
         //if the previous owner is warehouse, then u send it back to the previous warehouse
@@ -194,7 +192,7 @@ export default function RequestList() {
                         nfts.map((nft, i) => (
                             <div key={i} className="grid grid-rows-1 border border-zinc-800 shadow rounded-xl overflow-hidden ">
                                 <div className="row-start-1 relative">
-                                    <img src={nft.image} class="rounded object-fill h-96 w-screen" />
+                                    <img src={nft.image} className="rounded object-fill h-96 w-screen" />
                                     <div className="bg-theme-blue inset-x-0 bottom-0 ">
                                         <p className="text-xs font-bold text-white m-2 ">Created on {nft.date} </p>
                                         <p className="text-xs font-bold text-white m-2 ">Previous Warehouse:  {nft.sellerName.username} </p>

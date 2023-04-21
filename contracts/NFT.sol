@@ -126,9 +126,9 @@ contract NFT is ERC721URIStorage {
     function createMarketSale(
       uint256 tokenId
       ) public payable {
-      uint price = idToMarketItem[tokenId].price;
+      // uint price = idToMarketItem[tokenId].price;
       address seller = idToMarketItem[tokenId].seller;
-      require(msg.value == price, "Please submit the asking price in order to complete the purchase");
+      // require(msg.value == price, "Please submit the asking price in order to complete the purchase");
       idToMarketItem[tokenId].owner = payable(msg.sender);
       // idToMarketItem[tokenId].sold = true;
       idToMarketItem[tokenId].seller = payable(address(0));
@@ -232,8 +232,11 @@ contract NFT is ERC721URIStorage {
 
         for (uint i = 0; i< totalItemCount; i++){
            if (idToMarketItem[i+1].nextWarehouse == msg.sender && (i+1) == index ) {
-                console.log(idToMarketItem[i+1].tokenId);
                 idToMarketItem[i+1].nextWarehouse = payable(address(0));
+                
+                idToMarketItem[i+1].owner = payable(idToMarketItem[i+1].seller);
+                idToMarketItem[i+1].seller = payable(address(0));
+                // idToMarketItem[i+1].nextWarehouse = payable(idToMarketItem[i+1].seller);
                 break;
            } 
         }
