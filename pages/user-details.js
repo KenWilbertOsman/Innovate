@@ -200,7 +200,7 @@ export default function Detail() {
 
 
                         {/* the format that should look like */}
-                    <div class="timeline-container">
+                    <div class="timeline-container text-gray-300">
                         <div class="timeline-item flex mb-2">
                             <div class="flex">
                                 <div class="timeline-item-line h-full w-2 bg-gray-500"></div>
@@ -214,7 +214,7 @@ export default function Detail() {
                             </div>
                         </div>
                     </div>
-                    <div class="timeline-container">
+                    <div class="timeline-container text-gray-300">
                         <div class="timeline-item flex mb-2">
                             <div class="flex">
                                 <div class="timeline-item-line h-full w-2 bg-gray-500"></div>

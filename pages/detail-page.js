@@ -180,40 +180,10 @@ export default function Detail() {
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 m-10'>
                     {/* the format that should look like */}
-                    <div class="timeline-container">
-                        <div class="timeline-item flex mb-2">
-                            <div class="flex">
-                                <div class="timeline-item-line h-full w-2 bg-gray-500"></div>
-                                <div class="timeline-item-content w-full ml-4">
-                                    <h3 class="timeline-item-title font-bold">#1 Location</h3>
-                                    <p class="timeline-item-description">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin aliquam vestibulum augue nec bibendum. Sed
-                                        vitae bibendum arcu.
-                                    </p>
-                                    <p class="timeline-item-date italic">Feb 2023</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="timeline-container">
-                        <div class="timeline-item flex mb-2">
-                            <div class="flex">
-                                <div class="timeline-item-line h-full w-2 bg-gray-500"></div>
-                                <div class="timeline-item-content w-full ml-4">
-                                    <h3 class="timeline-item-title font-bold">#2 Location</h3>
-                                    <p class="timeline-item-description">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin aliquam vestibulum augue nec bibendum. Sed
-                                        vitae bibendum arcu.
-                                    </p>
-                                    <p class="timeline-item-date italic">Feb 2023</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     {
                         nfts.map((nft, i) => (
-                            <div class="timeline-container">
+                            <div class="timeline-container ">
                                 {nft.addressName.map((name, j) => (
                                     <div class="timeline-item flex mb-2">
                                         <div class="flex">
@@ -231,9 +201,39 @@ export default function Detail() {
                             </div>
                         ))
                     }
+                    <div class="timeline-container text-gray-300">
+                        <div class="timeline-item flex mb-2">
+                            <div class="flex">
+                                <div class="timeline-item-line h-full w-2 bg-gray-500"></div>
+                                <div class="timeline-item-content w-full ml-4">
+                                    <h3 class="timeline-item-title font-bold">#2 Location</h3>
+                                    <p class="timeline-item-description">
+                                    Warehouse Address: ......
+                                    </p>
+                                    <p class="timeline-item-date italic">Arrival Date: Feb. 2023</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-container text-gray-300">
+                        <div class="timeline-item flex mb-2">
+                            <div class="flex">
+                                <div class="timeline-item-line h-full w-2 bg-gray-500"></div>
+                                <div class="timeline-item-content w-full ml-4">
+                                    <h3 class="timeline-item-title font-bold">#3 Location</h3>
+                                    <p class="timeline-item-description">
+                                    Warehouse Address: ......
+                                    </p>
+                                    <p class="timeline-item-date italic">Arrival Date: Mar. 2023</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
                     {
                         nfts.map((nft, i) => (
-                            <div class="timeline-container">
+                            <div class="timeline-container text-gray-300">
                                 <div class="timeline-item flex mb-2">
                                     <div class="flex">
                                         <div class="timeline-item-line h-full w-2 bg-gray-500"></div>
