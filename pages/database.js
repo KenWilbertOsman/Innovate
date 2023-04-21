@@ -67,12 +67,12 @@ export default function Database() {
 
         //this is to set the variable "nfts" with items
         setNfts(items)
-        console.log(items)
         setFiltered(items)
         setLoadingState('loaded')
 
     }
 
+    //to filter based on the needs
     async function filterNFT(c) {
 
         if (c == "all") {
@@ -127,19 +127,19 @@ export default function Database() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-4">
                     {
                         filtered.map((nft, i) => (
-                            <div key={i} className="border shadow rounded-xl overflow-hidden relative">
+                            <div key={i} className="border border-zinc-800 shadow rounded-xl overflow-hidden relative ">
                                 <a href={`/detail-page?index=${nft.tokenId}`}>
                                     <div className='flex justify-end' >
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 absolute m-4 cursor-pointer">
-                                            <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd"
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 absolute m-4 cursor-pointer">
+                                            <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z" clipRule="evenodd"
                                                 href={`/detail-page?index=${nft.tokenId}`} />
                                         </svg>
                                     </div>
                                 </a>
-                                <img src={nft.image} class="rounded object-fill h-96 w-screen"/>
-                                <div className="p-4 bg-black inset-x-0 bottom-0 overflow-y-auto h-24" >
-                                    <p className="text-xl font-bold text-white">Recipient Address: {nft.recAddress}</p>
-                                    <p className="text-xl font-bold text-white">Recipient Mobile: {nft.recNumber}</p>
+                                <img src={nft.image} className="rounded object-fill h-96 w-screen"/>
+                                <div className="bg-theme-blue inset-x-0 bottom-0" >
+                                    <p className="text-xs font-bold text-white m-2">Recipient Address: {nft.recAddress}</p>
+                                    <p className="text-xs font-bold text-white m-2">Recipient Mobile: {nft.recNumber}</p>
                                          
                                 </div>
                             </div>

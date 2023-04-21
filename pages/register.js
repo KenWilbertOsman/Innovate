@@ -30,7 +30,7 @@ export default function Register(){
 
 
     async function onSubmit(values){
-        if (values.role == 'admin'){
+        if (values.role == 'admin' && !values.email.includes("@dreamcatcher.com")){
             const option = {
                 method: "GET",
                 headers:{'Content-Type': 'application/json'}

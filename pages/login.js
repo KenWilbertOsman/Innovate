@@ -101,7 +101,7 @@ export default function Login(){
                         </button>
                     </div>
 
-                    <div className="input-button">
+                    <div className="input-button ">
                         <button type='button' onClick={handleGoogleSignin} className = {styles.button_custom}>
                             Sign In with Google <img src = {'/assets/google.svg'} width = "20" height = {20}></img>
                         </button>

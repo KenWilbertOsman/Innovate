@@ -1,3 +1,4 @@
+//just for testing printing token jwt
 import { getToken } from "next-auth/jwt"
 
 const secret = "XH6bp/TkLvnUkQiPDEZNyHc0CV+VV5RL/n+HdVHoHN0="

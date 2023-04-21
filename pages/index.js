@@ -25,6 +25,8 @@ export default function Home() {
     </div>
   )
 }
+
+//to give different navigation bar for different role
 function NavigationBar(session)
 {
   if (session.user._doc.role == "warehouse"){
@@ -55,13 +57,17 @@ function Guest(){
   )
 }
 
-//Authorize User
+//Authorize User Page
 function User({session, handleSignOut}){
   let defaultWarehouse = session.user._doc.defaultWarehouse
   let address
   let role
-  if (session.user._doc.role == 'admin'){
+  let warning = ''
+  let defaultString = ''
+  if (session.user._doc.role == 'admin' && !session.user._doc.email.includes("@dreamcatcher.com")){
     role = "Admin"
+    warning = 'Relog in to see changes made for default warehouse'
+    defaultString = 'Default Warehouse to be Delivered: '
     if (defaultWarehouse != ''){
       address = `${defaultWarehouse.split(",").slice(1)}`
     }
@@ -82,12 +88,12 @@ function User({session, handleSignOut}){
 
       <div className = 'details'>
         <h5><span className="font-bold">Role: </span> {role} </h5>
-        <h5><span className="font-bold">Default Warehouse to be Delivered: </span>{address}</h5>
+        <h5><span className="font-bold">{defaultString}</span>{address}</h5>
         <h5><span className="font-bold">Email Account: </span>{session.user.email}</h5>
       </div>
     <br></br>
       <div>
-        <h5 className="text-theme-red">Relog in to see changes made for default warehouse</h5>
+        <h5 className="text-theme-red">{warning}</h5>
       </div>
       <div className = 'flex justify-center'>
         <button className = "mt-5 px-10 py-1 rounded-sm bg-theme-blue text-gray-50" onClick={handleSignOut}>Sign Out</button>
@@ -103,8 +109,6 @@ function User({session, handleSignOut}){
 
 //protected route
 //this function is to generate this page only when the session is in the cookie
-
-
 export async function getServerSideProps({req}){
   const session = await getSession({req})
 

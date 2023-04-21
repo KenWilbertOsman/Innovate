@@ -1,4 +1,4 @@
-//This file is to retrieve information from mongodb that has role of warehouse
+//This file is to replace default warehouse (for admin (shop owner) only)
 import connectMongo from '../../database/conn'
 import User from '../../model/Schema'
 

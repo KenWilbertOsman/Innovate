@@ -18,7 +18,6 @@ import Market from '../artifacts/contracts/NFT.sol/NFT.json'
 export default function RequestList() {
     const [nfts, setNfts] = useState([])
     const [loadingState, setLoadingState] = useState('not-loaded')
-    const [accUsername, setAccUsername] = useState([])
 
     useEffect(() => {
         loadNFTs()
@@ -70,19 +69,22 @@ export default function RequestList() {
 
         //to take the unique value of the seller metamask account
         filteredMetamaskAcc = allMetamaskAcc.filter((value, index, self) => self.indexOf(value) === index) 
-
-        
+        console.log('filtered', filteredMetamaskAcc)
         //to make the query based on the unique metamask account
         for (let i = 0; i<filteredMetamaskAcc.length; i++){
-            strings += `q=${allMetamaskAcc[i]}&`
+            strings += `q=${filteredMetamaskAcc[i]}&`
         }  
+
         strings += 'filter=username&find=metamask'
-        
         //to GET the data from mongodb
         const fetchedAcc = await requestData(strings)
+        console.log('nft all', items)
+        console.log('fetched acc', fetchedAcc)
+
 
         //to take the username from the fetched GET data
         let accountsFetch = []
+        
         for (let i = 0; i<filteredMetamaskAcc.length; i++){
                 accountsFetch[i] = fetchedAcc.data[i]['username']
         }
@@ -137,8 +139,23 @@ export default function RequestList() {
         loadNFTs()
     }
 
+    async function burnNft(tokenId) {
+        const web3modal = new Web3Modal();
+        const connection = await web3modal.connect()
+        const provider = new ethers.providers.Web3Provider(connection)
+        const signer = provider.getSigner()
 
-    //SOON
+        //interact with nft contract
+        const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
+        // const tokenContract = new ethers.Contract(nftaddress, NFT.abi, signer)
+
+        const transaction = await marketContract.burnToken(tokenId)
+
+        await transaction.wait()
+        router.push('/my-assets')
+        loadNFTs()
+    }
+
     async function declineRequestedNft(nft) {
         const web3modal = new Web3Modal()
         const connection = await web3modal.connect()
@@ -148,9 +165,14 @@ export default function RequestList() {
         const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
 
         const prices = ethers.utils.parseUnits(nft.price.toString(), 'ether')
+        
         const transaction = await contract.removeRequest(nft.tokenId, {
             value: prices
         })
+
+        //if the previous owner is admin, then u burn it
+        //if the previous owner is warehouse, then u send it back to the previous warehouse
+        
 
         await transaction.wait()
         loadNFTs()
@@ -170,7 +192,7 @@ export default function RequestList() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
                     {
                         nfts.map((nft, i) => (
-                            <div key={i} className="grid grid-rows-1 border shadow rounded-xl overflow-hidden ">
+                            <div key={i} className="grid grid-rows-1 border border-zinc-800 shadow rounded-xl overflow-hidden ">
                                 <div className="row-start-1 relative">
                                     <img src={nft.image} class="rounded object-fill h-96 w-screen" />
                                     <div className="bg-theme-blue inset-x-0 bottom-0 ">

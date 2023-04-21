@@ -26,7 +26,7 @@ export default async function handler(req, res){
         const checkmetamask = await User.findOne({ metamask });
         if(checkmetamask) return res.status(422).json({ message: "Metamask Account Already Registered"});
         
-        // hash password
+        // hash password and create one data into mongodb
         const usercreate = await User.create({username, email, password : await hash(password, 12), role, metamask, address, city, defaultWarehouse})
         
         return res.status(201).json({user: usercreate})

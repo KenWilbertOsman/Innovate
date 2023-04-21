@@ -108,7 +108,6 @@ export default function MyAssets() {
         let filteredMetamaskAcc
         let counting = 0
         let strings = '?'
-
         for (let i = 0; i<items.length; i++){
             nftCounting[i] = i
             eachNftOwners[i] = items[i]['owners'].length
@@ -122,20 +121,19 @@ export default function MyAssets() {
         }  
         counts['nftCount'] = nftCounting
         counts['eachNftOwner'] = eachNftOwners    
-
         filteredMetamaskAcc = allMetamaskAcc.filter((value, index, self) => self.indexOf(value) === index) 
 
         for (let i = 0; i<filteredMetamaskAcc.length; i++){
             strings += `q=${filteredMetamaskAcc[i]}&`
         }  
-        strings += 'filter=username&find=metamask'
+        strings += 'filter=username&filter=metamask&find=metamask'
         
 
         const fetchedAcc = await requestData(strings)
         let accountsFetch = []
         for (let i = 0; i<(filteredMetamaskAcc.length); i++){
                 
-                accountsFetch[i] = fetchedAcc.data[i]['username']
+                accountsFetch[i] = fetchedAcc.data.filter(obj => obj.metamask==filteredMetamaskAcc[i])[0]['username']
         }
 
         let nameSeparated = []
@@ -147,39 +145,23 @@ export default function MyAssets() {
             let tempAccArray = []
             for (let j = 0; j<counts.eachNftOwner[i]; j++){
                 tempAccArray[j] = allMetamaskAcc[count]
-                tempNameArray[j] = fetchedAcc.data[filteredMetamaskAcc.indexOf(tempAccArray[j])]
+                tempNameArray[j] = accountsFetch[filteredMetamaskAcc.indexOf(tempAccArray[j])]
                 count += 1
             }
-            nameSeparated[i] = tempNameArray
-            accSeparated[i] = tempAccArray
+            nameSeparated[i] = tempNameArray.reverse()
+            accSeparated[i] = tempAccArray.reverse()
         }
-        
+        console.log(nameSeparated)
         for (let i = 0; i < items.length; i++){
             items[i]['ownerName'] = nameSeparated[i]
      
         }
-
         setNfts(items)
         setLoadingState('loaded')
 
     }
 
-    async function burnNft(tokenId) {
-        const web3modal = new Web3Modal();
-        const connection = await web3modal.connect()
-        const provider = new ethers.providers.Web3Provider(connection)
-        const signer = provider.getSigner()
-
-        //interact with nft contract
-        const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
-        // const tokenContract = new ethers.Contract(nftaddress, NFT.abi, signer)
-
-        const transaction = await marketContract.burnToken(tokenId)
-
-        await transaction.wait()
-        router.push('/my-assets')
-        loadNFTs()
-    }
+    
 
     async function requestNFT(nft) {
         // console.log(formInput)
@@ -217,7 +199,7 @@ export default function MyAssets() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
                     {
                         nfts.map((nft, i) => (
-                            <div key={i} className="grid grid-rows-1 border shadow rounded-xl overflow-hidden">
+                            <div key={i} className="grid grid-rows-1 border border-zinc-800 shadow rounded-xl overflow-hidden">
                                 <div className='row-start-1 relative'>
                                     <a href={`/detail-page?index=${nft.tokenId}`}>
                                         <div className='flex justify-end' >
@@ -233,11 +215,11 @@ export default function MyAssets() {
                                     <div className="bg-theme-blue inset-x-0 bottom-0 overflow-y-auto h-24">
                                         <p className="text-xs font-bold text-white m-2">Parcel Sender Name: {nft.name}</p>
                                         <p className="text-xs font-bold text-white m-2">Created on {nft.date}</p>
-                                        <p className="text-xs font-bold text-white m-2">Past Parcel Warehouses: </p>
+                                        <p className="text-xs font-bold text-white m-2">Past Parcel Location: </p>
 
                                         {
                                             nft.ownerName.map((ownerName, j) => (
-                                                (<p key={j} className="text-xs font-bold text-white m-2 break-all">- {ownerName['username']}</p>)
+                                                (<p key={j} className="text-xs font-bold text-white m-2 break-all">- {ownerName}</p>)
                                             ))
                                         }
                                         

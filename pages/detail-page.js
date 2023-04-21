@@ -28,7 +28,8 @@ export default function Detail() {
         }
     }, [router.isReady]);
 
-
+    
+    //request data GET from /pages/api/usernameRetrieve
     async function requestData(strings) {
         const option = {
             method: "GET",
@@ -41,6 +42,7 @@ export default function Detail() {
         return await response.json()
     }
 
+    
     async function loadNFTDetails() {
         const web3Modal = new Web3Modal()
         const connection = await web3Modal.connect()
