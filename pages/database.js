@@ -54,7 +54,6 @@ export default function Database() {
                 nextWarehouse: i.nextWarehouse,
                 image: meta.data.image,
                 name: meta.data.username,
-                address: meta.data.useraddress,
                 fragile: meta.data.fragile,
                 date: meta.data.date,
                 recAddress: meta.data.recaddress,

@@ -66,7 +66,6 @@ function User({session, handleSignOut}){
   let defaultString = ''
   if (session.user._doc.role == 'admin' && !session.user._doc.email.includes("@dreamcatcher.com")){
     role = "Admin"
-    warning = 'Relog in to see changes made for default warehouse'
     defaultString = 'Default Warehouse to be Delivered: '
     if (defaultWarehouse != ''){
       address = `${defaultWarehouse.split(",").slice(1)}`
@@ -90,10 +89,6 @@ function User({session, handleSignOut}){
         <h5><span className="font-bold">Role: </span> {role} </h5>
         <h5><span className="font-bold">{defaultString}</span>{address}</h5>
         <h5><span className="font-bold">Email Account: </span>{session.user.email}</h5>
-      </div>
-    <br></br>
-      <div>
-        <h5 className="text-theme-red">{warning}</h5>
       </div>
       <div className = 'flex justify-center'>
         <button className = "mt-5 px-10 py-1 rounded-sm bg-theme-blue text-gray-50" onClick={handleSignOut}>Sign Out</button>

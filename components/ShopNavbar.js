@@ -11,10 +11,12 @@ import '@fortawesome/fontawesome-free/css/all.css';
 
 
 function ShopNavbar() {
+    
     const router = useRouter()
     const [metamaskAcc, setMetamaskAcc] = useState([])
     const [formInput, updateFormInput] = useState({username:'', newAcc:''})
     const {data:curSession} = useSession()
+    const [popup,setPopup] = useState(false)
     useEffect(() => {
         loadWarehouseAcc()
     }, [])
@@ -42,7 +44,6 @@ function ShopNavbar() {
         if (formInput.newAcc != ''){
         // console.log(filterName[0].address)
         // data_res = data_res.filter(object => object.address != cur_session.user._doc.address)
-        console.log(formInput)
         const option = {
             method: "POST",
             headers:{'Content-Type': 'application/json'},
@@ -52,7 +53,8 @@ function ShopNavbar() {
         await fetch('http://localhost:3000/api/replace', option)
         .then((res) => {
             if(res.ok){
-                router.reload('/')
+                setPopup(true)
+                // router.reload('/')
             }
             else{
                 let a = Promise.resolve(res.json().then(response => setDataError(response['message'])))
@@ -83,9 +85,13 @@ function ShopNavbar() {
                     <button className=" flex items-center px-4 py-1 text-white bg-theme-peach" type="submit" onClick = {() => replaceDefaultWarehouse()}>
                         <i className="fas fa-check mr-1"></i>
                     </button>
+
                     
                 </div>
+                
             </div>
+            
+            {popup ? <h1 className = "right-0 absolute px-7 font-bold text-red-700">Changes Saved! Relog to See Changes Made!</h1> : <></> }
         </nav>
     )
 }
