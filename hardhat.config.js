@@ -2,19 +2,18 @@
 require("@nomiclabs/hardhat-waffle")
 
 //API Key from Alchemy for polyon mumbai testnet
-const projectIdMumbai = "XLilwBjmXB4Un7jLMadilEQrwacQPZQp";
+const projectIdMumbai = process.env.MUMBAI;
 
 
 ////API Key from Alchemy for polyon mainnet
-const projectIdMain = "gbPBlXfmcdr7pNpIzb-TGPUfNO285IO4";
+const projectIdMain = process.env.MAIN;
 
 /** 
 const fs= require ("fs")
 const privateKey = fs.readFileSync(".secret").toString()
 */
 
-const privateKey = "aedff1ccd946d06eba21c7828ac05a729cfe43228d6f6beb9694ff1f4ef99ecc";
-
+const privateKey = process.env.MUMBAI_KEY
 //MUMBAI TESTNET https://www.alchemy.com/overviews/mumbai-testnet
 //MATIC MAINNET
 

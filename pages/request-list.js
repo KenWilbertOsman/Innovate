@@ -35,11 +35,9 @@ export default function RequestList() {
         // const tokenContract = new ethers.Contract(nftaddress, NFT.abi, signer)
 
         const data = await marketContract.fetchRequested()
-        // const data = await marketContract.fetchRequested()
-
         const items = await Promise.all(data.map(async i => {
             const tokenUri = await marketContract.tokenURI(i.tokenId)
-            const meta = await axios.get(tokenUri)
+            const meta = await axios.get(tokenUri) 
             let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
             let item = {
                 price,
@@ -55,7 +53,6 @@ export default function RequestList() {
             }
             return item
         }))
-
         let allMetamaskAcc = []
         let filteredMetamaskAcc
         let strings = '?'

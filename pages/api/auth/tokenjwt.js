@@ -1,7 +1,7 @@
 //just for testing printing token jwt
 import { getToken } from "next-auth/jwt"
 
-const secret = "XH6bp/TkLvnUkQiPDEZNyHc0CV+VV5RL/n+HdVHoHN0="
+const secret = process.env.NEXT_AUTH_SECRET
 
 export default async function handler(req, res) {
   // if using `NEXTAUTH_SECRET` env variable, we detect it, and you won't actually need to `secret`
