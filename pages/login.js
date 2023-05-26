@@ -101,7 +101,7 @@ export default function Login(){
                         </button>
                     </div>
 
-                    <div className="input-button ">
+                    {/* <div className="input-button ">
                         <button type='button' onClick={handleGoogleSignin} className = {styles.button_custom}>
                             Sign In with Google <img src = {'/assets/google.svg'} width = "20" height = {20}></img>
                         </button>
@@ -111,7 +111,7 @@ export default function Login(){
                         <button type='button' className={styles.button_custom}>
                         Sign In with Github <img src = {'/assets/github.svg'} width = "25" height = {25}></img>
                         </button>
-                    </div>
+                    </div> */}
                 </form>
                 {/* bottom */}
                 <p className='text-center text-gray-400 mb-3'>
