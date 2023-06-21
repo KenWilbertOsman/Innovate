@@ -78,7 +78,7 @@ function ShopNavbar() {
                         <option value='' selected>Default Warehouse</option>
                         {
                             metamaskAcc.map((account, i) => (
-                                (<option key = {i} value={`${account.metamask}, ${account.address}`}>{account.username}, {account.address}, {account.city}</option>)
+                                (<option key = {i} value={`${account.metamask}, ${account.address}`}>{account.username}, {account.address}</option>)
                             ))
                         }
                     </select>

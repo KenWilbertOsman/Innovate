@@ -27,22 +27,28 @@ describe("NFTMarket", function() {
     await nftMarketplace.createToken("https://www.mytokenlocation.com", auctionPrice, buyerAddress.getAddress(), { value: listingPrice })
     await nftMarketplace.createToken("https://www.mytokenlocation2.com", auctionPrice, buyerAddress.getAddress(), { value: listingPrice })
 
+    //create market sale is to accept the request
     await nftMarketplace.connect(buyerAddress).createMarketSale(1, {value:listingPrice})
-    // await nftMarketplace.connect(buyerAddress).removeRequest(1)
+
     console.log(await nftMarketplace.connect(buyerAddress).fetchMyNFTs())
     await nftMarketplace.connect(buyerAddress).createRequest(1, firstAddress.address)
-
     
-    console.log('second', await nftMarketplace.connect(buyerAddress).fetchMyNFTs())
+    console.log('second', await nftMarketplace.connect(firstAddress).fetchRequested())
 
     await nftMarketplace.connect(firstAddress).removeRequest(1)
     
     console.log('third', await nftMarketplace.connect(buyerAddress).fetchMyNFTs())
 
-
-    await nftMarketplace.connect(buyerAddress).burnToken(1)
+    // console.log('fourth', await nftMarketplace.connect(buyerAddress).fetchAllNFT())
+    await nftMarketplace.connect(buyerAddress).createRequest(1, firstAddress.address)
     
-    console.log('fourth', await nftMarketplace.connect(firstAddress).fetchAllNFT())
+    console.log('fourth', await nftMarketplace.connect(firstAddress).fetchRequested())
+   
+    await nftMarketplace.connect(firstAddress).burnToken(1)
+    console.log('fifth', await nftMarketplace.connect(firstAddress).fetchRequested())
+    console.log('fifth', await nftMarketplace.connect(firstAddress).fetchAllNFT())
+   
+    // console.log('fifth', await nftMarketplace.connect(buyerAddress).fetchRequested())
         
     
   })})

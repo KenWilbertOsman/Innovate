@@ -16,12 +16,12 @@ function WarehouseNavbar() {
                 </Link>
 
                 <Link href="/my-assets" className="mr-6 text-theme-dream-2">
-                    My Digital Assets
+                    My Parcels
                 </Link>
 
 
                 <Link href="/request-list" className="mr-6 text-theme-dream-2">
-                    NFT Request List
+                    Parcel Request List
                 </Link>
 
                 

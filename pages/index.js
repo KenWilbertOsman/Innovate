@@ -60,12 +60,13 @@ function Guest(){
 //Authorize User Page
 function User({session, handleSignOut}){
   let defaultWarehouse = session.user._doc.defaultWarehouse
+  
   let address
   let role
   let warning = ''
   let defaultString = ''
   if (session.user._doc.role == 'admin' && !session.user._doc.email.includes("@dreamcatcher.com")){
-    role = "Admin"
+    role = "Local Logistics Admin"
     defaultString = 'Default Warehouse to be Delivered: '
     if (defaultWarehouse != ''){
       address = `${defaultWarehouse.split(",").slice(1)}`
@@ -74,9 +75,13 @@ function User({session, handleSignOut}){
       address = "None"
     }
   } 
+  else if(session.user._doc.email.includes("@dreamcatcher.com")){
+    role = "Company Admin"
+  }
   else{
     role= "Warehouse"
-    address = ''
+    defaultString = 'Warehouse Address: '
+    address = session.user._doc.address
   }
 
   return(

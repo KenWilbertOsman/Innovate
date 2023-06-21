@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
+import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "../node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "../node_modules/@openzeppelin/contracts/utils/Counters.sol";
 
 
 //for console.log
-import "hardhat/console.sol";
+import "../node_modules/hardhat/console.sol";
 
 
 
@@ -64,8 +64,8 @@ contract NFT is ERC721URIStorage {
 
     /* Mints a token and lists it in the marketplace */
     function createToken(string memory tokenURI, uint256 price, address nextWarehouse) public payable returns (uint) {
-      _tokenIds.increment();
-      uint256 newTokenId = _tokenIds.current();
+      _totalIds.increment();
+      uint256 newTokenId = _totalIds.current();
 
       _mint(msg.sender, newTokenId);
       _setTokenURI(newTokenId, tokenURI);
@@ -80,7 +80,7 @@ contract NFT is ERC721URIStorage {
     ) private {
     
       require(msg.value == listingPrice, "Price must be equal to listing price");
-      _totalIds.increment();
+      _tokenIds.increment();
 
       address[] memory owners = new address[](1);
       owners[0] = payable(msg.sender);
@@ -126,6 +126,8 @@ contract NFT is ERC721URIStorage {
     function createMarketSale(
       uint256 tokenId
       ) public payable {
+      console.log(msg.sender);
+      console.log(address(this));
       // uint price = idToMarketItem[tokenId].price;
       address seller = idToMarketItem[tokenId].seller;
       // require(msg.value == price, "Please submit the asking price in order to complete the purchase");
@@ -135,7 +137,7 @@ contract NFT is ERC721URIStorage {
       idToMarketItem[tokenId].warehouses.push(payable(msg.sender));
       idToMarketItem[tokenId].nextWarehouse = payable(address(0));
       
-      _transfer(address(this), msg.sender, tokenId);
+      _transfer(address(this), msg.sender, tokenId); // from, to
       payable(owner).transfer(listingPrice);
       payable(seller).transfer(msg.value);
     }
@@ -232,10 +234,16 @@ contract NFT is ERC721URIStorage {
 
         for (uint i = 0; i< totalItemCount; i++){
            if (idToMarketItem[i+1].nextWarehouse == msg.sender && (i+1) == index ) {
+
+                      
+                console.log(msg.sender);
+                console.log(address(this));
                 idToMarketItem[i+1].nextWarehouse = payable(address(0));
                 
                 idToMarketItem[i+1].owner = payable(idToMarketItem[i+1].seller);
                 idToMarketItem[i+1].seller = payable(address(0));
+
+                _transfer(address(this), idToMarketItem[i+1].owner, idToMarketItem[i+1].tokenId);
                 // idToMarketItem[i+1].nextWarehouse = payable(idToMarketItem[i+1].seller);
                 break;
            } 

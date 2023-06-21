@@ -63,7 +63,7 @@ export default function Database() {
             }
             return item
         }))
-
+        console.log(items)
         //this is to set the variable "nfts" with items
         setNfts(items)
         setFiltered(items)

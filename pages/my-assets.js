@@ -154,6 +154,7 @@ export default function MyAssets() {
             items[i]['ownerName'] = nameSeparated[i]
      
         }
+        console.log(items)
         setNfts(items)
         setLoadingState('loaded')
 
@@ -164,6 +165,7 @@ export default function MyAssets() {
     async function requestNFT(nft) {
         // console.log(formInput)
         const address = formInput
+        console.log(formInput)
         const web3modal = new Web3Modal()
         const connection = await web3modal.connect()
         const provider = new ethers.providers.Web3Provider(connection)
@@ -235,7 +237,7 @@ export default function MyAssets() {
                                         <option value='' selected>Warehouse to be Sent</option>
                                         {
                                             metamaskAcc.map((account, i) => (
-                                                (<option key = {i} value={account.metamask}>{account.username}, {account.address}, {account.city}</option>)
+                                                (<option key = {i} value={account.metamask}>{account.username}, {account.address}</option>)
                                             ))
                                         }
                                     </select>
