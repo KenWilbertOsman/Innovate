@@ -69,7 +69,7 @@ function ShopNavbar() {
                 <Link href="/" className="mr-4 text-theme-dream-2">
                     Home
                 </Link>
-                <Link href="/create-item" className="mr-4 text-theme-dream-2">
+                <Link href="/create-item-email" className="mr-4 text-theme-dream-2">
                     Create Parcel
                 </Link>
                 <div className="relative flex items-center mt-4 lg:mt-0 md:mt-0 lg:ml-auto md:ml-auto">

@@ -157,7 +157,7 @@ contract NFT is ERC721URIStorage {
 
         MarketItem[] memory items = new MarketItem[](itemCount);
         for (uint i = 0; i < totalItemCount; i++){
-            if (idToMarketItem[i+1].nextWarehouse == msg.sender){
+            if (idToMarketItem[i+1].nextWarehouse == msg.sender && idToMarketItem[i+1].tokenId != 0){
                 uint currentId = i + 1;
                 MarketItem storage currentItem = idToMarketItem[currentId];
                 items[currentIndex] = currentItem;
@@ -257,7 +257,7 @@ contract NFT is ERC721URIStorage {
         
         //in built function from ERC721 to burn the token, can be seen in down below
         //https://docs.openzeppelin.com/contracts/2.x/api/token/erc721#ERC721
-        uint totalItemCount = _tokenIds.current();
+        uint totalItemCount = _totalIds.current();
         uint currentIndex = 0;
 
         for (uint i = 0; i< totalItemCount; i++){

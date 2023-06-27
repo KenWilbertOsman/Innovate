@@ -188,7 +188,7 @@ export default function MyAssets() {
         
         <div className='font-serif'> 
         <WarehouseNavbar/>
-        <h1 className="py-10 px-20 text-3xl">No assets owned</h1>
+        <h1 className="py-10 px-20 text-3xl">No parcels currently in the warehouse</h1>
         </div>
     )
     return (

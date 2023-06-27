@@ -146,8 +146,9 @@ export default function RequestList() {
             })
         }
         else if (nft.sellerName.role == 'admin'){
+            console.log(nft.tokenId)
             transaction = await contract.burnToken(nft.tokenId)
-
+            
         }
 
         //if the previous owner is admin, then u burn it
@@ -161,7 +162,7 @@ export default function RequestList() {
     if (loadingState === 'loaded' && !nfts.length) return (
         <div className='font-serif'> 
         <WarehouseNavbar/>
-        <h1 className="py-10 px-20 text-3xl">No NFT requested to you</h1>
+        <h1 className="py-10 px-20 text-3xl">No parcel requested to you</h1>
         </div>
     )
     return (
