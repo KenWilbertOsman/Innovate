@@ -52,6 +52,7 @@ export default function Database() {
                 seller: i.seller,
                 owner: i.owner,
                 nextWarehouse: i.nextWarehouse,
+                completed: i.completed,
                 image: meta.data.image,
                 name: meta.data.username,
                 fragile: meta.data.fragile,
@@ -77,14 +78,14 @@ export default function Database() {
         if (c == "all") {
             setFiltered(nfts)
         }
+        else if (c == "completed") {
+            setFiltered(nfts.filter(i => i.completed))
+        }
         else if (c == "transit") {
             setFiltered(nfts.filter(i => (!i.completed && i.nextWarehouse != 0)))
         }
         else if (c == "warehouse") {
             setFiltered(nfts.filter(i => (!i.completed && i.nextWarehouse == 0)))
-        }
-        else if (c == "completed") {
-            setFiltered(nfts.filter(i => i.completed))
         }
         
     }

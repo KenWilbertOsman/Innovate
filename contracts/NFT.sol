@@ -272,6 +272,9 @@ contract NFT is ERC721URIStorage {
         
     }
 
+    function completeParcel(uint256 tokenId) public payable{
+        idToMarketItem[tokenId].completed = true;
+    }
 }
 
 

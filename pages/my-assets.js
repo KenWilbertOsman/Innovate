@@ -24,6 +24,8 @@ export default function MyAssets() {
     const [formInput, updateFormInput] = useState('')
     const [metamaskAcc, setMetamaskAcc] = useState([])
     const {data:cur_session} = useSession()
+    const [parcelCompleted, setParcel] = useState(false)
+    const [allCompleted, setComplete] = useState(false)
     
     useEffect(() => {
         loadNFTs()
@@ -86,6 +88,7 @@ export default function MyAssets() {
                 tokenId: i.tokenId.toNumber(),
                 seller: i.seller,
                 owner: i.owner,
+                completed: i.completed,
                 image: meta.data.image,
                 name: meta.data.username,
                 fragile: meta.data.fragile,
@@ -150,10 +153,18 @@ export default function MyAssets() {
             nameSeparated[i] = tempNameArray.reverse()
             accSeparated[i] = tempAccArray.reverse()
         }
+        
         for (let i = 0; i < items.length; i++){
             items[i]['ownerName'] = nameSeparated[i]
-     
+            if (nameSeparated[i].length >= 3){
+                setParcel(true)
+            }
+
+            if (items[i].completed == true){
+                setComplete(true)
+            }
         }
+
         console.log(items)
         setNfts(items)
         setLoadingState('loaded')
@@ -183,12 +194,124 @@ export default function MyAssets() {
         loadNFTs()
     }
 
+    async function completingParcel(nft) {
+        const web3modal = new Web3Modal()
+        const connection = await web3modal.connect()
+        const provider = new ethers.providers.Web3Provider(connection)
+
+        const signer = provider.getSigner()
+        const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
+        const prices = ethers.utils.parseUnits(nft.price.toString(), 'ether')
+
+        const transaction = await contract.completeParcel(nft.tokenId, {
+            value: prices
+        })
+
+
+        await transaction.wait()
+        loadNFTs()
+    }
+
 
     if (loadingState === 'loaded' && !nfts.length) return (
         
         <div className='font-serif'> 
         <WarehouseNavbar/>
         <h1 className="py-10 px-20 text-3xl">No parcels currently in the warehouse</h1>
+        </div>
+    )
+    else if (allCompleted == true) return (
+        <div className='font-serif'> 
+        <WarehouseNavbar/>
+        <div className="flex justify-center">
+            <div className="mx-10 my-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
+                    {
+                        nfts.map((nft, i) => (
+                            <div key={i} className="grid grid-rows-1 border border-zinc-800 shadow rounded-xl overflow-hidden">
+                                <div className='row-start-1 relative'>
+                                    <a href={`/detail-page?index=${nft.tokenId}`}>
+                                        <div className='flex justify-end' >
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 absolute m-4 cursor-pointer">
+                                                <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z" clipRule="evenodd"
+                                                    href={`/detail-page?index=${nft.tokenId}`} />
+                                            </svg>
+                                        </div>
+                                    </a>
+                                    
+                                    <img src={nft.image} className="rounded object-cover h-96 w-screen" />
+                                    
+                                    <div className="bg-theme-blue inset-x-0 bottom-0 overflow-y-auto h-24">
+                                        <p className="text-xs font-bold text-white m-2">Parcel Sender Name: {nft.name}</p>
+                                        <p className="text-xs font-bold text-white m-2">Created on {nft.date}</p>
+                                        <p className="text-xs font-bold text-white m-2">Past Parcel Location: </p>
+
+                                        {
+                                            nft.ownerName.map((ownerName, j) => (
+                                                (<p key={j} className="text-xs font-bold text-white m-2 break-all">- {ownerName}</p>)
+                                            ))
+                                        }
+                                        
+                                    </div>
+                                </div>
+                                <div className="flex justify-center mx-1 my-1">
+                                    <div className="flex justify-center inset-x-0 bottom-0 overflow-y-auto h-20">
+                                        <button className="w-half cursor-not-allowed text-black text-xl font-bold py-2 px-11 mx-2 my-4 rounded" onClick={() => completingParcel(nft)}>Parcel Completed</button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+        </div>
+        </div>
+    )
+    else if(parcelCompleted == true) return (
+        <div className='font-serif'> 
+        <WarehouseNavbar/>
+        <div className="flex justify-center">
+            <div className="mx-10 my-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
+                    {
+                        nfts.map((nft, i) => (
+                            <div key={i} className="grid grid-rows-1 border border-zinc-800 shadow rounded-xl overflow-hidden">
+                                <div className='row-start-1 relative'>
+                                    <a href={`/detail-page?index=${nft.tokenId}`}>
+                                        <div className='flex justify-end' >
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 absolute m-4 cursor-pointer">
+                                                <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z" clipRule="evenodd"
+                                                    href={`/detail-page?index=${nft.tokenId}`} />
+                                            </svg>
+                                        </div>
+                                    </a>
+                                    
+                                    <img src={nft.image} className="rounded object-cover h-96 w-screen" />
+                                    
+                                    <div className="bg-theme-blue inset-x-0 bottom-0 overflow-y-auto h-24">
+                                        <p className="text-xs font-bold text-white m-2">Parcel Sender Name: {nft.name}</p>
+                                        <p className="text-xs font-bold text-white m-2">Created on {nft.date}</p>
+                                        <p className="text-xs font-bold text-white m-2">Past Parcel Location: </p>
+
+                                        {
+                                            nft.ownerName.map((ownerName, j) => (
+                                                (<p key={j} className="text-xs font-bold text-white m-2 break-all">- {ownerName}</p>)
+                                            ))
+                                        }
+                                        
+                                    </div>
+                                </div>
+                                <div className="flex justify-center mx-1 my-1">
+                                    <div className="flex justify-center inset-x-0 bottom-0 overflow-y-auto h-20">
+                                        <button className="w-half bg-green-500 text-white font-bold py-2 px-11 mx-2 my-4 rounded" onClick={() => completingParcel(nft)}>Parcel Completed</button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+        </div>
         </div>
     )
     return (
@@ -233,8 +356,7 @@ export default function MyAssets() {
                                         text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500
                                          focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
                                           dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                  
-                                        <option value='' selected>Warehouse to be Sent</option>
+                                    <option value='' selected>Warehouse to be Sent</option>
                                         {
                                             metamaskAcc.map((account, i) => (
                                                 (<option key = {i} value={account.metamask}>{account.username}, {account.address}</option>)

@@ -179,7 +179,7 @@ export default function Detail() {
 
                     {
                         nfts.map((nft, i) => (
-                            <div class="timeline-container">
+                            <div key = {i} class="timeline-container">
                                 {nft.addressName.slice(0).reverse().map((name, j) => (
                                     <div class="timeline-item flex mb-2">
                                         <div class="flex">
@@ -187,29 +187,41 @@ export default function Detail() {
                                             <div class="timeline-item-content w-full ml-4">
                                                 <h3 class="timeline-item-title font-bold">#{j + 1} Location </h3>
                                                 <p class="timeline-item-description">
-                                                    Warehouse Address: {name}
+                                                    {name}
                                                 </p>
-                                                <p class="timeline-item-date italic">Arrival Date: Jan. 2023</p>
+                                                <p class="timeline-item-date italic">{nft.date}</p>
                                             </div>
                                         </div>
                                     </div>
                                 ))}
+                                {/* <div class="timeline-item flex mb-2 text-gray-300">
+                                    <div class="flex">
+                                        <div class="timeline-item-line h-full w-2 bg-gray-500"></div>
+                                        <div class="timeline-item-content w-full ml-4">
+                                            <h3 class="timeline-item-title font-bold">#2 Location</h3>
+                                            <p class="timeline-item-description">
+                                                Warehouse 1
+                                            </p>
+                                            <p class="timeline-item-date italic">ETA: Aug. 2023</p>
+                                        </div>
+                                    </div>
+                                </div>    */}
                             </div>
                         ))
                     }
 
                     {
                         nfts.map((nft, i) => (
-                            <div class="timeline-container text-gray-300 ">
+                            <div class="timeline-container ">
                                 <div class="timeline-item flex mb-2">
                                     <div class="flex">
                                         <div class="timeline-item-line h-full w-2 bg-gray-500"></div>
                                         <div class="timeline-item-content w-full ml-4">
-                                            <h3 class="timeline-item-title font-bold">Final Point</h3>
+                                            <h3 class="timeline-item-title font-bold">Reached Final Point</h3>
                                             <p class="timeline-item-description">
                                                 Recipient Address: {nft.address}
                                             </p>
-                                            <p class="timeline-item-date italic">{nft.date}</p>
+                                            <p class="timeline-item-date italic">July 5, 2023</p>
                                         </div>
                                     </div>
                                 </div>

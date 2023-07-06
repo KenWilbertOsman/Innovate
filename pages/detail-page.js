@@ -185,7 +185,7 @@ export default function Detail() {
                         nfts.map((nft, i) => (
                             <div class="timeline-container ">
                                 {nft.addressName.slice(0).reverse().map((name, j) => (
-                                    <div class="timeline-i  tem flex mb-2">
+                                    <div class="timeline-item flex mb-2">
                                         <div class="flex">
                                             <div class="timeline-item-line h-full w-2 bg-gray-500"></div>
                                             <div class="timeline-item-content w-full ml-4">
@@ -193,11 +193,23 @@ export default function Detail() {
                                                 <p class="timeline-item-description">
                                                     {name}
                                                 </p>
-                                                <p class="timeline-item-date italic">Jan 2023</p>
+                                                <p class="timeline-item-date italic">{nft.date}</p>
                                             </div>
                                         </div>
                                     </div>
                                 ))}
+                                <div class="timeline-item flex mb-2 text-gray-300">
+                                    <div class="flex">
+                                        <div class="timeline-item-line h-full w-2 bg-gray-500"></div>
+                                        <div class="timeline-item-content w-full ml-4">
+                                            <h3 class="timeline-item-title font-bold">#2 Location</h3>
+                                            <p class="timeline-item-description">
+                                                Warehouse 1
+                                            </p>
+                                            <p class="timeline-item-date italic">ETA: Aug. 2023</p>
+                                        </div>
+                                    </div>
+                                </div>  
                             </div>
                         ))
                     }
@@ -206,15 +218,27 @@ export default function Detail() {
                     {
                         nfts.map((nft, i) => (
                             <div class="timeline-container text-gray-300">
+                                 <div class="timeline-item flex mb-2">
+                                    <div class="flex">
+                                        <div class="timeline-item-line h-full w-2 bg-gray-500"></div>
+                                        <div class="timeline-item-content w-full ml-4">
+                                            <h3 class="timeline-item-title font-bold">#3 Location</h3>
+                                            <p class="timeline-item-description">
+                                                Warehouse 2
+                                            </p>
+                                            <p class="timeline-item-date italic">ETA: Sept. 2023</p>
+                                        </div>
+                                    </div>
+                                </div>   
                                 <div class="timeline-item flex mb-2">
                                     <div class="flex">
                                         <div class="timeline-item-line h-full w-2 bg-gray-500"></div>
                                         <div class="timeline-item-content w-full ml-4">
-                                            <h3 class="timeline-item-title font-bold">In-transit</h3>
+                                            <h3 class="timeline-item-title font-bold">Reached Final Point</h3>
                                             <p class="timeline-item-description">
                                                 Recipient Address: {nft.address}
                                             </p>
-                                            <p class="timeline-item-date italic">Feb 2023</p>
+                                            <p class="timeline-item-date italic">ETA: Oct. 2023</p>
                                         </div>
                                     </div>
                                 </div>
