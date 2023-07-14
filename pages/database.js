@@ -100,14 +100,14 @@ export default function Database() {
         <div className='font-serif'> 
         <AdminNavbar/>
         <div>
-            <div className="flex flex-row space-x-[50px] mx-10" id="myBtnContainer">
-                <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("all")}> Show All</button>
-                <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("transit")}> In Transit</button>
-                <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("warehouse")}> In a Warehouse</button>
-                <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("completed")}> Completed</button>
+            <div className="lg:flex lg:flex-row px- grid grid-cols-2 mx-4 gap-3 my-4 lg:space-x-[50px] lg:mx-10" id="myBtnContainer">
+                <button className="font-bold mt-2 lg:mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("all")}> Show All</button>
+                <button className="font-bold mt-2 lg:mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("transit")}> In Transit</button>
+                <button className="font-bold mt-2 lg:mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("warehouse")}> In a Warehouse</button>
+                <button className="font-bold mt-2 lg:mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("completed")}> Completed</button>
             </div>
             <div className='mx-10 my-5'>
-                <h1 className="py-10 px-20 text-3xl">Filtered Items are Empty</h1>
+                <h1 className="lg:py-10 lg:px-20 text-center lg:text-left text-3xl">Filtered Items are Empty</h1>
             </div>
         </div>
         </div>
@@ -117,11 +117,11 @@ export default function Database() {
         <AdminNavbar/>
         
         <div>
-            <div className="flex flex-row space-x-[50px] mx-10" id="myBtnContainer">
-                <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("all")}> Show All</button>
-                <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("transit")}> In Transit</button>
-                <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("warehouse")}> In a Warehouse</button>
-                <button className="font-bold mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("completed")}> Completed</button>
+            <div className="lg:flex lg:flex-row px- grid grid-cols-2 mx-4 gap-3 my-4 lg:space-x-[50px] lg:mx-10" id="myBtnContainer">
+                <button className="font-bold mt-2 lg:mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("all")}> Show All</button>
+                <button className="font-bold mt-2 lg:mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("transit")}> In Transit</button>
+                <button className="font-bold mt-2 lg:mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("warehouse")}> In a Warehouse</button>
+                <button className="font-bold mt-2 lg:mt-4 bg-theme-blue text-white rounded py-2 px-12 shadow-lg" onClick={() => filterNFT("completed")}> Completed</button>
             </div>
             <div className="mx-10 my-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-4">

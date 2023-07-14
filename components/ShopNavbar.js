@@ -63,26 +63,26 @@ function ShopNavbar() {
         }
     }
     return (
-        <nav className="p-7 bg-gradient-to-r from-slate-100 to-theme-blue ">   {/*USING TAILWIND:  Border bottom and padding 6*/}
+        <nav className="p-7 bg-gradient-to-r from-slate-100 to-theme-blue">   {/*USING TAILWIND:  Border bottom and padding 6*/}
             <div><p className="flex flex-wrap "><span className="text-5xl flex flex-wrap text-theme-dream font-serif font-normal tracking-wider">DREAM</span><span className="text-5xl font-serif font-semibold tracking-wider flex flex-wrap">CATCHER</span></p></div>
             <div className="flex flex-wrap mt-4">     {/**This div to hold link, mt-4 = Margin top 4 */}
-                <Link href="/" className="mr-4 text-theme-dream-2">
+                <Link href="/" className="mr-4 text-theme-dream-2 ">
                     Home
                 </Link>
                 <Link href="/create-item-email" className="mr-4 text-theme-dream-2">
                     Create Parcel
                 </Link>
-                <div className="relative flex items-center mt-4 lg:mt-0 md:mt-0 lg:ml-auto md:ml-auto">
-                    <label for="warehouse" className="text-theme-dream-2 mr-1 font-bold">Default Warehouse:</label>
-                    <select id="warehouse" onChange={e => updateFormInput({ ...formInput, newAcc: e.target.value })} className="block bg-white border border-gray-300 text-gray-700 pl-2 pr-2 mr-1 rounded-md leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                <div className="lg:relative lg:flex items-center mt-4 lg:mt-0 md:mt-0 lg:ml-auto md:ml-auto">
+                    {/* <label for="warehouse" className="text-theme-dream-2 mr-1 font-bold">Default Warehouse:</label> */}
+                    <select id="warehouse" onChange={e => updateFormInput({ ...formInput, newAcc: e.target.value })} className="block w-full px-4 py-1 text-base text-gray-900 border border-gray-300 rounded-lg bg-gray-100 mr-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option value='' selected>Default Warehouse</option>
                         {
                             metamaskAcc.map((account, i) => (
                                 (<option key = {i} value={`${account.metamask}, ${account.address}`}>{account.username}, {account.address}</option>)
                             ))
                         }
-                    </select>
-                    <button className=" flex items-center px-4 py-1 text-white bg-theme-peach" type="submit" onClick = {() => replaceDefaultWarehouse()}>
+                    </select><br></br>
+                    <button className=" flex items-center px-4 text-white bg-theme-peach rounded" type="submit" onClick = {() => replaceDefaultWarehouse()}>
                         <i className="fas fa-check mr-1"></i>
                     </button>
 
@@ -91,7 +91,7 @@ function ShopNavbar() {
                 
             </div>
             
-            {popup ? <h1 className = "right-0 absolute px-7 font-bold text-red-700">Changes Saved! Relog to See Changes Made!</h1> : <></> }
+            {popup ? <h1 className = "right-0 absolute pr-7 font-bold text-red-700">Changes Saved! Relog to See Changes Made!</h1> : <></> }
         </nav>
     )
 }

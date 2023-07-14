@@ -55,10 +55,10 @@ export default function Login(){
             </Head>
 
             
-            <section className='w-3/4 mx-auto flex flex-col gap-10'>
+            <section className='lg:w-3/4 w-11/12 mx-auto flex flex-col gap-10'>
                 <div className = "title">
                     <h1 className = "text-gray-800 text-4xl font-bold py-4"> Login </h1>
-                    <p className= ' mx-auto-text-gray-400'> ..........</p>
+                    <p className= ' mx-auto-text-gray-400'> Please Fill In Email and Password</p>
                 </div>
 
                 {/* form */}

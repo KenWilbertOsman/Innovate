@@ -73,17 +73,17 @@ export default function Register(){
                 <title>Register</title>
         </Head>
 
-        <section className='w-3/4 mx-auto flex flex-col gap-10'>
+        <section className='lg:w-3/4 w-11/12 mx-auto flex flex-col lg:gap-10' >
                 <div className = "title">
                     <h1 className = "text-gray-800 text-4xl font-bold py-4"> Register </h1>
                     
                     <p className= ' mx-auto-text-gray-400'>Please Provide All Information</p>
-                    {dataError != '' ? <span className = "text-rose-500 flex justify-center text-xl">{dataError}</span> : <></>}
+                    {dataError != '' ? <span className = "mt-4 mb-4 lg:mt-4 lg:mb-0 text-rose-500 flex justify-center text-xl">{dataError}</span> : <></>}
                     
                 </div>
 
                 {/* form */}
-                <form className="flex flex-col gap-5" onSubmit={formik.handleSubmit}>
+                <form className="flex flex-col gap-3" onSubmit={formik.handleSubmit}>
                     <div className={`${styles.input_group} ${formik.errors.username && formik.touched.username ? 'border-rose-600' : ''}`}>
                         <input 
                         className = {styles.input_text}
@@ -204,7 +204,7 @@ export default function Register(){
                     </div>
                     </form>
                 {/* bottom */}
-                <p className='text-center text-gray-400 mb-3'>
+                <p className='text-center text-gray-400 mb-6'>
                     Already Have an Account? <Link className = "text-blue-700"href={'/login'}> Login </Link>
                 </p>
             </section>
